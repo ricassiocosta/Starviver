@@ -19,7 +19,7 @@ knightSequenceData = {
 	name = "char_knight",
 	start = 2,
 	count = 5,
-	time = 500,
+	time = 700,
 	loopCount = 0,
 	loopDirection = "forward"
 }
