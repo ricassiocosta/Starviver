@@ -1,1 +1,0 @@
-All icons were generated using App Icon Generator (https://github.com/mythinkhouse/appicongenerator)
