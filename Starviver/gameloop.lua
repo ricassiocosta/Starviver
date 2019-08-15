@@ -31,7 +31,7 @@ end
 -- Runs everytime the game state changes
 function gameloop:init()
 	gameState = 2;
-	player = spaceship.new(display.contentWidth / 2, 5 * display.contentHeight / 6);
+	player = spaceship.new(3 * display.contentWidth / 4, 5 * display.contentHeight / 6, 20);
 	stick = joystick.new(1.125 * display.contentWidth / 8, 6 * display.contentHeight / 8);
 end
 

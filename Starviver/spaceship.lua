@@ -1,17 +1,21 @@
 local spaceship = {};
 local spaceship_mt = {};
 
-local x = 0;
-local y = 0;
-local isShooting = false;
+local x;
+local y;
+local speed;
+local isShooting;
 
-function spaceship.new(_x, _y)
+function spaceship.new(_x, _y, _speed)
 	local newSpaceship = {
 		x = _x;
 		y = _y;
+		speed = _speed
 	}
-
-	display.newRect( _x, _y, 300, 300 )
+	x = _x;
+	y = _y;
+	speed = _speed
+	player = display.newRect( _x, _y, 300, 300 )
 
 	return setmetatable( newSpaceship, spaceship_mt )
 end
@@ -24,6 +28,10 @@ function spaceship:getY(  )
 	return y;
 end
 
+function spaceship:getSpeed(  )
+	return speed;
+end
+
 function spaceship:setX( _x )
 	x = _x;
 end
@@ -32,9 +40,13 @@ function spaceship:setY( _y )
 	y = _y;
 end
 
+function spaceship:setSpeed( _speed )
+	speed = _speed;
+end
+
 function spaceship:translate( _x, _y )
-	x = x + _x;
-	y = y + _y;
+	player.x = player.x + _x;
+	player.y = player.y + _y;
 end
 
 return spaceship;
