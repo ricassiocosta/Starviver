@@ -1,10 +1,11 @@
 local spaceship = {};
-local spaceship_mt {};
+local spaceship_mt = {};
 
 local x = 0;
 local y = 0;
+local isShooting = false;
 
-function ship.new(_x, _y)
+function spaceship.new(_x, _y)
 	local newSpaceship = {
 		x = _x;
 		y = _y;
@@ -15,23 +16,23 @@ function ship.new(_x, _y)
 	return setmetatable( newSpaceship, spaceship_mt )
 end
 
-function ship:getX()
+function spaceship:getX()
 	return x;
 end
 
-function ship:getY(  )
+function spaceship:getY(  )
 	return y;
 end
 
-function ship:setX( _x )
+function spaceship:setX( _x )
 	x = _x;
 end
 
-function ship:setY( _y )
+function spaceship:setY( _y )
 	y = _y;
 end
 
-function ship:translate( _x, _y )
+function spaceship:translate( _x, _y )
 	x = x + _x;
 	y = y + _y;
 end

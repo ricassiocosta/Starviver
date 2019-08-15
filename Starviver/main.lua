@@ -1,3 +1,4 @@
-local gameloop = require("scripts.gameloop")
+local gameloop = require("gameloop")
 gameloop.new();
 gameloop:init();
+gameloop:run();
