@@ -22,13 +22,13 @@ local joystick_mt = {};
     - Display object for movable joystick
 ]]--
 
-local MAX_RANGE_OF_MOTION_PX = 144;
 local angle;
 local magnitude;
 local background;
 local stick;
 local x, y;
-local angleText = display.newText("0", 500, 300 , "Arial" , 72 );
+local angleText;
+local magText;
 
 
 local function onStickHold( event )
@@ -37,13 +37,8 @@ local function onStickHold( event )
 		isStickFocused = true;
 	elseif (isStickFocused == true) then	
 		if(event.phase == "moved") then
-			if ((event.x < (background.x + 100)) or (event.x > (background.x - 100))) then
-				stick.x = event.x;
-			end
-			if ((event.y < (background.y + 100)) or (event.y > (background.y - 100))) then
-				stick.y = event.y;
-			end
-
+			stick.x = event.x;
+			stick.y = event.y;
 		elseif(event.phase == "ended" or event.phase == "cancelled") then
 			display.getCurrentStage( ):setFocus( self, nil);
 			isStickFocused = false;
@@ -52,6 +47,7 @@ local function onStickHold( event )
 		end
 	end
 	angleText.text = joystick:getAngle();
+	magText.text = joystick:getMagnitude();
 end
 
 --[[
@@ -67,7 +63,7 @@ function joystick.new( _x, _y )
 		x = _x;
 		y = _y;
 
-		angle = 0;
+		angle = 1/0;
 		magnitude = 0;
 		background = nil;
 		stick = nil;
@@ -76,21 +72,25 @@ function joystick.new( _x, _y )
 	background = display.newCircle(_x, _y, display.contentWidth/8 );
 	background:setFillColor( 0.7, 0.7, 0.7);
 	stick = display.newCircle(_x, _y, display.contentWidth/20);
-	stick:setFillColor( 0.4, 1, 0.6 );
+	stick:setFillColor( 0.4, 1, 0.6, 0.3 );
+
+	angleText = display.newText("nan", 500, 300, "Arial", 72)
+	magText = display.newText("0", 500, 500, "Arial", 72)
 
 	return setmetatable( newJoystick, joystick_mt )
 end
 
 function joystick:getAngle(  )
 	if(stick.x - background.x < 0) then
-		angle = ((math.atan((stick.y - background.y)/(stick.x - background.x)))*(180/math.pi)+270);
+		angle = math.deg(math.atan((stick.y - background.y)/(stick.x - background.x)))+270;
 	else 
-		angle = ((math.atan((stick.y - background.y)/(stick.x - background.x)))*(180/math.pi)+90)
+		angle = math.deg(math.atan((stick.y - background.y)/(stick.x - background.x)))+90;
 	end
 	return angle;
 end
 
 function joystick:getMagnitude(  )
+	magnitude = math.sqrt( math.pow((stick.x - background.x), 2 ) + math.pow((stick.y - background.y), 2)) / (display.contentWidth/8)
 	return magnitude;
 end
 
