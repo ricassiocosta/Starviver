@@ -56,8 +56,12 @@ end
 
 local function onStickHold( event )
 	if(event.phase == "moved") then
-		stick.x = event.x;
-		stick.y = event.y;
+		if ((event.x < (background.x + 100)) or (event.x > (background.x - 100))) then
+			stick.x = event.x;
+		end
+		if ((event.y < (background.y + 100)) or (event.y > (background.y - 100))) then
+			stick.y = event.y;
+		end
 	elseif(event.phase == "ended") then
 		stick.x = background.x;
 		stick.y = background.y;
