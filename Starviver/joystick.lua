@@ -1,5 +1,7 @@
 -- Joystick code, used for moving the player
 
+local spaceship = require("spaceship");
+
 local joystick = {};
 local joystick_mt = {};
 
@@ -26,6 +28,31 @@ local magnitude;
 local background;
 local stick;
 local x, y;
+local angleText = display.newText("0", 500, 300 , "Arial" , 72 );
+
+
+local function onStickHold( event )
+	if(event.phase == "began") then
+		display.getCurrentStage( ):setFocus( self, event.id );
+		isStickFocused = true;
+	elseif (isStickFocused == true) then	
+		if(event.phase == "moved") then
+			if ((event.x < (background.x + 100)) or (event.x > (background.x - 100))) then
+				stick.x = event.x;
+			end
+			if ((event.y < (background.y + 100)) or (event.y > (background.y - 100))) then
+				stick.y = event.y;
+			end
+
+		elseif(event.phase == "ended" or event.phase == "cancelled") then
+			display.getCurrentStage( ):setFocus( self, nil);
+			isStickFocused = false;
+			stick.x = background.x;
+			stick.y = background.y;
+		end
+	end
+	angleText.text = joystick:getAngle();
+end
 
 --[[
   joystick.new
@@ -47,37 +74,28 @@ function joystick.new( _x, _y )
 	}
 
 	background = display.newCircle(_x, _y, display.contentWidth/8 );
-	background:setFillColor( 0.324, 0.434, 0.112, 0.3 );
+	background:setFillColor( 0.7, 0.7, 0.7);
 	stick = display.newCircle(_x, _y, display.contentWidth/20);
-	stick:setFillColor( 0.123, 0.233, 0.540 );
+	stick:setFillColor( 0.4, 1, 0.6 );
 
-	return setmetatable( newJoystick, joystick_mt );
-end
-
-local function onStickHold( event )
-	if(event.phase == "moved") then
-		if ((event.x < (background.x + 100)) or (event.x > (background.x - 100))) then
-			stick.x = event.x;
-		end
-		if ((event.y < (background.y + 100)) or (event.y > (background.y - 100))) then
-			stick.y = event.y;
-		end
-	elseif(event.phase == "ended") then
-		stick.x = background.x;
-		stick.y = background.y;
-	end
-end
-
-function joystick:run(  )
-	stick:addEventListener( "touch", onStickHold );
+	return setmetatable( newJoystick, joystick_mt )
 end
 
 function joystick:getAngle(  )
+	if(stick.x - background.x < 0) then
+		angle = ((math.atan((stick.y - background.y)/(stick.x - background.x)))*(180/math.pi)+270);
+	else 
+		angle = ((math.atan((stick.y - background.y)/(stick.x - background.x)))*(180/math.pi)+90)
+	end
 	return angle;
 end
 
 function joystick:getMagnitude(  )
 	return magnitude;
+end
+
+function joystick:run(  )
+	stick:addEventListener( "touch", onStickHold );
 end
 
 return joystick;
