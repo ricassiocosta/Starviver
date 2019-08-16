@@ -1,5 +1,5 @@
 # Projeto Starviver
-<i>English version bellow</i><br>
+<i>(English version bellow)</i><br>
 Projeto acadêmico de desenvolvimento de jogos para cadeira de Estágio Supervisionado 1, ministrado pelo Professor Eduardo Mendes.
 
 ## Nome do Jogo:
@@ -23,14 +23,14 @@ Projeto acadêmico de desenvolvimento de jogos para cadeira de Estágio Supervis
 * O jogador irá interagir com os controladores exibidos em tela, além de um radar da Starviver que mostra a localização de naves inimigas e upgrades próximos.
 ## Controle: 
 * Um Joystick virtual para movimentação da Starviver e um botão para disparos.
-
-
-
+<br>
+<br>
+<br>
 ----------------------------------------------------------------------------------------------------------------------------------------
-
-
-
-English Version
+<br>
+<br>
+<br>
+- English Version
 
 # Starviver Project
 Academic project for a supervised internship in games development, taught by Professor Eduardo Mendes.
