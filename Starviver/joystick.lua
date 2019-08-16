@@ -48,8 +48,8 @@ function joystick.new( _x, _y )
 	stick = display.newCircle(_x, _y, display.contentWidth/20);
 	stick:setFillColor( 0.4, 1, 0.6, 0.3 );
 
-	angleText = display.newText(angle, 500, 300, "Arial", 72)
-	magText = display.newText("0", 500, 500, "Arial", 72)
+	angleText = display.newText(angle, 500, 300, "Arial", 72);
+	magText = display.newText("0", 500, 500, "Arial", 72);
 
 	return setmetatable( newJoystick, joystick_mt )
 end
@@ -69,10 +69,6 @@ local function onStickHold( event )
 			stick.y = background.y;
 		end
 	end
-	angleText.text = joystick:getAngle();
-	magText.text = joystick:getMagnitude();
-
-	spaceship:translate(joystick:getMagnitude() * math.sin(math.rad(joystick:getAngle())) * spaceship:getSpeed(), -joystick:getMagnitude() * math.cos(math.rad(joystick:getAngle())) * spaceship:getSpeed());
 end
 
 --[[
@@ -102,6 +98,8 @@ end
 
 function joystick:run(  )
 	stick:addEventListener( "touch", onStickHold );
+	angleText.text = joystick:getAngle();
+	magText.text = joystick:getMagnitude();
 end
 
 return joystick;
