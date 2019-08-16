@@ -21,17 +21,9 @@ Projeto acadêmico de desenvolvimento de jogos para cadeira de Estágio Supervis
 * Naves da tropa inimiga e asteróides que serviram como obstáculos.
 ## Iteração do jogador: 
 * O jogador irá interagir com os controladores exibidos em tela, além de um radar da Starviver que mostra a localização de naves inimigas e upgrades próximos.
-## Controle: 
+## Controles: 
 * Um Joystick virtual para movimentação da Starviver e um botão para disparos.
-<br>
-<br>
-<br>
 ----------------------------------------------------------------------------------------------------------------------------------------
-<br>
-<br>
-<br>
-- English Version
-
 # Starviver Project
 Academic project for a supervised internship in games development, taught by Professor Eduardo Mendes.
 
@@ -54,5 +46,5 @@ Academic project for a supervised internship in games development, taught by Pro
 * Enemy troop ships and asteroids that served as obstacles.
 ## Player Iteration:
 * The player will interact with on-screen controllers, as well as a Starviver radar that shows the location of enemy ships and upgrades nearby.
-## Control:
+## Controls:
 * One Virtual Joystick used to pilot Starviver and one trigger button.
