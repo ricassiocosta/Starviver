@@ -1,7 +1,5 @@
 -- Joystick code, used for moving the player
 
-local spaceship = require("spaceship");
-
 local joystick = {};
 local joystick_mt = {};
 
@@ -24,11 +22,17 @@ local joystick_mt = {};
 
 local angle;
 local magnitude;
+local xMag;
+local yMag;
 local background;
 local stick;
+local deltaRadius;
 local x, y;
+
 local angleText;
 local magText;
+local xMagText;
+local yMagText;
 
 function joystick.new( _x, _y )
 	local newJoystick = {
@@ -47,9 +51,12 @@ function joystick.new( _x, _y )
 	background:setFillColor( 0.7, 0.7, 0.7);
 	stick = display.newCircle(_x, _y, display.contentWidth/20);
 	stick:setFillColor( 0.4, 1, 0.6, 0.3 );
+	deltaRadius = (3 * display.contentWidth)/40;
 
 	angleText = display.newText(angle, 500, 300, "Arial", 72);
 	magText = display.newText("0", 500, 500, "Arial", 72);
+	xMagText = display.newText("0", 1200, 300, "Arial", 72);
+	yMagText = display.newText("0", 1200, 500, "Arial", 72);
 
 	return setmetatable( newJoystick, joystick_mt )
 end
@@ -58,12 +65,34 @@ local function onStickHold( event )
 	if(event.phase == "began") then
 		display.getCurrentStage( ):setFocus( self, event.id );
 		isStickFocused = true;
-	elseif (isStickFocused == true) then	
-		if(event.phase == "moved") then
+	end
+	if (isStickFocused == true) then	
+		if(joystick:getMagnitude() < 0.95) then
 			stick.x = event.x;
 			stick.y = event.y;
-		elseif(event.phase == "ended" or event.phase == "cancelled") then
-			display.getCurrentStage( ):setFocus( self, nil);
+			xMag = 0;
+			yMag = 0;
+		--[[
+		else
+			--stick.x = background.x + (deltaRadius * math.sin(math.rad(joystick:getAngle())));
+			--stick.y = background.y + (deltaRadius * math.cos(math.rad(joystick:getAngle())));
+			xMag = joystick.getStickX();
+			yMag = joystick.getStickY();
+			if(xMag > 0) and (event.x < xMag) then
+				stick.x = event.x;
+			elseif(xMag < 0) and (event.x < xMag) then
+				stick.x = event.x;
+			end
+
+			if(yMag > 0) and (event.y < yMag) then
+				stick.y = event.y;
+			elseif(yMag < 0) and (event.y < yMag) then
+				stick.y = event.y;
+			end
+			]]
+		end
+		if(event.phase == "ended" or event.phase == "canceled") then
+			display.getCurrentStage():setFocus( self, nil );
 			isStickFocused = false;
 			stick.x = background.x;
 			stick.y = background.y;
@@ -77,32 +106,63 @@ end
   run
     - Runs in the game loop
     - gets user input, and returns angle and magnitude values
+  getAngle
+    -returns the angle of the joystick
+    - Measured in degrees. 0 is up
+  getMagnitude
+    -returns the magnitude of the joystick
+    -ranges from 0 - 1
+    -calculated using center of the joystick
+  init
+    - runs once to initiate the joystick
+    - adds the event listener that allows the joystick to move around
+   run
+    - Runs in the game loop
+    - gets user input, and returns angle and magnitude values
 ]]--
 
 
 function joystick:getAngle(  )
 	if(stick.x - background.x < 0) then
-		angle = math.deg(math.atan((stick.y - background.y)/(stick.x - background.x)))+270;
+		angle = math.deg(math.atan((stick.y - background.y)/(stick.x - background.x))) + 270;
 	elseif (stick.x - background.x > 0) then
-		angle = math.deg(math.atan((stick.y - background.y)/(stick.x - background.x)))+90;
+		angle = math.deg(math.atan((stick.y - background.y)/(stick.x - background.x))) + 90;
 	elseif (stick.x - background.x == 0) then
-		angle = 0;
+		if(stick.y - background.y > 0) then
+			angle = 180;
+		else
+			angle = 0;
+		end
 	end
 	return angle;
 end
 
 function joystick:getMagnitude(  )
-	magnitude = math.sqrt(math.pow((stick.x-background.x),2) + math.pow((stick.y-background.y),2)) / (display.contentWidth/8)
-	return magnitude;
+	magnitude = math.sqrt(math.pow((stick.x-background.x),2) + math.pow((stick.y-background.y),2)) / (background.width/2)
+	if(magnitude > 1) then
+		return 1
+	else
+		return magnitude;
+	end
+end
+
+function joystick:getStickX ()
+	return stick.x;
+end
+
+function joystick:getStickY(  )
+	return stick.y;
 end
 
 function joystick:init()
-	stick:addEventListener( "touch", onStickHold );
+	background:addEventListener( "touch", onStickHold );
 end 
 
-function joystick:run(  )
+function joystick:debug(  )
 	angleText.text = joystick:getAngle();
 	magText.text = joystick:getMagnitude();
+	xMagText.text = string.format( "%.3f", joystick.getStickX() );
+	yMagText.text = string.format( "%.3f", joystick.getStickY() );
 end
 
 return joystick;

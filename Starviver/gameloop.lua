@@ -38,8 +38,8 @@ end
 
 -- Runs continously, but with different code for each different game state
 function gameloop:run(event)
-	joystick:run();
-	spaceship:translate(joystick:getMagnitude() * math.sin(math.rad(joystick:getAngle())) * spaceship:getSpeed(), -joystick:getMagnitude() * math.cos(math.rad(joystick:getAngle())) * spaceship:getSpeed());
+	joystick:debug();
+	spaceship:run();
 end
 
 return gameloop;

@@ -1,3 +1,5 @@
+local joystick = require("joystick");
+
 local spaceship = {};
 local spaceship_mt = {};
 
@@ -15,7 +17,7 @@ function spaceship.new(_x, _y, _speed)
 	x = _x;
 	y = _y;
 	speed = _speed
-	player = display.newRect( _x, _y, 300, 300 )
+	player = display.newRect( _x, _y, 300, 400 )
 
 	return setmetatable( newSpaceship, spaceship_mt )
 end
@@ -44,9 +46,16 @@ function spaceship:setSpeed( _speed )
 	speed = _speed;
 end
 
-function spaceship:translate( _x, _y )
+function spaceship:translate( _x, _y, _angle )
 	player.x = player.x + _x;
 	player.y = player.y + _y;
+	player.rotation = _angle
+end
+
+function spaceship:run( )
+	spaceship:translate(joystick:getMagnitude() * math.sin(math.rad(joystick:getAngle())) * spaceship:getSpeed(), 
+						-joystick:getMagnitude() * math.cos(math.rad(joystick:getAngle())) * spaceship:getSpeed(), 
+						joystick:getAngle());
 end
 
 return spaceship;
