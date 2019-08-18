@@ -3,6 +3,11 @@ local joystick = require("joystick");
 local spaceship = {};
 local spaceship_mt = {};
 
+local spaceshipSprite = {
+	type = "image",
+	filename = "imgs/starviver.png"
+}
+
 local x;
 local y;
 local speed;
@@ -18,6 +23,8 @@ function spaceship.new(_x, _y, _speed)
 	y = _y;
 	speed = _speed
 	player = display.newRect( _x, _y, 300, 400 )
+	player.fill = spaceshipSprite;
+	player:scale( 0.7, 0.7 )
 
 	return setmetatable( newSpaceship, spaceship_mt )
 end

@@ -62,10 +62,6 @@ function joystick.new( _x, _y )
 end
 
 local function onStickHold( event )
-	if(event.phase == "began") then
-		display.getCurrentStage( ):setFocus( self, event.id );
-		isStickFocused = true;
-	end
 	if (isStickFocused == true) then	
 		stick.x = event.x;
 		stick.y = event.y;
@@ -76,7 +72,18 @@ local function onStickHold( event )
 			isStickFocused = false;
 			stick.x = background.x;
 			stick.y = background.y;
+			stick:removeEventListener( "touch", onStickHold )
 		end
+	end
+end
+
+local function snapStick( event )
+	if (event.phase == "began") then
+		stick.x = event.x;
+		stick.y = event.y;
+		stick:addEventListener("touch", onStickHold);
+		display.getCurrentStage( ):setFocus( stick , event.id )
+		isStickFocused = true;
 	end
 end
 
@@ -135,7 +142,7 @@ function joystick:getStickY(  )
 end
 
 function joystick:init()
-	stick:addEventListener( "touch", onStickHold );
+	background:addEventListener( "touch", snapStick );
 end 
 
 function joystick:debug(  )
