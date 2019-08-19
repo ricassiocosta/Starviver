@@ -53,11 +53,6 @@ function joystick.new( _x, _y )
 	stick:setFillColor( 0.4, 1, 0.6, 0.3 );
 	deltaRadius = (3 * display.contentWidth)/40;
 
-	angleText = display.newText(angle, 500, 300, "Arial", 72);
-	magText = display.newText("0", 500, 500, "Arial", 72);
-	xMagText = display.newText("0", 1200, 300, "Arial", 72);
-	yMagText = display.newText("0", 1200, 500, "Arial", 72);
-
 	return setmetatable( newJoystick, joystick_mt )
 end
 
@@ -146,10 +141,7 @@ function joystick:init()
 end 
 
 function joystick:debug(  )
-	angleText.text = joystick:getAngle();
-	magText.text = joystick:getMagnitude();
-	xMagText.text = string.format( "%.3f", joystick.getStickX() );
-	yMagText.text = string.format( "%.3f", joystick.getStickY() );
+	
 end
 
 return joystick;
