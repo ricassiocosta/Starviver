@@ -31,8 +31,6 @@ local x, y;
 
 local angleText;
 local magText;
-local xMagText;
-local yMagText;
 
 function joystick.new( _x, _y )
 	local newJoystick = {
