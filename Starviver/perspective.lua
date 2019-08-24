@@ -1,9 +1,13 @@
 --[[
 Perspective v2.1.0
+
 A library for easily and smoothly integrating a virtual camera into your game.
+
 Based on modified version of the Dusk camera system.
+
 v2.1.0 allows you to prepend layers in front, starting with index 0, and fixes
 offset behavior.
+
 By GymbylCoding
 https://gist.github.com/GymbylCoding/8675733
 --]]
