@@ -1,7 +1,7 @@
 -- Joystick code, used for moving the player
 
 local joystick = {};
-local joystick_mt = {};
+local joystick_mt = {__index = joystick};
 
 --[[
   angle
@@ -46,9 +46,9 @@ function joystick.new( _x, _y )
 	angle = 0;
 
 	background = display.newCircle(_x, _y, display.contentWidth/8 );
-	background:setFillColor( 0.7, 0.7, 0.7);
+	background:setFillColor( 0.4, 1, 0.32, 0.5);
 	stick = display.newCircle(_x, _y, display.contentWidth/20);
-	stick:setFillColor( 0.4, 1, 0.6, 0.3 );
+	stick:setFillColor( 0.4, 1, 0.6, 1 );
 	deltaRadius = (3 * display.contentWidth)/40;
 
 	angleText = display.newText(angle, 500, 300, "Arial", 72);

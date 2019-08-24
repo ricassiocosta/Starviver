@@ -1,7 +1,7 @@
 local joystick = require("joystick");
 
 local spaceship = {};
-local spaceship_mt = {};
+local spaceship_mt = {__index = spaceship};
 
 local spaceshipSprite = {
 	type = "image",
@@ -11,6 +11,7 @@ local spaceshipSprite = {
 local x;
 local y;
 local speed;
+local maxSpeed;
 local accelerationRate;
 local isShooting;
 local speedText;
@@ -21,11 +22,12 @@ function spaceship.new(_x, _y, _acceleration)
 	local newSpaceship = {
 		x = _x;
 		y = _y;
-		speed = _speed;
+		speed = 0;
 	}
 	x = _x;
 	y = _y;
 	speed = 0;
+	maxSpeed = 45;
 	accelerationRate = _acceleration;
 	lastAngle = 0;
 	lastMagnitude = 0;
@@ -80,7 +82,7 @@ function spaceship:run( )
 							-lastMagnitude * math.cos(math.rad(lastAngle)) * speed,
 							 lastAngle);
 	elseif(joystick:isInUse() == true) then
-		if(speed < 100) then
+		if(speed < maxSpeed) then
 			speed = speed + accelerationRate;
 		end
 		spaceship:translate( joystick:getMagnitude() * math.sin(math.rad(joystick:getAngle())) * speed,
