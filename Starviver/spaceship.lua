@@ -44,6 +44,10 @@ function spaceship.new(_x, _y, _acceleration)
 	return setmetatable( newSpaceship, spaceship_mt )
 end
 
+function spaceship:getDisplayObject(  )
+	return player;
+end
+
 function spaceship:getX()
 	return x;
 end
