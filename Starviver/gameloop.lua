@@ -2,6 +2,7 @@
 local spaceship = require("spaceship")
 local joystick = require("joystick")
 local button = require("button")
+local physics = require("physics")
 
 
 local gameloop = {};
@@ -36,6 +37,7 @@ function gameloop:init()
 	player = spaceship.new(display.contentWidth / 2, display.contentHeight / 2, 0.5);
 	stick = joystick.new(1.125 * display.contentWidth / 8, 6 * display.contentHeight / 8);
 	fireBtn = button.new(1.7 * (display.contentWidth / 2), 1.5 * (display.contentHeight / 2), display.contentWidth/17, display.contentWidth/17, true, 255, 45, 65, "fire");
+	player:init();
 	stick:init();
 	fireBtn:init();
 end
@@ -45,9 +47,11 @@ function gameloop:run(event)
 	stick:debug();
 	player:run();
 	if(fireBtn:isPressed() == true) then
-		debaq.text = "asda"
+		player:setIsShooting(true);
+		debaq.text = isShooting;
 	else
-		debaq.text = "1012"
+		player:setIsShooting(false);
+		debaq.text = isShooting;
 	end
 end
 
