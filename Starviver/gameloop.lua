@@ -33,6 +33,7 @@ end
 -- Runs once to initialize the game
 -- Runs everytime the game state changes
 function gameloop:init()
+	system.activate("multitouch")
 	gameState = 2;
 
 	--player = spaceship.new(display.contentWidth / 2, display.contentHeight / 2, 0.5);
