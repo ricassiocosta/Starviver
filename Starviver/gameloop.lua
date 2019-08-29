@@ -36,9 +36,9 @@ function gameloop:init()
 	gameState = 2;
 
 	--player = spaceship.new(display.contentWidth / 2, display.contentHeight / 2, 0.5);
-	local tester = display.newCircle(1920/2, 0, 30)
+	local tester = display.newCircle(0, 0, 50)
 	testScene = scene.new();
-	player = spaceship.new(0, 0, 0.75)
+	player = spaceship.new(0, 0, 0.6)
 	physics.addBody(player, "kinematic")
 	stick = joystick.new(1.125 * display.contentWidth / 8, 6 * display.contentHeight / 8);
 	fireBtn = button.new(1.7 * (display.contentWidth / 2), 1.5 * (display.contentHeight / 2), display.contentWidth/17, display.contentWidth/17, true, 255, 45, 65, "fire");
@@ -47,8 +47,8 @@ function gameloop:init()
 	stick:init();
 	fireBtn:init();
 
-	testScene:addObjectToScene(player:getDisplayObject(), 1);
 	testScene:addObjectToScene(tester, 1);
+	testScene:addObjectToScene(player:getDisplayObject(), 1);
 	testScene:addFocusTrack(player:getDisplayObject())
 end
 

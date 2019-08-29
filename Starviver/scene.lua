@@ -31,15 +31,16 @@ function scene:init( _sceneNum )
 
 	if(_sceneNum == 1) then
 		local scene = {}
-		for i = 1, 100 do
+		for i = 1, 1000 do
 			scene[i] = display.newCircle(0, 0, 10)
-			scene[i].x = math.random(display.screenOriginX, display.contentWidth * 3)
-			scene[i].y = math.random(display.screenOriginY, display.contentHeight)
+			scene[i].x = math.random(-display.contentWidth * 3, display.contentWidth * 3)
+			scene[i].y = math.random(-display.contentHeight, display.contentHeight)
 			scene[i]:setFillColor(math.random(100) * 0.01, math.random(100) * 0.01, math.random(100) * 0.01)
 			camera:add(scene[i], math.random(0, camera:layerCount()))
 		end
 
 		camera:setParallax(1, 1, 1, 0.7, 0.6, 0.5, 0.4, 0.3) -- Here we set parallax for each layer in desceding order
+		camera.damping = 3;
 	end
 end
 
