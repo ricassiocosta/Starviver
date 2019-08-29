@@ -9,16 +9,45 @@ Projeto acadêmico de desenvolvimento de jogos para cadeira de Estágio Supervis
 ## Público Alvo: 
 * Jovens e Adultos que gostem do gênero.
 ## Objetivo Geral: 
-* Obter o máximo de pontos possível antes de ser destruido.
+* Dependendo do modo de jogo, o objetivo pode ser ou obter o máximo de pontos possível antes de ser destruido, ou destruir um número de x de inimigos sem ser destruido.
 ## Objetivo Específico: 
 * Destruir o máximo possível de naves inimigas e asteroides, utilizando dos upgrades para maximizar os atributos da nave e, consequentemente, a quantidade total de pontos obtidos.
 ## Enredo e Personagens: 
 * Você é um batedor intergalático que está numa missão de reconhecimento numa zona de risco em território inimigo. Sua nave, a Starviver, é uma das naves mais evoluídas já criada, ela possui a habilidade absorver energia espacial e, dependendo da natureza dessa energia, utilizá-la para realizar alguns upgrades temporários que garantirá vantagens como: aumento de velocidade, aumento de dano causado e até restauração dos pontos de vida.
 * Em um certo momento de sua missão, você é surpreendido uma tropa inimiga de grandes proporções. Recuar não é uma opção, portanto só lhe resta usar suas habilidades e as habilidades de sua nave para abater o máximo de inimigos que conseguir.
+## Modos de Jogo:
+* O jogo inicialmente está sendo pensado em dois modos de jogo distintos: O modo <strong>Kamikaze</strong> e o modo <strong>Batedor</strong>
+### Modo Kamikaze:
+* Modo de jogo em que o jogador busca atingir a maior pontuação possível antes de ser destruído.
+### Modo Batedor:
+* Modo de jogo em que o jogador precisa eliminar uma quantidade predefinida de inímigos sem ser destruído
 ## Personagem Principal:
 * A Starviver.
-## Inimigos
+* - Pontos de Vida: 1000
+* - Dano: 7
+* - Velocidade máxima: 35
+## Inimigos:
 * Naves da tropa inimiga e asteróides que serviram como obstáculos.
+### Asteróide:
+* Pontos de Vida: 55
+* Dano: 5-12
+* Velocidade máxima: 10
+* Ponto por abate: 150
+### Galeão de Ataque:
+* Pontos de Vida: 25
+* Dano: 75
+* Velocidade máxima: 250
+* Ponto por abate: 15
+### Stalkers:
+* Pontos de Vida: 30
+* Dano: 15
+* Velocidade: 32
+* Ponto por abate: 80
+### Estação de Combate
+* Pontos de Vida: 100
+* Dano: 250
+* Velocidade: 0
+* Ponto por abate: 420
 ## Iteração do jogador: 
 * O jogador irá interagir com os controladores exibidos em tela, além de um radar da Starviver que mostra a localização de naves inimigas e upgrades próximos.
 ## Controles: 
