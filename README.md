@@ -9,7 +9,7 @@ Projeto acadêmico de desenvolvimento de jogos para cadeira de Estágio Supervis
 ## Público Alvo: 
 * Jovens e Adultos que gostem do gênero.
 ## Objetivo Geral: 
-* Dependendo do modo de jogo, o objetivo pode ser ou obter o máximo de pontos possível antes de ser destruido, ou destruir um número de x de inimigos sem ser destruido.
+* Dependendo do modo de jogo, o objetivo pode ser ou obter o máximo de pontos possível antes de ser destruido ou destruir um número de <i>x</i> de inimigos sem ser destruido.
 ## Objetivo Específico: 
 * Destruir o máximo possível de naves inimigas e asteroides, utilizando dos upgrades para maximizar os atributos da nave e, consequentemente, a quantidade total de pontos obtidos.
 ## Enredo e Personagens: 
@@ -36,7 +36,7 @@ Projeto acadêmico de desenvolvimento de jogos para cadeira de Estágio Supervis
 ### Galeão de Ataque:
 * Pontos de Vida: 25
 * Dano: 75
-* Velocidade máxima: 250
+* Velocidade máxima: 25
 * Ponto por abate: 15
 ### Stalkers:
 * Pontos de Vida: 30
@@ -45,11 +45,14 @@ Projeto acadêmico de desenvolvimento de jogos para cadeira de Estágio Supervis
 * Ponto por abate: 80
 ### Estação de Combate
 * Pontos de Vida: 100
-* Dano: 250
+* Dano: 50
 * Velocidade: 0
 * Ponto por abate: 420
-## Iteração do jogador: 
-* O jogador irá interagir com os controladores exibidos em tela, além de um radar da Starviver que mostra a localização de naves inimigas e upgrades próximos.
+## Interação do jogador: 
+* O jogador irá interagir com os controladores exibidos em tela, além de um radar da Starviver que mostra a localização de naves inimigas e <i>powerups</i> próximos.
+## Powerups:
+* O jogo contará com 3 powerups:
+* - Powerup de Pontos de Vida: Concederá ao jogador, caso tenha disponível, uma recuperação de 100 Pontos de Vida
 ## Controles: 
 * Um Joystick virtual para movimentação da Starviver e um botão para disparos.
 ----------------------------------------------------------------------------------------------------------------------------------------
@@ -63,7 +66,7 @@ Academic project for a supervised internship in games development, taught by Pro
 ## Target Audience:
 * Young people and adults who like the genre.
 ## General objective:
-* Get as many points as possible before you being destroyed.
+* Depending on the game mode, the objective can be either to get as many points as possible before being destroyed or to destroy a number of <i>x</i> enemies without being destroyed.
 ## Specific objective:
 * Destroy as many enemy ships and asteroids as possible, using upgrades to maximize the ship's attributes, and thus, the total amount of points earned.
 ## Plot and Characters:
@@ -71,9 +74,32 @@ Academic project for a supervised internship in games development, taught by Pro
 * At a certain point in your mission, you are surprised by a huge enemy troop. Retreating is not an option, so you must to use your skills and the skills of your ship to shoot down as many enemies as you can.
 ## Main character:
 * Starviver.
-## Enemies
+* - Health points: 1000
+* - Damage: 7
+* - Maximum speed: 35
+## Enemies:
 * Enemy troop ships and asteroids that served as obstacles.
+### Asteroid:
+* Health points: 55
+* Damage: 5-12
+* Maximum speed: 10
+* Points for destroy: 150
+### Attack Galleon:
+* Health points: 25
+* Damage: 75
+* Maximum speed: 25
+* Points for destroy: 15
+### Stalkers:
+Health Points: 30
+* Damage: 15
+* Speed: 32
+* Points for destroy: 80
+### Combat Station
+Health Points: 100
+* Damage: 50
+* Speed: 0
+* Points for destroy: 420
 ## Player Iteration:
-* The player will interact with on-screen controllers, as well as a Starviver radar that shows the location of enemy ships and upgrades nearby.
+* The player will interact with on-screen controllers, as well as a Starviver radar that shows the location of enemy ships and powerups nearby.
 ## Controls:
 * One Virtual Joystick used to pilot Starviver and one trigger button.
