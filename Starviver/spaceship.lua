@@ -36,9 +36,9 @@ function spaceship.new(_x, _y, _acceleration)
 	lastAngle = 0;
 	lastMagnitude = 0;
 
-	player = display.newRect( _x, _y, 300, 400 )
+	player = display.newRect( _x, _y, 320, 400 )
 	player.fill = spaceshipSprite;
-	player:scale( 0.7, 0.7 )
+	player:scale( 0.5, 0.5 )
 
 	debug_speedText = display.newText("0", 1200, 300, "Arial", 72)
 	debug_spaceshipX = display.newText("", 1400, 500, "Arial", 72)
