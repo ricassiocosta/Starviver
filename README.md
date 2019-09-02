@@ -51,13 +51,13 @@ Projeto acadêmico de desenvolvimento de jogos para cadeira de Estágio Supervis
 ## Interação do jogador: 
 * O jogador irá interagir com os controladores exibidos em tela, além de um radar da Starviver que mostra a localização de naves inimigas e <i>powerups</i> próximos.
 ## Powerups:
-* O jogo contará com 3 powerups:
-* - Powerup de Pontos de Vida: Concederá ao jogador, caso tenha disponível, uma recuperação de 100 Pontos de Vida;
-* - Powerup de Velocidade: Duplicará a velocidade da Starviver. Não acumulável;
-* - Powerup de Dano: Duplicará o dano causado pelos projéteis disparados pela Starviver. Acumulável.
+### O jogo contará com 3 powerups:
+* Powerup de Pontos de Vida: Concederá ao jogador, caso tenha disponível, uma recuperação de 100 Pontos de Vida;
+* Powerup de Velocidade: Duplicará a velocidade da Starviver. Não acumulável;
+* Powerup de Dano: Duplicará o dano causado pelos projéteis disparados pela Starviver. Acumulável.
 ## Fim do Jogo:
-* - Independente do modo de jogo escolhido, o jogo terminará se a Starviver for destruída;
-* - No modo de jogo <strong>Batedor</strong>, o jogo também terminará se o jogador destruir a quantidade de inimigos determinada pela fase.
+* Independente do modo de jogo escolhido, o jogo terminará se a Starviver for destruída;
+* No modo de jogo <strong>Batedor</strong>, o jogo também terminará se o jogador destruir a quantidade de inimigos determinada pela fase.
 ## Diagrama de Navegação:
 ![diagrama](https://drive.google.com/uc?export=view&id=1l8LjRl3ztg6uegz4BqLIy7A-tPGP24uv)
 ## Controles: 
