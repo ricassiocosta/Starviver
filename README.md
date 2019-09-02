@@ -3,7 +3,7 @@
 Projeto acadêmico de desenvolvimento de jogos para cadeira de Estágio Supervisionado 1, ministrado pelo Professor Eduardo Mendes.
 
 ## Nome do Jogo:
-* Starviver - Missão Kamikaze.
+* Starviver.
 ## Gênero: 
 * <i>Shoot 'em up</i> espacial.
 ## Público Alvo: 
@@ -32,27 +32,32 @@ Projeto acadêmico de desenvolvimento de jogos para cadeira de Estágio Supervis
 * Pontos de Vida: 55
 * Dano: 5-12
 * Velocidade máxima: 10
-* Ponto por abate: 150
+* Ponto por destruição: 150
 ### Galeão de Ataque:
 * Pontos de Vida: 25
 * Dano: 75
 * Velocidade máxima: 25
-* Ponto por abate: 15
+* Ponto por destruição: 15
 ### Stalkers:
 * Pontos de Vida: 30
 * Dano: 15
 * Velocidade: 32
-* Ponto por abate: 80
+* Ponto por destruição: 80
 ### Estação de Combate
 * Pontos de Vida: 100
 * Dano: 50
 * Velocidade: 0
-* Ponto por abate: 420
+* Ponto por destruição: 420
 ## Interação do jogador: 
 * O jogador irá interagir com os controladores exibidos em tela, além de um radar da Starviver que mostra a localização de naves inimigas e <i>powerups</i> próximos.
 ## Powerups:
 * O jogo contará com 3 powerups:
-* - Powerup de Pontos de Vida: Concederá ao jogador, caso tenha disponível, uma recuperação de 100 Pontos de Vida
+* - Powerup de Pontos de Vida: Concederá ao jogador, caso tenha disponível, uma recuperação de 100 Pontos de Vida;
+* - Powerup de Velocidade: Duplicará a velocidade da Starviver. Não acumulável;
+* - Powerup de Dano: Duplicará o dano causado pelos projéteis disparados pela Starviver. Acumulável.
+## Fim do Jogo:
+* - Independente do modo de jogo escolhido, o jogo terminará se a Starviver for destruída;
+* - No modo de jogo <strong>Batedor</strong>, o jogo também terminará se o jogador destruir a quantidade de inimigos determinada pela fase.
 ## Controles: 
 * Um Joystick virtual para movimentação da Starviver e um botão para disparos.
 ----------------------------------------------------------------------------------------------------------------------------------------
@@ -60,7 +65,7 @@ Projeto acadêmico de desenvolvimento de jogos para cadeira de Estágio Supervis
 Academic project for a supervised internship in games development, taught by Professor Eduardo Mendes.
 
 ## Game Name:
-* Starviver - Kamikaze Mission.
+* Starviver.
 ## Genre:
 * Spacial Shoot 'em up.
 ## Target Audience:
