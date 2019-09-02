@@ -39,22 +39,13 @@ end
 
 local function run( event )
 	if(event.phase == "began") then
-		if(isToggleable == false) then
+		if(isPressed == false) then
 			btnCircle.width = btnCircle.width / 1.5
 			btnCircle.height = btnCircle.height / 1.5
 			isPressed = true;
-		else
-			isPressed = not isPressed;
-			if(isPressed) then
-				btnCircle.width = btnCircle.width / 1.5
-				btnCircle.height = btnCircle.height / 1.5
-			else
-				btnCircle.width = btnCircle.width * 1.5
-				btnCircle.height = btnCircle.height * 1.5
-			end
 		end
 	elseif(event.phase == "ended" or event.phase == "canceled") then
-		if(isToggleable == false) then
+		if(isPressed == true) then
 			btnCircle.width = btnCircle.width * 1.5
 			btnCircle.height = btnCircle.height * 1.5
 			isPressed = false;

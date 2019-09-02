@@ -139,8 +139,8 @@ function spaceship:shoot(  )
 
 
 	physics.addBody( bullets[bulletNum], "kinematic" );
-	bullets[bulletNum]:setLinearVelocity(math.sin(math.rad(bullets[bulletNum].rotation)) * ((speed * joystick:getMagnitude() * 1000) + 5000), 
-										-math.cos(math.rad(bullets[bulletNum].rotation)) * ((speed * joystick:getMagnitude() * 1000) + 5000))
+	bullets[bulletNum]:setLinearVelocity(math.sin(math.rad(bullets[bulletNum].rotation)) * ((speed * joystick:getMagnitude() * 1000) + 5000 + spaceship:getSpeed(  )), 
+										-math.cos(math.rad(bullets[bulletNum].rotation)) * ((speed * joystick:getMagnitude() * 1000) + 5000 + spaceship:getSpeed(  )))
 	shootCooldown = 0;
 end
 
