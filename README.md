@@ -58,6 +58,8 @@ Projeto acadêmico de desenvolvimento de jogos para cadeira de Estágio Supervis
 ## Fim do Jogo:
 * - Independente do modo de jogo escolhido, o jogo terminará se a Starviver for destruída;
 * - No modo de jogo <strong>Batedor</strong>, o jogo também terminará se o jogador destruir a quantidade de inimigos determinada pela fase.
+## Diagrama de Navegação:
+* ![diagrama](https://drive.google.com/view?id=1l8LjRl3ztg6uegz4BqLIy7A-tPGP24uv)
 ## Controles: 
 * Um Joystick virtual para movimentação da Starviver e um botão para disparos.
 ----------------------------------------------------------------------------------------------------------------------------------------
