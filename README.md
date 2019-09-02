@@ -22,10 +22,10 @@ Projeto acadêmico de desenvolvimento de jogos para cadeira de Estágio Supervis
 ### Modo Batedor:
 * Modo de jogo em que o jogador precisa eliminar uma quantidade predefinida de inímigos sem ser destruído
 ## Personagem Principal:
-* A Starviver.
-* - Pontos de Vida: 1000
-* - Dano: 7
-* - Velocidade máxima: 35
+### A Starviver.
+* Pontos de Vida: 1000
+* Dano: 7
+* Velocidade máxima: 35
 ## Inimigos:
 * Naves da tropa inimiga e asteróides que serviram como obstáculos.
 ### Asteróide:
