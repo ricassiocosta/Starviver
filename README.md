@@ -9,26 +9,26 @@ Projeto acadêmico de desenvolvimento de jogos para cadeira de Estágio Supervis
 ## Público Alvo: 
 * Jovens e Adultos que gostem do gênero.
 ## Objetivo Geral: 
-* Dependendo do modo de jogo, o objetivo pode ser ou obter o máximo de pontos possível antes de ser destruido ou destruir um número de <i>x</i> de inimigos sem ser destruido.
+* Dependendo do modo de jogo, o objetivo pode ser ou obter o máximo de pontos possível antes de ser destruído ou destruir um número de <i>x</i> de inimigos sem ser destruído.
 ## Objetivo Específico: 
 * Destruir o máximo possível de naves inimigas e asteroides, utilizando dos upgrades para maximizar os atributos da nave e, consequentemente, a quantidade total de pontos obtidos.
 ## Enredo e Personagens: 
-* Você é um batedor intergalático que está numa missão de reconhecimento numa zona de risco em território inimigo. Sua nave, a Starviver, é uma das naves mais evoluídas já criada, ela possui a habilidade absorver energia espacial e, dependendo da natureza dessa energia, utilizá-la para realizar alguns upgrades temporários que garantirá vantagens como: aumento de velocidade, aumento de dano causado e até restauração dos pontos de vida.
+* Você é um batedor intergaláctico que está numa missão de reconhecimento numa zona de risco em território inimigo. Sua nave, a Starviver, é uma das naves mais evoluídas já criada, ela possui a habilidade absorver energia espacial e, dependendo da natureza dessa energia, utilizá-la para realizar alguns upgrades temporários que garantirá vantagens como: aumento de velocidade, aumento de dano causado e até restauração dos pontos de vida.
 * Em um certo momento de sua missão, você é surpreendido uma tropa inimiga de grandes proporções. Recuar não é uma opção, portanto só lhe resta usar suas habilidades e as habilidades de sua nave para abater o máximo de inimigos que conseguir.
 ## Modos de Jogo:
 * O jogo inicialmente está sendo pensado em dois modos de jogo distintos: O modo <strong>Kamikaze</strong> e o modo <strong>Batedor</strong>
 ### Modo Kamikaze:
 * Modo de jogo em que o jogador busca atingir a maior pontuação possível antes de ser destruído.
 ### Modo Batedor:
-* Modo de jogo em que o jogador precisa eliminar uma quantidade predefinida de inímigos sem ser destruído
+* Modo de jogo em que o jogador precisa eliminar uma quantidade predefinida de inimigos sem ser destruído
 ## Personagem Principal:
 ### A Starviver.
 * Pontos de Vida: 1000
 * Dano: 7
 * Velocidade máxima: 35
 ## Inimigos:
-* Naves da tropa inimiga e asteróides que serviram como obstáculos.
-### Asteróide:
+* Naves da tropa inimiga e asteroides que serviram como obstáculos.
+### Asteroide:
 * Pontos de Vida: 55
 * Dano: 5-12
 * Velocidade máxima: 10
@@ -63,50 +63,63 @@ Projeto acadêmico de desenvolvimento de jogos para cadeira de Estágio Supervis
 ## Controles: 
 * Um Joystick virtual para movimentação da Starviver e um botão para disparos.
 ----------------------------------------------------------------------------------------------------------------------------------------
-# Starviver Project
-Academic project for a supervised internship in games development, taught by Professor Eduardo Mendes.
-
 ## Game Name:
-* Starviver.
-## Genre:
-* Spacial Shoot 'em up.
-## Target Audience:
-* Young people and adults who like the genre.
-## General objective:
-* Depending on the game mode, the objective can be either to get as many points as possible before being destroyed or to destroy a number of <i>x</i> enemies without being destroyed.
-## Specific objective:
-* Destroy as many enemy ships and asteroids as possible, using upgrades to maximize the ship's attributes, and thus, the total amount of points earned.
-## Plot and Characters:
-* You are an intergalactic scout who is on a reconnaissance mission in a danger zone in enemy territory. Your ship, Starviver, is one of the most evolved ships ever created, it has the ability to absorb space energy and, depending on the nature of that energy, use it to perform some temporary upgrades that will provide advantages such as: increased speed, increased damage and even restoration of hit points.
-* At a certain point in your mission, you are surprised by a huge enemy troop. Retreating is not an option, so you must to use your skills and the skills of your ship to shoot down as many enemies as you can.
-## Main character:
-* Starviver.
-* - Health points: 1000
-* - Damage: 7
-* - Maximum speed: 35
+* Starlive.
+## Genre: 
+* Space Shoot 'em up.
+## Target Audience: 
+* Young people and adults who enjoy the genre.
+## General Objective: 
+* Depending on the game mode, the goal can be either get as many points as possible before being destroyed or destroy a number of <i>x</i> of enemies without being destroyed.
+## Specific Objective: 
+* Destroy as many enemy ships and asteroids as possible, using upgrades to maximize the ship's attributes.
+## Storyline and characters: 
+* You are an intergalactic scout who is on a reconnaissance mission in a hazardous area in enemy territory. Its ship, Starviver, is one of the most evolved ships ever created, it possesses the ability to absorb space energy and, depending on the nature of this energy, use it to perform some temporary upgrades that will guarantee advantages such as: speed increase, Increased damage and even restoration of hit points.
+* At a certain point in your mission, you are surprised an enemy troop of great proportions. Retreat is not an option, so you only have to use your ship's skills and abilities to shoot down as many enemies as you can.
+## Game modes:
+* The game is initially being thought of in two distinct game modes: <strong> Kamikaze </strong> mode and <strong> Scout </strong> mode.
+### Kamikaze Mode:
+* Game mode in which the player seeks to achieve the highest score possible before being destroyed.
+### Scout Mode:
+* Game mode in which the player needs to eliminate a preset amount of enemies without being destroyed
+## Main Character:
+### To Starviver.
+* Hit Points: 1000
+* Damage: 7
+* Maximum speed: 35 in
 ## Enemies:
 * Enemy troop ships and asteroids that served as obstacles.
-### Asteroid:
-* Health points: 55
+### Asteroide:
+* Hit Points: 55
 * Damage: 5-12
 * Maximum speed: 10
-* Points for destroy: 150
+* Point by destruction: 150
 ### Attack Galleon:
-* Health points: 25
+* Hit Points: 25
 * Damage: 75
 * Maximum speed: 25
-* Points for destroy: 15
+* Point per Destruction: 15
 ### Stalkers:
-Health Points: 30
+* Life Points: 30
 * Damage: 15
-* Speed: 32
-* Points for destroy: 80
+* Speed: 32 in
+* Point by destruction: 80
 ### Combat Station
-Health Points: 100
+* Life Points: 100
 * Damage: 50
 * Speed: 0
-* Points for destroy: 420
-## Player Iteration:
-* The player will interact with on-screen controllers, as well as a Starviver radar that shows the location of enemy ships and powerups nearby.
-## Controls:
-* One Virtual Joystick used to pilot Starviver and one trigger button.
+* Point by destruction: 420
+## Player Interaction: 
+* The player will interact with the controllers displayed on screen, plus a Starviver radar that shows the location of enemy ships and owerups nearby.
+## Powerups:
+### The game will feature 3 powerups:
+* Life Points PowerUp: grants the player, if available, a recovery of 100 life points;
+* PowerUp Speed: Will double the speed of Starviver. Non-accumulable;
+* Damage PowerUp: Will double the damage caused by the projectiles triggered by Starviver. Cumulative.
+## End Game:
+* Regardless of the game mode chosen, the game will end if Starviver is destroyed;
+* In Scout mode, the game will also end if the player destroys the amount of enemies determined by the stage.
+## Navigation diagram:
+![diagram](https://drive.google.com/uc?export=view&id=1l8LjRl3ztg6uegz4BqLIy7A-tPGP24uv)
+## Controls: 
+* A virtual Joystick for Starviver movement and a button for shooting.
