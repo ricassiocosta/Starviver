@@ -5,28 +5,22 @@ local r, g, b;
 local width, height;
 local x, y;
 local isPressed;
-local isToggleable;
-local tag;
 
 local btnCircle;
 
-function button.new( _x, _y, _width, _height, _toggleable, _r, _g, _b, _tag )
+function button.new( _x, _y, _width, _height, _r, _g, _b )
 	local newButton = {
 		x = _x;
 		y = _y;
 		width = _width;
 		height = _height;
-		tag = _tag;
 		color = {_r/255, _g/255, _b/255};
-		isToggleable = _toggleable;
 	}
 
 	x = _x;
 	y = _y;
 	width = _width;
 	height = _height;
-	tag = _tag or "button";
-	isToggleable = _toggleable or false;
 	isPressed = false;
 	r = _r or 1;
 	g = _g or 1;

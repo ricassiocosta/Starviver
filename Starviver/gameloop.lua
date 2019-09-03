@@ -42,7 +42,7 @@ function gameloop:init()
 	player = spaceship.new(0, 0, 0.6)
 	physics.addBody(player, "kinematic")
 	stick = joystick.new(1.125 * display.contentWidth / 8, 6 * display.contentHeight / 8);
-	fireBtn = button.new(1.7 * (display.contentWidth / 2), 1.5 * (display.contentHeight / 2), display.contentWidth/17, display.contentWidth/17, true, 255, 45, 65, "fire");
+	fireBtn = button.new(1.7 * (display.contentWidth / 2), 1.5 * (display.contentHeight / 2), display.contentWidth/17, display.contentWidth/17, 255, 45, 65);
 	testScene:init(1);
 	player:init();
 	stick:init();

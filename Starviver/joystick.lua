@@ -22,11 +22,8 @@ local joystick_mt = {__index = joystick};
 
 local angle;
 local magnitude;
-local xMag;
-local yMag;
 local background;
 local stick;
-local deltaRadius;
 local x, y;
 
 local angleText;
@@ -45,11 +42,10 @@ function joystick.new( _x, _y )
 
 	angle = 0;
 
-	background = display.newCircle(_x, _y, display.contentWidth/8 );
+	background = display.newCircle(_x, _y, display.contentWidth/10 );
 	background:setFillColor( 0.7, 0.7, 0.7, 0.5);
-	stick = display.newCircle(_x, _y, display.contentWidth/20);
+	stick = display.newCircle(_x, _y, display.contentWidth/25);
 	stick:setFillColor( 0.7, 0, 1);
-	deltaRadius = (3 * display.contentWidth)/40;
 
 	angleText = display.newText("", 500, 300, "Arial", 72);
 	magText = display.newText("", 500, 500, "Arial", 72);
@@ -61,8 +57,6 @@ local function onStickHold( event )
 	if (isStickFocused == true) then	
 		stick.x = event.x;
 		stick.y = event.y;
-		xMag = 0;
-		yMag = 0;
 		if(event.phase == "ended" or event.phase == "canceled") then
 			display.getCurrentStage():setFocus( self, nil );
 			isStickFocused = false;
