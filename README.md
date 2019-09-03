@@ -102,12 +102,12 @@ Projeto acadêmico de desenvolvimento de jogos para cadeira de Estágio Supervis
 ### Stalkers:
 * Life Points: 30
 * Damage: 15
-* Speed: 32 in
+* Maximum speed: 32
 * Point by destruction: 80
 ### Combat Station
 * Life Points: 100
 * Damage: 50
-* Speed: 0
+* Maximum speed: 0
 * Point by destruction: 420
 ## Player Interaction: 
 * The player will interact with the controllers displayed on screen, plus a Starviver radar that shows the location of enemy ships and owerups nearby.
