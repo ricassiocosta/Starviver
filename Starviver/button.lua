@@ -40,6 +40,7 @@ end
 local function run( event )
 	if(event.phase == "began") then
 		if(isPressed == false) then
+			display.getCurrentStage():setFocus(event.target)
 			btnCircle.width = btnCircle.width / 1.5
 			btnCircle.height = btnCircle.height / 1.5
 			isPressed = true;
@@ -49,6 +50,7 @@ local function run( event )
 			btnCircle.width = btnCircle.width * 1.5
 			btnCircle.height = btnCircle.height * 1.5
 			isPressed = false;
+			display.getCurrentStage():setFocus(nil)
 		end
 	end
 end
