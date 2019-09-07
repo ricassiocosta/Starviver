@@ -10,8 +10,8 @@ local spaceshipSprite = {
 	filename = "imgs/starviver.png"
 }
 
-local speed;
-local maxSpeed;
+local speed, maxSpeed, currentSpeed;
+local width, lenght;
 local accelerationRate;
 local isShooting;
 local shootCooldown;
@@ -19,8 +19,11 @@ local lastAngle;
 local lastMagnitude;
 local bulletNum;
 local bullets = {};
+local bulletsToRemove;
 
 local debug_speedText;
+local debug_currentSpeed;
+local debug_bulletNum;
 local debug_spaceshipX, debug_spaceshipY;
 
 function spaceship.new(_x, _y, _acceleration)
@@ -28,21 +31,27 @@ function spaceship.new(_x, _y, _acceleration)
 		speed = 0;
 	}
 	speed = 0;
-	maxSpeed = 55;
+	currentSpeed = 0;
+	maxSpeed = 40;
 	accelerationRate = _acceleration;
 	shootCooldown = 0;
 	bulletNum = 0;
+	bulletCount = 1;
 
 	lastAngle = 0;
 	lastMagnitude = 0;
+	width = 170;
+	lenght = 220;
 
-	player = display.newRect( _x, _y, 320, 400 )
+	player = display.newRect( _x, _y, width, lenght )
 	player.fill = spaceshipSprite;
 	player:scale( 0.5, 0.5 )
 
-	debug_speedText = display.newText("0", 1200, 300, "Arial", 72)
+	debug_speedText = display.newText("", 1200, 300, "Arial", 72)
+	debug_currentSpeed = display.newText("", 500, 300, "Arial", 72)
 	debug_spaceshipX = display.newText("", 1400, 500, "Arial", 72)
-	debug_spaceshipY = display.newText("0", 1400, 600, "Arial", 72)
+	debug_spaceshipY = display.newText("", 1400, 600, "Arial", 72)
+	debug_bulletNum = display.newText("", 500, 900, "Arial", 72)
 
 	return setmetatable( newSpaceship, spaceship_mt )
 end
@@ -108,6 +117,7 @@ function spaceship:run( )
 	
 	if(joystick:isInUse() == false and (speed) > 0) then
 		speed = speed - accelerationRate;
+		currentSpeed = speed;
 		spaceship:translate( lastMagnitude * math.sin(math.rad(lastAngle)) * speed, 
 							-lastMagnitude * math.cos(math.rad(lastAngle)) * speed,
 							 lastAngle);
@@ -115,6 +125,7 @@ function spaceship:run( )
 		if(speed < maxSpeed) then
 			speed = speed + (accelerationRate * joystick:getMagnitude());
 		end
+		currentSpeed = joystick:getMagnitude() * speed;
 		spaceship:translate( joystick:getMagnitude() * math.sin(math.rad(joystick:getAngle())) * speed,
 							-joystick:getMagnitude() * math.cos(math.rad(joystick:getAngle())) * speed, 
 							 joystick:getAngle());
@@ -124,23 +135,23 @@ function spaceship:run( )
 
 	shootCooldown = shootCooldown + 1;
 
-	if(isShooting == true and shootCooldown > (18 + (speed/1.25))) then
+	if(isShooting == true and shootCooldown > (8)) then
 		spaceship:shoot();
 	end
 
 end
 
 function spaceship:shoot(  )
-	bulletNum = bulletNum + 1;
-	bullets[bulletNum] = display.newRect(player.x, player.y, 25, 200);
+	bulletNum = table.getn(bullets) + 1;
+	bullets[bulletNum] = display.newRect(player.x, player.y, width/12, lenght/3);
 	bullets[bulletNum]:setFillColor( 0.3, 0.6, 0.9 );
 	bullets[bulletNum].rotation = player.rotation;
 	scene:addObjectToScene(bullets[bulletNum], 2)
 
 
 	physics.addBody( bullets[bulletNum], "kinematic" );
-	bullets[bulletNum]:setLinearVelocity(math.sin(math.rad(bullets[bulletNum].rotation)) * ((speed * joystick:getMagnitude() * 1000) + 5000 + spaceship:getSpeed(  )), 
-										-math.cos(math.rad(bullets[bulletNum].rotation)) * ((speed * joystick:getMagnitude() * 1000) + 5000 + spaceship:getSpeed(  )))
+	bullets[bulletNum]:setLinearVelocity(math.sin(math.rad(bullets[bulletNum].rotation)) * (currentSpeed + 1) * 50000, 
+										-math.cos(math.rad(bullets[bulletNum].rotation)) * (currentSpeed + 1) * 50000)
 	shootCooldown = 0;
 end
 
