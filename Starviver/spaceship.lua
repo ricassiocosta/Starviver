@@ -111,6 +111,8 @@ function spaceship:debug(  )
 	debug_speedText.text = speed;
 	debug_spaceshipX.text = player.x;
 	debug_spaceshipY.text = player.y;
+	debug_currentSpeed.text = currentSpeed;
+  	debug_bulletNum.text = table.getn(bullets);
 end
 
 function spaceship:run( )
@@ -138,7 +140,7 @@ function spaceship:run( )
 	if(isShooting == true and shootCooldown > (8)) then
 		spaceship:shoot();
 	end
-
+	spaceship:removeBullets();
 end
 
 function spaceship:shoot(  )
@@ -153,6 +155,22 @@ function spaceship:shoot(  )
 	bullets[bulletNum]:setLinearVelocity(math.sin(math.rad(bullets[bulletNum].rotation)) * (currentSpeed + 1) * 50000, 
 										-math.cos(math.rad(bullets[bulletNum].rotation)) * (currentSpeed + 1) * 50000)
 	shootCooldown = 0;
+end
+
+function spaceship:removeBullets(  )
+	bulletsToRemove = 0;
+	for i = 1, table.getn(bullets) do
+		if (bullets[i].x > (player.x + 2000) or bullets[i].x < (player.x - 2000) or bullets[i].y > (player.y + 1000) or bullets[i].y < (player.y - 1000)) then
+      		bulletsToRemove = bulletsToRemove + 1;
+    	end
+	end
+
+	if bulletsToRemove > 0 then
+		for j = 1, bulletsToRemove do
+			bullets[j]:removeSelf();
+			table.remove(bullets, j)
+		end
+	end
 end
 
 return spaceship;

@@ -42,9 +42,9 @@ function joystick.new( _x, _y )
 
 	angle = 0;
 
-	background = display.newCircle(_x, _y, display.contentWidth/10 );
+	background = display.newCircle(_x, _y, display.contentWidth/12 );
 	background:setFillColor( 0.7, 0.7, 0.7, 0.5);
-	stick = display.newCircle(_x, _y, display.contentWidth/25);
+	stick = display.newCircle(_x, _y, display.contentWidth/30);
 	stick:setFillColor( 0.7, 0, 1);
 
 	angleText = display.newText("", 500, 300, "Arial", 72);
