@@ -1,6 +1,7 @@
 local joystick = require("joystick");
 local physics = require("physics")
 local scene = require("scene")
+local bullets = require("bullets")
 
 local spaceship = {};
 local spaceship_mt = {__index = spaceship};
@@ -17,9 +18,6 @@ local isShooting;
 local shootCooldown;
 local lastAngle;
 local lastMagnitude;
-local bulletNum;
-local bullets = {};
-local bulletsToRemove;
 
 local debug_speedText;
 local debug_currentSpeed;
@@ -32,7 +30,7 @@ function spaceship.new(_x, _y, _acceleration)
 	}
 	speed = 0;
 	currentSpeed = 0;
-	maxSpeed = 40;
+	maxSpeed = 50;
 	accelerationRate = _acceleration;
 	shootCooldown = 0;
 	bulletNum = 0;
@@ -46,6 +44,8 @@ function spaceship.new(_x, _y, _acceleration)
 	player = display.newRect( _x, _y, width, lenght )
 	player.fill = spaceshipSprite;
 	player:scale( 0.5, 0.5 )
+
+	bullets.new(player);
 
 	debug_speedText = display.newText("", 1200, 300, "Arial", 72)
 	debug_currentSpeed = display.newText("", 500, 300, "Arial", 72)
@@ -72,10 +72,6 @@ function spaceship:getSpeed(  )
 	return speed;
 end
 
-function spaceship:getBullets(  )
-	return bullets;
-end
-
 function spaceship:setX( _x )
 	x = _x;
 end
@@ -97,8 +93,7 @@ function spaceship:setAcceleration( _acceleration )
 end
 
 function spaceship:init(  )
-	physics.start()
-	physics.setGravity(0, 0)
+	bullets:init();
 end
 
 function spaceship:translate( _x, _y, _angle )
@@ -112,7 +107,6 @@ function spaceship:debug(  )
 	debug_spaceshipX.text = player.x;
 	debug_spaceshipY.text = player.y;
 	debug_currentSpeed.text = currentSpeed;
-  	debug_bulletNum.text = table.getn(bullets);
 end
 
 function spaceship:run( )
@@ -138,39 +132,10 @@ function spaceship:run( )
 	shootCooldown = shootCooldown + 1;
 
 	if(isShooting == true and shootCooldown > (8)) then
-		spaceship:shoot();
+		bullets:shoot();
+		shootCooldown = 0
 	end
-	spaceship:removeBullets();
-end
-
-function spaceship:shoot(  )
-	bulletNum = table.getn(bullets) + 1;
-	bullets[bulletNum] = display.newRect(player.x, player.y, width/12, lenght/3);
-	bullets[bulletNum]:setFillColor( 0.3, 0.6, 0.9 );
-	bullets[bulletNum].rotation = player.rotation;
-	scene:addObjectToScene(bullets[bulletNum], 2)
-
-
-	physics.addBody( bullets[bulletNum], "kinematic" );
-	bullets[bulletNum]:setLinearVelocity(math.sin(math.rad(bullets[bulletNum].rotation)) * (currentSpeed + 1) * 50000, 
-										-math.cos(math.rad(bullets[bulletNum].rotation)) * (currentSpeed + 1) * 50000)
-	shootCooldown = 0;
-end
-
-function spaceship:removeBullets(  )
-	bulletsToRemove = 0;
-	for i = 1, table.getn(bullets) do
-		if (bullets[i].x > (player.x + 2000) or bullets[i].x < (player.x - 2000) or bullets[i].y > (player.y + 1000) or bullets[i].y < (player.y - 1000)) then
-      		bulletsToRemove = bulletsToRemove + 1;
-    	end
-	end
-
-	if bulletsToRemove > 0 then
-		for j = 1, bulletsToRemove do
-			bullets[j]:removeSelf();
-			table.remove(bullets, j)
-		end
-	end
+	bullets:removeBullets();
 end
 
 return spaceship;
