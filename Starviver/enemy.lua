@@ -5,8 +5,8 @@
 -- enemy.lua
 --
 ------------------------------- Private Fields ---------------------------------
-local enemy = {};
-local enemy_mt = {__index = enemy}; --metatable
+enemy = {};
+enemy_mt = {__index = enemy}; --metatable
 
 local x,y
 local width, height;
@@ -34,6 +34,8 @@ function enemy.new(
   maxSpeed = _maxSpeed or 50;
   acceleration = _acceleration or 0.75;
 
+  sprite = display.newRect(x, y, width, height);
+
   speed = 0;
 
   return setmetatable(newEnemy, enemy_mt);
@@ -51,10 +53,8 @@ function enemy:getY()
   return y;
 end
 
-function enemy:init(_spritepath)
-  local spriteFilepath = _spritepath or "";
-  sprite = display.newRect(x, y, width, height);
-  sprite.fill = {type = "image", filename = _spritepath};
+
+function enemy:init()
 end
 
 function enemy:run()
