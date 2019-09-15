@@ -4,6 +4,7 @@ local joystick = require("joystick")
 local button = require("button")
 local physics = require("physics")
 local scene = require("scene")
+local enemies = require("enemies")
 
 
 local gameloop = {};
@@ -13,6 +14,7 @@ local player;
 local stick;
 local fireBtn;
 local testScene;
+local testEn;
 
 --[[  GameStates
 	0 = not initialized
@@ -33,24 +35,31 @@ end
 -- Runs once to initialize the game
 -- Runs everytime the game state changes
 function gameloop:init()
+	math.randomseed(os.time());
 	system.activate("multitouch")
+	native.setProperty("androidSystemVisibility", "immersiveSticky");
+
 	gameState = 2;
 
-	--player = spaceship.new(display.contentWidth / 2, display.contentHeight / 2, 0.5);
-	local tester = display.newCircle(0, 0, 50)
+	--creates instances of classes
 	testScene = scene.new();
 	player = spaceship.new(0, 0, 0.75)
-	physics.addBody(player, "kinematic")
+	--testEn = stalker.new();
+
 	stick = joystick.new(1.125 * display.contentWidth / 8, 6 * display.contentHeight / 8);
 	fireBtn = button.new(1.7 * (display.contentWidth / 2), 1.5 * (display.contentHeight / 2), display.contentWidth/17, display.contentWidth/17, 255, 45, 65);
-	testScene:init(1);
+	
+	--initializes instances
 	player:init();
+	--testEn:init("imgs/stalker.png");
 	stick:init();
 	fireBtn:init();
 
-	testScene:addObjectToScene(tester, 1);
+	--initializes scene; add objects
+	testScene:init(1);
 	testScene:addObjectToScene(player:getDisplayObject(), 1);
-	testScene:addFocusTrack(player:getDisplayObject())
+	--testScene:addObjectToScene(testEn:getDisplayObject(), 1);
+	testScene:addFocusTrack(player:getDisplayObject());
 end
 
 -- Runs continously, but with different code for each different game state

@@ -8,8 +8,8 @@
 ------------------------------- Private Fields ---------------------------------
 require ("enemy")
 
-local stalker = {};
-stalker.__index = stalker;
+stalker = {};
+stalker_mt = {stalker.__index};
 
 local x,y
 local width, height;
@@ -21,24 +21,50 @@ local speed;
 
 ------------------------------ Public Functions --------------------------------
 
-function stalker.new(_x, _y,
-                      _width, _height,
-                      _maxSpeed,
-                      _acceleration)
+function stalker.new(_x, _y,)
   local newStalker = {
-    x = _x or 0;
-    y = _y or 0;
-    width = _width or 256;
-    height = _height or 256;
-    maxSpeed = _maxSpeed or 50;
-    acceleration = _acceleration or 0.75;
-
-    speed = 0;
   }
 
-  setmetatable(newStalker, stalker);
+  x = _x or math.random(-1000, 1000);
+  y = _y or math.random(-1000, 1000);
+  width = 160;
+  height = 200;
+  maxSpeed = 50;
+  acceleration = 0.75;
+
+  sprite = display.newRect(x, y, width, height);
+
+  speed = 0;
+
+  setmetatable(newStalker, stalker_mt);
   return newStalker;
 end
-setmetatable(stalker, {__index = enemy})
+
+function stalker:getSpeed(  )
+  return speed;
+end
+
+function stalker:getX(  )
+  return x;
+end
+
+function stalker:getY(  )
+  return y;
+end
+
+function stalker:getDisplayObject(  )
+  return sprite;
+end
+
+function stalker:init( _filepath )
+  sprite.fill = {type = "image", filename = _filepath}
+end
+
+function stalker:run(  )
+  x = sprite.x;
+  y = sprite.y;
+  width = sprite.width;
+  height = sprite.height;
+end
 
 return stalker;
