@@ -16,6 +16,7 @@ local width, lenght;
 local accelerationRate;
 local isShooting;
 local shootCooldown;
+local turnRateAngleDiff;
 local lastAngle;
 local lastMagnitude;
 
@@ -99,7 +100,15 @@ end
 function spaceship:translate( _x, _y, _angle )
 	player.x = player.x + _x;
 	player.y = player.y + _y;
-	player.rotation = _angle
+	turnRateAngleDiff = (player.rotation - _angle + 180) % 360 - 180;
+
+	if (turnRateAngleDiff > speed/2) then
+		player.rotation = player.rotation - speed/4
+	elseif (turnRateAngleDiff < -speed/2) then
+		player.rotation = player.rotation + speed/4
+	else
+		player.rotation = _angle;
+	end
 end
 
 function spaceship:debug(  )
