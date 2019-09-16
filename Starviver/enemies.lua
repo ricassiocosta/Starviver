@@ -8,6 +8,7 @@
 -- enemies.lua
 --
 ------------------------------- Private Fields ---------------------------------
+local scene = require("scene")
 local stalker = require("en_stalker")
 
 enemies = {};
@@ -50,7 +51,15 @@ end
 
 function enemies:spawn(_index, _x, _y)
   table.insert(enemyList[_index], moduleList[_index].new(_x, _y));
-  return enemyList[_index][table.getn(enemyList[_index])]
+  return enemyList[_index][table.getn(enemyList[_index])];
+end
+
+function enemies:get(_index1, _index2)
+  if(_index2 == nil) then
+    return enemyList[_index1][table.getn(enemyList[_index1])];
+  else 
+    return enemyList[_index1][_index2];
+  end
 end
 
 function enemies:getDisplayObject(_index1, _index2)

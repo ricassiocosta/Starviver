@@ -11,11 +11,6 @@ local scene_mt = {__index = scene};
 local camera;
 local sceneNum;
 
-function scene.new(  )
-	local newScene = {}
-	return setmetatable( newScene, scene_mt );
-end
-
 function scene:addObjectToScene( _obj, _layer )
 	camera:add(_obj, _layer)
 end
