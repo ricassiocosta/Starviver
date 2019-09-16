@@ -1,18 +1,15 @@
 --------------------------------------------------------------------------------
 --
--- Stalker enemy
--- Inherited from enemy.lua
+-- Controls the basic, common logic of enemies
 --
--- en_stalker.lua
+-- stalker.lua
 --
 ------------------------------- Private Fields ---------------------------------
-
 stalker = {};
 stalker.__index = stalker;
-
 ------------------------------ Public Functions --------------------------------
 
-function stalker.new(_x, _y)
+function stalker.new( _x, _y)
   local newStalker = {
   }
 
@@ -27,30 +24,30 @@ function stalker.new(_x, _y)
 
   newStalker.speed = 0;
 
-  setmetatable(newStalker, stalker);
+  return setmetatable(newStalker, stalker);
 end
 
-function stalker:getSpeed(  )
+function stalker:getSpeed()
   return self.speed;
 end
 
-function stalker:getX(  )
+function stalker:getX()
   return self.x;
 end
 
-function stalker:getY(  )
+function stalker:getY()
   return self.y;
 end
 
-function stalker:getDisplayObject(  )
+function stalker:getDisplayObject()
   return self.sprite;
 end
 
-function stalker:init( _filepath )
+function stalker:init(_filepath)
   self.sprite.fill = {type = "image", filename = _filepath}
 end
 
-function stalker:run(  )
+function stalker:run()
   self.x = self.sprite.x;
   self.y = self.sprite.y;
   self.width = self.sprite.width;
