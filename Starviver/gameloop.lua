@@ -5,6 +5,7 @@ local button = require("button")
 local physics = require("physics")
 local scene = require("scene")
 local enemies = require("enemies")
+local stalker = require("en_stalker")
 
 
 local gameloop = {};
@@ -13,8 +14,10 @@ local gameState;
 local player;
 local stick;
 local fireBtn;
-local testScene;
+local gameScene;
 local testEn;
+local enemy;
+local newStalker;
 
 --[[  GameStates
 	0 = not initialized
@@ -42,24 +45,28 @@ function gameloop:init()
 	gameState = 2;
 
 	--creates instances of classes
-	testScene = scene.new();
+	enemy = enemies.new();
+	gameScene = scene.new();
 	player = spaceship.new(0, 0, 0.75)
-	--testEn = stalker.new();
-
+	
 	stick = joystick.new(1.125 * display.contentWidth / 8, 6 * display.contentHeight / 8);
 	fireBtn = button.new(1.7 * (display.contentWidth / 2), 1.5 * (display.contentHeight / 2), display.contentWidth/17, display.contentWidth/17, 255, 45, 65);
 	
 	--initializes instances
+	local newStalker = enemy:spawn(1, 300, 25);
+	local newStalkerSec = enemy:spawn(1, 400, -200);
 	player:init();
-	--testEn:init("imgs/stalker.png");
+	newStalker:init("imgs/stalker.png");
+	newStalkerSec:init("imgs/stalker.png");
 	stick:init();
 	fireBtn:init();
 
 	--initializes scene; add objects
-	testScene:init(1);
-	testScene:addObjectToScene(player:getDisplayObject(), 1);
-	--testScene:addObjectToScene(testEn:getDisplayObject(), 1);
-	testScene:addFocusTrack(player:getDisplayObject());
+	gameScene:init(1);
+	gameScene:addObjectToScene(player:getDisplayObject(), 1);
+	gameScene:addObjectToScene(newStalker:getDisplayObject(), 3);
+	gameScene:addObjectToScene(newStalkerSec:getDisplayObject(), 3);
+	gameScene:addFocusTrack(player:getDisplayObject());
 end
 
 -- Runs continously, but with different code for each different game state

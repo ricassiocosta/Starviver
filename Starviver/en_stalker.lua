@@ -6,65 +6,55 @@
 -- en_stalker.lua
 --
 ------------------------------- Private Fields ---------------------------------
-require ("enemy")
 
 stalker = {};
-stalker_mt = {stalker.__index};
-
-local x,y
-local width, height;
-local maxSpeed;
-local acceleration;
-local sprite;
-
-local speed;
+stalker.__index = stalker;
 
 ------------------------------ Public Functions --------------------------------
 
-function stalker.new(_x, _y,)
+function stalker.new(_x, _y)
   local newStalker = {
   }
 
-  x = _x or math.random(-1000, 1000);
-  y = _y or math.random(-1000, 1000);
-  width = 160;
-  height = 200;
-  maxSpeed = 50;
-  acceleration = 0.75;
+  newStalker.x = _x or math.random(-1000, 1000);
+  newStalker.y = _y or math.random(-1000, 1000);
+  newStalker.width = 160
+  newStalker.height = 200
+  newStalker.maxSpeed = 50
+  newStalker.acceleration = 0.75;
 
-  sprite = display.newRect(x, y, width, height);
+  newStalker.sprite = display.newRect(newStalker.x, newStalker.y, newStalker.width, newStalker.height);
 
-  speed = 0;
+  newStalker.speed = 0;
 
-  setmetatable(newStalker, stalker_mt);
-  return newStalker;
+  setmetatable(newStalker, stalker);
 end
 
 function stalker:getSpeed(  )
-  return speed;
+  return self.speed;
 end
 
 function stalker:getX(  )
-  return x;
+  return self.x;
 end
 
 function stalker:getY(  )
-  return y;
+  return self.y;
 end
 
 function stalker:getDisplayObject(  )
-  return sprite;
+  return self.sprite;
 end
 
 function stalker:init( _filepath )
-  sprite.fill = {type = "image", filename = _filepath}
+  self.sprite.fill = {type = "image", filename = _filepath}
 end
 
 function stalker:run(  )
-  x = sprite.x;
-  y = sprite.y;
-  width = sprite.width;
-  height = sprite.height;
+  self.x = self.sprite.x;
+  self.y = self.sprite.y;
+  self.width = self.sprite.width;
+  self.height = self.sprite.height;
 end
 
 return stalker;
