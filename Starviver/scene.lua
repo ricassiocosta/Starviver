@@ -31,13 +31,13 @@ function scene:init( _sceneNum )
 	      scene[i].x = math.random(-display.contentWidth * 3, display.contentWidth * 3);
 	      scene[i].y = math.random(-display.contentHeight * 3, display.contentHeight * 3);
 	      scene[i]:setFillColor(math.random(100) * 0.01, math.random(100) * 0.01, math.random(100) * 0.01);
-	      local layer = math.random(0, camera:layerCount());
+	      local layer = math.random(2, camera:layerCount());
 	      camera:add(scene[i], layer);
 	      scene[i].width = (11 - layer) * 3;
 	      scene[i].height = (11 - layer) * 3;
 	    end
 
-		camera:setParallax(1, 1, 1, 0.7, 0.6, 0.5, 0.4, 0.3) -- Here we set parallax for each layer in desceding order
+		camera:setParallax(1, 1, 0.7, 0.6, 0.5, 0.4, 0.3, 0.2) -- Here we set parallax for each layer in desceding order
 		camera.damping = 3;
 	end
 end

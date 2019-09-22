@@ -6,7 +6,7 @@
 --
 ------------------------------- Private Fields ---------------------------------
 local scene = require("scene");
-local player = require("spaceship");
+local physics = require("physics");
 
 stalker = {};
 stalker.__index = stalker;
@@ -31,41 +31,16 @@ function stalker.new( _x, _y, index, _layer)
   instance.shakeAmount = 0;
   instance.isShaking = false;
 
-  instance.properties = {
-    enemyType = 1, --stalker
-    canShoot = true,
-    maxSpeed = 42,
-    acceleration = 1,
-    health = 30,
-    name = "Perseguidores",
-    description = "Rápidos e leves, os Perseguidores são caçadores perigosos que estão sempre dispostos a adicionar uma nova estrela no universo."
-  }
+  instance.enemyType = 1; --stalker
+  instance.canShoot = true;
+  instance.maxSpeed = 42;
+  instance.acceleration = 1;
+  instance.health = 30;
+  instance.Armour = 1;
+  instance.name = "Perseguidores";
+  instance.description = "Rápidos e leves, os Perseguidores são caçadores perigosos que estão sempre dispostos a adicionar uma nova estrela no universo.";
 
   return setmetatable(instance, stalker);
-end
-
-function stalker:getSpeed()
-  return self.speed;
-end
-
-function stalker:getX()
-  return self.x;
-end
-
-function stalker:getY()
-  return self.y;
-end
-
-function stalker:getDisplayObject()
-  return self.sprite;
-end
-
-function stalker:getDescription()
-  return self.properties.description;
-end
-
-function stalker:enableShake()
-  self.isShaking = true;
 end
 
 function stalker:shake()
@@ -84,17 +59,18 @@ end
 
 function stalker:init()
   self.sprite.fill = {type = "image", filename = "imgs/stalker.png"};
+  physics.addBody(self.sprite, "kinematic")
   scene:addObjectToScene(self.sprite, self.layer);
 end
 
 function stalker:run()
-  if (math.abs(player:getX() - self.x) < 50 or math.abs(player:getY() - self.y) < 50) then
-    self.isShaking = true;
+  if (self.health <= 0) then
+    self.sprite:removeSelf();
+  else
+    self:shake();
+    self.sprite.x = self.x;
+    self.sprite.y = self.y;
   end
-
-  self:shake();
-  self.sprite.x = self.x;
-  self.sprite.y = self.y;
 end
 
 return stalker;

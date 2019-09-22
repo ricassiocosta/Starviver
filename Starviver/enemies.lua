@@ -85,4 +85,8 @@ function enemies:get(_index1, _index2)
   end
 end
 
+function enemies:kill( _index1, _index2 )
+  table.remove(enemyList[_index1], _index2)
+end
+
 return enemies;

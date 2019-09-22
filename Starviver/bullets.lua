@@ -7,6 +7,7 @@
 
 local physics = require("physics");
 local scene = require("scene");
+local enemy = require("enemies")
 
 local bullets = {};
 local bullets_mt = {__index = bullets}; --metatable
@@ -55,16 +56,26 @@ function bullets:getY( _index )
   end
 end
 
+function onBulletCollision( self, event )
+  -- runs when the bullet hits something
+  if (event.phase == "began") then
+    self:removeSelf();
+    enemy:get(1, 1).health = enemy:get(1, 1).health - 5;
+  end
+end
+
 function bullets:shoot()
   bulletNum = table.getn(bullets);
   bullet[bulletNum] = display.newRect(baseObject.x, baseObject.y, baseObject.width/12, baseObject.height/3);
   bullet[bulletNum]:setFillColor(0.3, 0.6, 0.9);
   bullet[bulletNum].rotation = baseObject.rotation;
-  scene:addObjectToScene(bullet[bulletNum], 1)
+  scene:addObjectToScene(bullet[bulletNum], 1);
 
-  physics.addBody(bullet[bulletNum], "kinematic");
+  physics.addBody(bullet[bulletNum], "dynamic");
+  bullet[bulletNum].isBullet = true;
   bullet[bulletNum]:setLinearVelocity(math.sin(math.rad(bullet[bulletNum].rotation))*50000, -math.cos(math.rad(bullet[bulletNum].rotation))*50000);
-
+  bullet[bulletNum].collision = onBulletCollision;
+  bullet[bulletNum]:addEventListener("collision", bullet[bulletNum])
 end
 
 function bullets:removeBullets()
