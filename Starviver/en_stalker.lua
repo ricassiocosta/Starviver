@@ -2,7 +2,7 @@
 --
 -- Controls the basic, common logic of enemies
 --
--- stalker.lua
+-- en_stalker.lua
 --
 ------------------------------- Private Fields ---------------------------------
 stalker = {};
@@ -43,8 +43,8 @@ function stalker:getDisplayObject()
   return self.sprite;
 end
 
-function stalker:init(_filepath)
-  self.sprite.fill = {type = "image", filename = _filepath}
+function stalker:init()
+  self.sprite.fill = {type = "image", filename = "imgs/stalker.png"}
 end
 
 function stalker:run()

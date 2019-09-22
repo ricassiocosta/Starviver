@@ -10,6 +10,7 @@
 ------------------------------- Private Fields ---------------------------------
 local scene = require("scene")
 local stalker = require("en_stalker")
+local asteroid = require("en_asteroid")
 
 enemies = {};
 enemies_mt = {__index = enemies}; --metatable
@@ -17,6 +18,7 @@ enemies_mt = {__index = enemies}; --metatable
 local enemyList;
 local moduleList;
 local stalkerList;
+local asteroidList;
 
 --------------------------------- Constructor ----------------------------------
 
@@ -25,19 +27,23 @@ function enemies.new()
   }
   setmetatable(newEnemies, enemies_mt);
   stalkerList = {};
+  asteroidList = {};
 
 
 --List of all modules; corresponds with order in enemyList;
   moduleList = {
-    stalker
+    stalker,
+    asteroid
   }
 
   enemyList = {
     --[[
     /////INDEX of ENEMIES/////
     [1] = stalkerList,
+    [2] = asteroidList,
     ]]
-    stalkerList
+    stalkerList,
+    asteroidList
   }
 
   return newEnemies;
@@ -51,6 +57,7 @@ end
 
 function enemies:spawn(_index, _x, _y)
   table.insert(enemyList[_index], moduleList[_index].new(_x, _y));
+  enemyList[_index][table.getn(enemyList[_index])]:init();
   return enemyList[_index][table.getn(enemyList[_index])];
 end
 
