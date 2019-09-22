@@ -52,13 +52,27 @@ end
 ------------------------------ Public Functions --------------------------------
 
 --[[
-  spawn(_index)
+  spawn(_index, _x, _y)
+  spawn(_index, _layer, _x, _y)
+    - spawns a new enemy, and adds it to the list
+    - _index determines which type of enemy to spawn
+    - does NOT add the oobject to the scene
+    @return the instance of the enemy;
+  get(_index1, _index2)
+    - retrieves the specificed enemy instance;
+    - _index1 is the type of enemy, and _index2 specifes which in particular
+    - retrieves newest instance if _index2 is not specified
+    @return the instance of the enemy;
 ]]
 
-function enemies:spawn(_index, _x, _y)
-  table.insert(enemyList[_index], moduleList[_index].new(_x, _y));
-  enemyList[_index][table.getn(enemyList[_index])]:init();
-  return enemyList[_index][table.getn(enemyList[_index])];
+function enemies:spawn(_index, _x, _y, _layer)
+  if (_index ~= nil) then
+    table.insert(enemyList[_index], moduleList[_index].new(_x, _y));
+    enemyList[_index][table.getn(enemyList[_index])]:init();
+    return enemyList[_index][table.getn(enemyList[_index])];
+  else
+    return -1;
+  end
 end
 
 function enemies:get(_index1, _index2)
