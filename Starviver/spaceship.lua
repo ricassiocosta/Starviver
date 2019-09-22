@@ -62,11 +62,11 @@ function spaceship:getDisplayObject(  )
 end
 
 function spaceship:getX()
-	return player;
+	return player.x;
 end
 
 function spaceship:getY(  )
-	return player;
+	return player.y;
 end
 
 function spaceship:getSpeed(  )

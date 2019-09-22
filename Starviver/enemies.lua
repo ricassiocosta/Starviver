@@ -29,13 +29,6 @@ function enemies.new()
   stalkerList = {};
   asteroidList = {};
 
-
---List of all modules; corresponds with order in enemyList;
-  moduleList = {
-    stalker,
-    asteroid
-  }
-
   enemyList = {
     --[[
     /////INDEX of ENEMIES/////
@@ -44,6 +37,13 @@ function enemies.new()
     ]]
     stalkerList,
     asteroidList
+  }
+
+
+--List of all modules; corresponds with order in enemyList;
+  moduleList = {
+    stalker,
+    asteroid
   }
 
   return newEnemies;
@@ -67,7 +67,7 @@ end
 
 function enemies:spawn(_index, _x, _y, _layer)
   if (_index ~= nil) then
-    table.insert(enemyList[_index], moduleList[_index].new(_x, _y));
+    table.insert(enemyList[_index], moduleList[_index].new(_x, _y, table.getn(enemyList[_index]), _layer));
     enemyList[_index][table.getn(enemyList[_index])]:init();
     return enemyList[_index][table.getn(enemyList[_index])];
   else
@@ -76,15 +76,13 @@ function enemies:spawn(_index, _x, _y, _layer)
 end
 
 function enemies:get(_index1, _index2)
-  if(_index2 == nil) then
-    return enemyList[_index1][table.getn(enemyList[_index1])];
-  else 
+  if (_index1 == nil) then
+    return enemyList;
+  elseif (_index2 == nil) then
+    return enemyList[_index1];
+  else
     return enemyList[_index1][_index2];
   end
-end
-
-function enemies:getDisplayObject(_index1, _index2)
-  enemyList[_index1][_index2]:getDisplayObject();
 end
 
 return enemies;

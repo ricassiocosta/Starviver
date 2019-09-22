@@ -39,8 +39,24 @@ function bullets:getTable()
   return bullet;
 end
 
+function bullets:getX( _index )
+  if (table.getn(bullet) >= 1) then
+    return bullet[_index].x;
+  else 
+    return -99999
+  end
+end
+
+function bullets:getY( _index )
+  if (table.getn(bullet) >= 1) then
+    return bullet[_index].y;
+  else
+    return -99999
+  end
+end
+
 function bullets:shoot()
-  bulletNum = table.getn(bullets) + 1;
+  bulletNum = table.getn(bullets);
   bullet[bulletNum] = display.newRect(baseObject.x, baseObject.y, baseObject.width/12, baseObject.height/3);
   bullet[bulletNum]:setFillColor(0.3, 0.6, 0.9);
   bullet[bulletNum].rotation = baseObject.rotation;

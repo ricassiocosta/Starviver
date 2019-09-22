@@ -54,7 +54,9 @@ function gameloop:init()
 
 	--Spawns in enemies
 	enemy:spawn(1);
+	enemy:spawn(1);
 	enemy:spawn(2, -200, -500);
+	enemy:spawn(1);
   	enemy:spawn(2, math.random(-1000, 1000), math.random(-1000, 1000), 6);
   	enemy:spawn(2, math.random(-1000, 1000), math.random(-1000, 1000), 6);
   	enemy:spawn(2, math.random(-1000, 1000), math.random(-1000, 1000), 6);
@@ -62,9 +64,15 @@ function gameloop:init()
 end
 
 -- Runs continously, but with different code for each different game state
-function gameloop:run(event)
+function gameloop:run()
 	player:run();
-	player:debug()
+	--player:debug()
+
+	for i = 1, table.getn(enemy:get()) do
+	    for j = 1, table.getn(enemy:get(i)) do
+	      enemy:get(i,j):run();
+	    end
+  	end
 
 	if(fireBtn:isPressed() == true) then
 		player:setIsShooting(true);
