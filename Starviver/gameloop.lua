@@ -18,7 +18,6 @@ local stick;
 local fireBtn;
 local testEn;
 local enemy;
-local kek;
 
 --[[  GameStates
 	0 = not initialized
@@ -52,8 +51,13 @@ function gameloop:init()
 
 	--Spawns in enemies
 	enemy:spawn(1, 0, -500)
-
-	kek = display.newText(enemy:get(1, 1).health, 200, 200, "Arial", 48)
+	enemy:spawn(1);
+	enemy:spawn(1);
+	enemy:spawn(1);
+	enemy:spawn(1);
+	enemy:spawn(1);
+	enemy:spawn(1);
+	enemy:spawn(1);
 
 	-- Spawns in HUD and Controls
 	stick = joystick.new(1.125 * display.contentWidth / 8, 6 * display.contentHeight / 8);
@@ -66,15 +70,23 @@ end
 -- Runs continously, but with different code for each different game state
 function gameloop:run()
 	player:run();
-	--player:debug()
+  --player:debug();
 
-	kek.text = enemy:get(1, 1).health
+  for i = 1, table.getn(enemy:get()) do
+    for j = 1, table.getn(enemy:get(i)) do
+      if (enemy:get(i,j) == nil) then break
+      elseif (enemy:get(i,j).isDead == true) then
+        enemy:get(i,j):kill();
+        table.remove(enemy:get(i), j);
+      end
+    end
+  end
 
-	for i = 1, table.getn(enemy:get()) do
-	    for j = 1, table.getn(enemy:get(i)) do
-	      enemy:get(i,j):run();
-	    end
-  	end
+	for k = 1, table.getn(enemy:get()) do
+		for l = 1, table.getn(enemy:get(k)) do
+			enemy:get(k,l):run();
+		end
+	end
 
 	if(fireBtn:isPressed() == true) then
 		player:setIsShooting(true);

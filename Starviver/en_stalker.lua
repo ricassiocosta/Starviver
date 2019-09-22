@@ -6,7 +6,6 @@
 --
 ------------------------------- Private Fields ---------------------------------
 local scene = require("scene");
-local physics = require("physics");
 
 stalker = {};
 stalker.__index = stalker;
@@ -25,36 +24,43 @@ function stalker.new( _x, _y, index, _layer)
   instance.height = 200;
   instance.sprite = display.newRect(instance.x, instance.y, instance.width, instance.height);
   instance.speed = 0;
-
-  --Used for shaking the object when hit
-  instance.shakeMax = 15;
-  instance.shakeAmount = 0;
-  instance.isShaking = false;
-
   instance.enemyType = 1; --stalker
   instance.canShoot = true;
   instance.maxSpeed = 42;
   instance.acceleration = 1;
-  instance.health = 30;
-  instance.Armour = 1;
-  instance.name = "Perseguidores";
-  instance.description = "Rápidos e leves, os Perseguidores são caçadores perigosos que estão sempre dispostos a adicionar uma nova estrela no universo.";
+  instance.isDead = false;
+
+  --Used for shaking the object when hit
+  instance.sprite.shakeMax = 15;
+  instance.sprite.shakeAmount = 0;
+  instance.sprite.isShaking = false;
+
+  
+  instance.sprite.health = 30;
+  instance.sprite.Armour = 1;
+  instance.sprite.name = "Perseguidores";
+  instance.sprite.description = "Rápidos e leves, os Perseguidores são caçadores perigosos que estão sempre dispostos a adicionar uma nova estrela no universo.";
+  
 
   return setmetatable(instance, stalker);
 end
 
 function stalker:shake()
-  if(self.isShaking == true) then
-    if(self.shakeMax <= 1) then
-      self.shakeMax = 15;
-      self.isShaking = false;
+  if(self.sprite.isShaking == true) then
+    if(self.sprite.shakeMax <= 1) then
+      self.sprite.shakeMax = 15;
+      self.sprite.isShaking = false;
     else
-      self.shakeAmount = math.random(self.shakeMax);
-      self.x = self.x + math.random(-self.shakeAmount, self.shakeAmount);
-      self.y = self.y + math.random(-self.shakeAmount, self.shakeAmount);
-      self.shakeMax = self.shakeMax - 0.85;
+      self.sprite.shakeAmount = math.random(self.sprite.shakeMax);
+      self.sprite.x = self.x + math.random(-self.sprite.shakeAmount, self.sprite.shakeAmount);
+      self.sprite.y = self.y + math.random(-self.sprite.shakeAmount, self.sprite.shakeAmount);
+      self.sprite.shakeMax = self.sprite.shakeMax - 0.85;
     end
   end
+end
+
+function stalker:kill(  )
+  self.sprite:removeSelf();
 end
 
 function stalker:init()
@@ -64,12 +70,15 @@ function stalker:init()
 end
 
 function stalker:run()
-  if (self.health <= 0) then
-    self.sprite:removeSelf();
+  if (self.sprite.health <= 0) then
+    self.isDead = true;
   else
     self:shake();
-    self.sprite.x = self.x;
-    self.sprite.y = self.y;
+    self.x = self.x + 1;
+    if(self.sprite.isShaking == false) then
+      self.sprite.x = self.x;
+      self.sprite.y = self.y;
+    end
   end
 end
 
