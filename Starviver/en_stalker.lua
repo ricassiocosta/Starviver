@@ -17,13 +17,14 @@ function stalker.new( _x, _y, index, _layer)
 
   instance.x = _x or math.random(-1000, 1000);
   instance.y = _y or math.random(-1000, 1000);
-  instance.layer = _layer or 1;
   instance.index = index;
+  instance.layer = _layer or 1;
 
   instance.width = 160;
   instance.height = 200;
   instance.sprite = display.newRect(instance.x, instance.y, instance.width, instance.height);
   instance.speed = 0;
+
   instance.enemyType = 1; --stalker
   instance.canShoot = true;
   instance.maxSpeed = 42;
@@ -37,7 +38,7 @@ function stalker.new( _x, _y, index, _layer)
 
   
   instance.sprite.health = 30;
-  instance.sprite.Armour = 1;
+  instance.sprite.armour = 12;
   instance.sprite.name = "Perseguidores";
   instance.sprite.description = "Rápidos e leves, os Perseguidores são caçadores perigosos que estão sempre dispostos a adicionar uma nova estrela no universo.";
   
@@ -74,7 +75,7 @@ function stalker:run()
     self.isDead = true;
   else
     self:shake();
-    self.x = self.x + 1;
+    self.x = self.x + 0.25;
     if(self.sprite.isShaking == false) then
       self.sprite.x = self.x;
       self.sprite.y = self.y;

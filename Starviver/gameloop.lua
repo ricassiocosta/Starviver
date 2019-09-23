@@ -52,9 +52,9 @@ function gameloop:init()
 	--Spawns in enemies
 	enemy:spawn(1, 0, -500)
 	enemy:spawn(1);
-	enemy:spawn(1);
-	enemy:spawn(1);
-	enemy:spawn(1);
+	enemy:spawn(2);
+	enemy:spawn(2);
+	enemy:spawn(2);
 	enemy:spawn(1);
 	enemy:spawn(1);
 	enemy:spawn(1);
@@ -67,8 +67,16 @@ function gameloop:init()
 	stick:init();
 end
 
+local kek = 0;
 -- Runs continously, but with different code for each different game state
 function gameloop:run()
+	if (kek < 60) then
+		kek = kek + 1;
+	else 
+		kek = 0;
+		enemy:spawn(math.random(1,2))
+	end
+
 	player:run();
   --player:debug();
 
