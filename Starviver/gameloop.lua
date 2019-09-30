@@ -74,7 +74,9 @@ function gameloop:run()
 		kek = kek + 1;
 	else 
 		kek = 0;
-		enemy:spawn(math.random(1,2))
+		if(table.getn(enemy:get(1)) + table.getn(enemy:get(2)) < 20) then
+			enemy:spawn(math.random(1,2));
+		end
 	end
 
 	player:run();

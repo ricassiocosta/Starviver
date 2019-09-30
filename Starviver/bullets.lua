@@ -58,7 +58,7 @@ end
 
 function onBulletCollision( self, event )
   -- runs when the bullet hits something
-  if (event.phase == "began") then
+  if (event.phase == "began" and event.other.name ~= "Player") then
     self:removeSelf();
     if (event.other.name ~= "Bullet") then
       event.other.health = event.other.health - 20 + event.other.armour;
@@ -68,11 +68,12 @@ function onBulletCollision( self, event )
 end
 
 function bullets:shoot()
-  bulletNum = table.getn(bullets);
+  bulletNum = table.getn(bullet) + 1;
   bullet[bulletNum] = display.newRect(baseObject.x, baseObject.y, baseObject.width/12, baseObject.height/3);
   bullet[bulletNum]:setFillColor(0.3, 0.6, 0.9);
   bullet[bulletNum].rotation = baseObject.rotation;
   bullet[bulletNum].name = "Bullet";
+  bullet[bulletNum].enemyType = -1; --non enemy
   scene:addObjectToScene(bullet[bulletNum], 1);
 
   physics.addBody(bullet[bulletNum], "dynamic");
@@ -83,7 +84,7 @@ function bullets:shoot()
 end
 
 function bullets:removeBullets()
-  for i = 1, table.getn(bullet) do
+  for i = 0, table.getn(bullet) do
     if (bullet[i] == nil) then break
     elseif(bullet[i].x > (baseObject.x + 2000)
     or bullet[i].x < (baseObject.x - 2000) 

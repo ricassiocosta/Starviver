@@ -34,6 +34,7 @@ function asteroid.new(_x, _y, _index, _layer)
   instance.sprite.health = 60;
   instance.sprite.armour = 0;
   instance.sprite.name = "Asteroides";
+  instance.sprite.enemyType = 2; --asteroid
   instance.sprite.description = "Cuidado! Você não vai querer ser atingido por eles!";
 
   --used for shaking the object when height

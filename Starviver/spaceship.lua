@@ -46,6 +46,8 @@ function spaceship.new(_x, _y, _acceleration)
 	player = display.newRect( _x, _y, width, lenght )
 	player.fill = spaceshipSprite;
 	player:scale( 0.5, 0.5 )
+	player.name = "Player";
+	player.health = 100;
 
 	bullets.new(player);
 

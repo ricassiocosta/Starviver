@@ -25,7 +25,6 @@ function stalker.new( _x, _y, index, _layer)
   instance.sprite = display.newRect(instance.x, instance.y, instance.width, instance.height);
   instance.speed = 0;
 
-  instance.enemyType = 1; --stalker
   instance.canShoot = true;
   instance.maxSpeed = 42;
   instance.acceleration = 1;
@@ -39,6 +38,7 @@ function stalker.new( _x, _y, index, _layer)
   
   instance.sprite.health = 30;
   instance.sprite.armour = 12;
+  instance.enemyType = 1; --stalker
   instance.sprite.name = "Perseguidores";
   instance.sprite.description = "Rápidos e leves, os Perseguidores são caçadores perigosos que estão sempre dispostos a adicionar uma nova estrela no universo.";
   
