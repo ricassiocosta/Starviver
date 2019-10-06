@@ -27,7 +27,7 @@ function M.BaseEnemy:__init(_enemyType, _x, _y, _width, _height, _rotation, _spr
   self.sprite.description = _description or "Base Description";
   self.layer = _layer or 1;
 
-  self.sprite.speed = 0;
+  self.sprite.speed = 10;
   self.sprite.shakeMax = 15;
   self.sprite.shakeAmount = 0;
   self.sprite.isShaking = false;
@@ -78,18 +78,30 @@ function M.BaseEnemy:run( )
     self.isDead = true;
   else
     self:shake();
-    self.x = self.x + 0.25;
     if(self.sprite.isShaking == false) then
       self.sprite.x = self.x;
       self.sprite.y = self.y;
-
-      self.sprite.healthBar.y = self.sprite.y - (self.sprite.height/2) - 50;
-      self.sprite.healthBar.x = self.sprite.x;
-      self.sprite.healthMissing.y = self.sprite.healthBar.y
-      self.sprite.healthMissing.x = self.sprite.x;
     end
+
     self.sprite.healthBar.width = (self.sprite.healthBar.health / self.sprite.healthBar.maxHealth) * self.sprite.healthMissing.width;
+   
+    self.sprite.healthBar.y = self.sprite.y - (self.sprite.height/2) - 50;
+    self.sprite.healthBar.x = self.sprite.x;
+    self.sprite.healthMissing.y = self.sprite.healthBar.y
+    self.sprite.healthMissing.x = self.sprite.x;
   end
 end
 
+function M.BaseEnemy:getDistanceTo( _x, _y )
+  local distance = math.sqrt(((self.x - _x) * (self.x - _x)) + ((self.y - _y) * (self.y - _y)));
+  return distance;
+end
+
+function M.BaseEnemy:getDirectionTo(_x, _y)
+  local direction = math.deg(math.atan2((_y - self.y), (_x - self.x))) + 90;
+  if (direction < 0) then
+    direction = 360 + direction;
+  end
+  return direction;
+end
 return M;

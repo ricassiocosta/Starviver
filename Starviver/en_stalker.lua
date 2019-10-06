@@ -6,7 +6,7 @@
 --
 ------------------------------- Private Fields ---------------------------------
 local enemyBase = require("baseEnemy");
-local class = require("classy")
+local class = require("classy");
 
 local M = {}
 
@@ -35,6 +35,10 @@ function M.class:__init( _x, _y )
   self.sprite.healthBar.armour = 5;
 
   physics.addBody(self.sprite, "kinematic")
+end
+
+function M.class:runCoroutine( )
+  
 end
 
 return M;

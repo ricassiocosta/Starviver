@@ -39,4 +39,8 @@ function M.class:__init(_x, _y)
   physics.addBody(self.sprite, "kinematic");
 end
 
+function M.class:runCoroutine(  )
+  
+end
+
 return M;

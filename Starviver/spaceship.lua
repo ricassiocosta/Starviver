@@ -2,7 +2,6 @@ local joystick = require("joystick");
 local physics = require("physics")
 local scene = require("scene")
 local bullets = require("bullets")
-local enemy = require("enemies")
 
 local spaceship = {};
 local spaceship_mt = {__index = spaceship};
@@ -100,6 +99,10 @@ end
 
 function spaceship:setAcceleration( _acceleration )
 	accelerationRate = _acceleration;
+end
+
+function spaceship:damage( _damage )
+	player.health = player.health - _damage;
 end
 
 function spaceship:init(  )
