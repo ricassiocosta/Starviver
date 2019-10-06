@@ -37,6 +37,7 @@ function M.BaseEnemy:__init(_enemyType, _x, _y, _width, _height, _rotation, _spr
   self.sprite.healthBar:setFillColor(100/255, 255/255, 60/255);
   self.sprite.healthMissing = display.newRect(self.x, self.y - (self.sprite.height/2) - 50, 150, 20);
   self.sprite.healthMissing:setFillColor(255/255, 100/255, 60/255);
+  self.sprite.healthBar.isVisible = false;  self.sprite.healthMissing.isVisible = false;
 
   scene:addObjectToScene(self.sprite, self.layer);
   scene:addObjectToScene(self.sprite.healthMissing, self.layer);
