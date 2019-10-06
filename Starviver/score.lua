@@ -10,7 +10,10 @@ local totalScore = 0;
 
 function score:increase( pointsEarned )
 	totalScore = totalScore + pointsEarned;
-	print(totalScore);
+end
+
+function score:get(  )
+	return totalScore;
 end
 
 return score;

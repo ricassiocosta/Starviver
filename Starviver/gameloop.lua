@@ -59,6 +59,7 @@ function gameloop:init()
 	enemy:spawn(2);
 
 	-- Spawns in HUD and Controls
+	actualScore = display.newText("0", 1200, 300, "Arial", 72);
 	stick = joystick.new(1.125 * display.contentWidth / 8, 6 * display.contentHeight / 8);
 	fireBtn = button.new(1.7 * (display.contentWidth / 2), 1.5 * (display.contentHeight / 2), display.contentWidth/17, display.contentWidth/17, 255, 45, 65);
 
@@ -69,6 +70,7 @@ end
 local kek = 0;
 -- Runs continously, but with different code for each different game state
 function gameloop:run()
+	actualScore.text = score:get();
 	if (kek < 60) then
 		kek = kek + 1;
 	else 
