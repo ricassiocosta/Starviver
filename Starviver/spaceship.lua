@@ -51,7 +51,7 @@ function spaceship.new(_x, _y, _acceleration)
 	player.maxHealth = 100;
 
 	healthBar = display.newRect(_x, _y - 100, 150, 20);
-	healthBar:setFillColor(100/255, 255/255, 60/255);
+	healthBar:setFillColor(50/255, 100/255, 255/255);
 	healthMissing = display.newRect(_x, _y - 100, 150, 20);
 	healthMissing:setFillColor(255/255, 100/255, 60/255);
 
