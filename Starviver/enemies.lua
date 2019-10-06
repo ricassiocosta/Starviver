@@ -65,10 +65,9 @@ end
     @return the instance of the enemy;
 ]]
 
-function enemies:spawn(_index, _x, _y, _layer)
+function enemies:spawn(_index, _x, _y)
   if (_index ~= nil) then
-    table.insert(enemyList[_index], moduleList[_index].new(_x, _y, table.getn(enemyList[_index]), _layer));
-    enemyList[_index][table.getn(enemyList[_index])]:init();
+    table.insert(enemyList[_index], moduleList[_index].class(_x, _y));
     return enemyList[_index][table.getn(enemyList[_index])];
   else
     return -1;

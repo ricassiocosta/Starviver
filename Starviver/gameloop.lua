@@ -50,14 +50,12 @@ function gameloop:init()
 	scene:addFocusTrack(player:getDisplayObject());
 
 	--Spawns in enemies
-	enemy:spawn(1, 0, -500)
-	enemy:spawn(1);
-	enemy:spawn(2);
-	enemy:spawn(2);
+	enemy:spawn(1)
 	enemy:spawn(2);
 	enemy:spawn(1);
+	enemy:spawn(2);
 	enemy:spawn(1);
-	enemy:spawn(1);
+	enemy:spawn(2);
 
 	-- Spawns in HUD and Controls
 	stick = joystick.new(1.125 * display.contentWidth / 8, 6 * display.contentHeight / 8);
@@ -75,7 +73,7 @@ function gameloop:run()
 	else 
 		kek = 0;
 		if(table.getn(enemy:get(1)) + table.getn(enemy:get(2)) < 20) then
-			enemy:spawn(math.random(1,2));
+			enemy:spawn(math.random(1, table.getn(enemy:get())));
 		end
 	end
 
