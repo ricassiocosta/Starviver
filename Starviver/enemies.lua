@@ -11,6 +11,7 @@
 local scene = require("scene")
 local stalker = require("en_stalker")
 local asteroid = require("en_asteroid")
+local galleon = require("en_galleon")
 
 enemies = {};
 enemies_mt = {__index = enemies}; --metatable
@@ -28,22 +29,26 @@ function enemies.new()
   setmetatable(newEnemies, enemies_mt);
   stalkerList = {};
   asteroidList = {};
+  galleonList = {};
 
   enemyList = {
     --[[
     /////INDEX of ENEMIES/////
     [1] = stalkerList,
     [2] = asteroidList,
+    [3] = galleonList,
     ]]
     stalkerList,
-    asteroidList
+    asteroidList,
+    galleonList
   }
 
 
 --List of all modules; corresponds with order in enemyList;
   moduleList = {
     stalker,
-    asteroid
+    asteroid,
+    galleon
   }
 
   return newEnemies;
@@ -72,6 +77,7 @@ function enemies:spawn(_index, _x, _y)
   else
     return -1;
   end
+  print(enemyList[_index][table.getn(enemyList[_index])].sprite.name);
 end
 
 function enemies:get(_index1, _index2)

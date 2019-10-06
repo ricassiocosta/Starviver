@@ -10,7 +10,7 @@ local class = require("classy")
 
 local M = {}
 
-M.class = class("Asteroide", enemyBase.BaseEnemy);
+M.class = class("Asteroid", enemyBase.BaseEnemy);
 M.description = "Cuidado! Você não vai querer ser atingido por eles!"
 
 function M.class:__init(_x, _y)
@@ -20,11 +20,13 @@ function M.class:__init(_x, _y)
                               2, 
                               self.x, 
                               self.y, 
-                              math.random(100, 500), 
-                              math.random(100, 500), 
+                              math.random(100, 300), 
+                              math.random(100, 300), 
+                              0,
                               "imgs/asteroid.png", 
                               "Asteroide", 
-                              description, 
+                              description,
+                              5, 
                               1);
 
   self.speed = 0;

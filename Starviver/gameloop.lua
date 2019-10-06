@@ -6,6 +6,7 @@ local physics = require("physics")
 local scene = require("scene")
 local enemies = require("enemies")
 local bullets = require("bullets")
+local score = require("score")
 
 local kek;
 
@@ -82,9 +83,9 @@ function gameloop:run()
 
   for i = 1, table.getn(enemy:get()) do
     for j = 1, table.getn(enemy:get(i)) do
-      if (enemy:get(i,j) == nil) then break
-      elseif (enemy:get(i,j).isDead == true) then
-        enemy:get(i,j):kill();
+      if (enemy:get(i, j) == nil) then break
+      elseif (enemy:get(i, j).isDead == true) then
+        pointsEarned = enemy:get(i, j):kill();
         table.remove(enemy:get(i), j);
       end
     end

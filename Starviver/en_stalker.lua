@@ -10,7 +10,7 @@ local class = require("classy")
 
 local M = {}
 
-M.class = class("Perseguidor", enemyBase.BaseEnemy);
+M.class = class("Stalker", enemyBase.BaseEnemy);
 M.description = "Rápidos e leves, os Perseguidores são caçadores perigosos que estão sempre dispostos a adicionar uma nova estrela no universo."
 
 function M.class:__init( _x, _y )
@@ -20,13 +20,14 @@ function M.class:__init( _x, _y )
                               1,
                               self.x,
                               self.y,
-                              160,
-                              200,
+                              80,
+                              120,
+                              0,
                               "imgs/stalker.png",
                               "Perseguidores",
                               description,
+                              10,
                               1);
-  self.speed = 0;
   self.maxSpeed = 42;
   self.acceleration = 1;
   self.sprite.health = 30;
