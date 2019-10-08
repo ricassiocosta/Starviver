@@ -20,18 +20,13 @@ local turnRateAngleDiff;
 local lastAngle;
 local lastMagnitude;
 
-local debug_speedText;
-local debug_currentSpeed;
-local debug_bulletNum;
-local debug_spaceshipX, debug_spaceshipY;
-
 function spaceship.new(_x, _y, _acceleration)
 	local newSpaceship = {
 		speed = 0;
 	}
 	speed = 0;
 	currentSpeed = 0;
-	maxSpeed = 50;
+	maxSpeed = 30;
 	accelerationRate = _acceleration;
 	shootCooldown = 0;
 	bulletNum = 0;
@@ -55,12 +50,6 @@ function spaceship.new(_x, _y, _acceleration)
 	healthMissing:setFillColor(255/255, 100/255, 60/255);
 
 	bullets.new(player);
-
-	debug_speedText = display.newText("", 1200, 300, "Arial", 72)
-	debug_currentSpeed = display.newText("", 500, 300, "Arial", 72)
-	debug_spaceshipX = display.newText("", 1400, 500, "Arial", 72)
-	debug_spaceshipY = display.newText("", 1400, 600, "Arial", 72)
-	debug_bulletNum = display.newText("", 500, 900, "Arial", 72)
 
 	return setmetatable( newSpaceship, spaceship_mt )
 end
@@ -120,19 +109,12 @@ function spaceship:translate( _x, _y, _angle )
 	turnRateAngleDiff = (player.rotation - _angle + 180) % 360 - 180;
 
 	if (turnRateAngleDiff > speed/2) then
-		player.rotation = player.rotation - speed/4
+		player.rotation = player.rotation - speed/2
 	elseif (turnRateAngleDiff < -speed/2) then
-		player.rotation = player.rotation + speed/4
+		player.rotation = player.rotation + speed/2
 	else
 		player.rotation = _angle;
 	end
-end
-
-function spaceship:debug(  )
-	debug_speedText.text = speed;
-	debug_spaceshipX.text = player.x;
-	debug_spaceshipY.text = player.y;
-	debug_currentSpeed.text = currentSpeed;
 end
 
 function spaceship:run( )
