@@ -77,6 +77,7 @@ function enemies:spawn(_index, _x, _y)
   else
     return -1;
   end
+  enemyList[_index][table.getn(enemyList[_index])]:init();
   print(enemyList[_index][table.getn(enemyList[_index])].sprite.name);
 end
 

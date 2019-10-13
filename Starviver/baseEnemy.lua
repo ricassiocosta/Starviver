@@ -73,25 +73,6 @@ function M.BaseEnemy:isDead()
   end
 end
 
-function M.BaseEnemy:run( )
-  if(self.sprite.healthBar.health <= 0) then
-    self.isDead = true;
-  else
-    self:shake();
-    if(self.sprite.isShaking == false) then
-      self.sprite.x = self.x;
-      self.sprite.y = self.y;
-    end
-
-    self.sprite.healthBar.width = (self.sprite.healthBar.health / self.sprite.healthBar.maxHealth) * self.sprite.healthMissing.width;
-   
-    self.sprite.healthBar.y = self.sprite.y - (self.sprite.height/2) - 50;
-    self.sprite.healthBar.x = self.sprite.x;
-    self.sprite.healthMissing.y = self.sprite.healthBar.y
-    self.sprite.healthMissing.x = self.sprite.x;
-  end
-end
-
 function M.BaseEnemy:getDistanceTo( _x, _y )
   local distance = math.sqrt(((self.x - _x) * (self.x - _x)) + ((self.y - _y) * (self.y - _y)));
   return distance;
@@ -104,4 +85,41 @@ function M.BaseEnemy:getDirectionTo(_x, _y)
   end
   return direction;
 end
+
+function M.BaseEnemy:hasCollided( obj2 )
+  local obj1 = self.sprite;
+  if(obj2 == nil) then --make sure that other object exists
+    return false
+  end
+
+local left = obj1.contentBounds.xMin <= obj2.contentBounds.xMin and obj1.contentBounds.xMax >= obj2.contentBounds.xMin
+  local right = obj1.contentBounds.xMin >= obj2.contentBounds.xMin and obj1.contentBounds.xMin <= obj2.contentBounds.xMax
+  local up = obj1.contentBounds.yMin <= obj2.contentBounds.yMin and obj1.contentBounds.yMax >= obj2.contentBounds.yMin
+  local down = obj1.contentBounds.yMin >= obj2.contentBounds.yMin and obj1.contentBounds.yMin <= obj2.contentBounds.yMax
+  return (left or right) and (up or down)
+end
+
+function M.BaseEnemy:init(  )
+  -- body
+end
+
+function M.BaseEnemy:run( )
+  if(self.sprite.healthBar.health <= 0) then
+    self.isDead = true;
+  else
+    self:shake();
+    if(self.sprite.isShaking == false) then
+      self.sprite.x = self.x;
+      self.sprite.y = self.y;
+    end
+
+    --sets health bar size, and makes sure it follows the enemy's movement
+    self.sprite.healthBar.width = (self.sprite.healthBar.health / self.sprite.healthBar.maxHealth) * self.sprite.healthMissing.width;
+    self.sprite.healthBar.y = self.sprite.y - (self.sprite.height/2) - 50;
+    self.sprite.healthBar.x = self.sprite.x;
+    self.sprite.healthMissing.y = self.sprite.healthBar.y
+    self.sprite.healthMissing.x = self.sprite.x;
+  end
+end
+
 return M;

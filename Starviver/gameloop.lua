@@ -90,11 +90,6 @@ function gameloop:run()
   for k = 1, table.getn(enemy:get()) do
     for l = 1, table.getn(enemy:get(k)) do
       enemy:get(k,l):run();
-    end
-  end
-
-  for k = 1, table.getn(enemy:get()) do
-    for l = 1, table.getn(enemy:get(k)) do
       enemy:get(k,l):runCoroutine();
     end
   end
