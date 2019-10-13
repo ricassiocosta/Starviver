@@ -86,17 +86,14 @@ function M.BaseEnemy:getDirectionTo(_x, _y)
   return direction;
 end
 
-function M.BaseEnemy:hasCollided( obj2 )
-  local obj1 = self.sprite;
-  if(obj2 == nil) then --make sure that other object exists
-    return false
+function M.BaseEnemy:onCollision( event )
+  print("Coll");
+  if(event.other.name == "Player") then
+    if(self.damageTimeout <= 0) then
+      event.other.health = event.other.health - 2;
+      self.damageTimeout = 20;
+    end
   end
-
-local left = obj1.contentBounds.xMin <= obj2.contentBounds.xMin and obj1.contentBounds.xMax >= obj2.contentBounds.xMin
-  local right = obj1.contentBounds.xMin >= obj2.contentBounds.xMin and obj1.contentBounds.xMin <= obj2.contentBounds.xMax
-  local up = obj1.contentBounds.yMin <= obj2.contentBounds.yMin and obj1.contentBounds.yMax >= obj2.contentBounds.yMin
-  local down = obj1.contentBounds.yMin >= obj2.contentBounds.yMin and obj1.contentBounds.yMin <= obj2.contentBounds.yMax
-  return (left or right) and (up or down)
 end
 
 function M.BaseEnemy:init(  )
@@ -109,8 +106,8 @@ function M.BaseEnemy:run( )
   else
     self:shake();
     if(self.sprite.isShaking == false) then
-      self.sprite.x = self.x;
-      self.sprite.y = self.y;
+      self.x = self.sprite.x;
+      self.y = self.sprite.y;
     end
 
     --sets health bar size, and makes sure it follows the enemy's movement

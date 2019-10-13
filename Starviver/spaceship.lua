@@ -34,15 +34,16 @@ function spaceship.new(_x, _y, _acceleration)
 
 	lastAngle = 0;
 	lastMagnitude = 0;
-	width = 170;
-	lenght = 220;
+	width = 100;
+	lenght = 130;
 
 	player = display.newRect( _x, _y, width, lenght )
 	player.fill = spaceshipSprite;
-	player:scale( 0.5, 0.5 )
 	player.name = "Player";
 	player.health = 100;
 	player.maxHealth = 100;
+
+	physics.addBody(player, "kinematic")
 
 	healthBar = display.newRect(_x, _y - 100, 150, 20);
 	healthBar:setFillColor(50/255, 100/255, 255/255);
