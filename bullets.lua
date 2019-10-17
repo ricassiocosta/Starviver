@@ -76,7 +76,7 @@ function bullets:shoot()
   bullet[bulletNum].enemyType = -1; --non enemy
   scene:addObjectToScene(bullet[bulletNum], 1);
 
-  physics.addBody(bullet[bulletNum], "dynamic");
+  physics.addBody(bullet[bulletNum], "dynamic", {filter = {categoryBits=2, maskBits=4 }});
   bullet[bulletNum].isBullet = true;
   bullet[bulletNum]:setLinearVelocity(math.sin(math.rad(bullet[bulletNum].rotation))*50000, -math.cos(math.rad(bullet[bulletNum].rotation))*50000);
   bullet[bulletNum].collision = onBulletCollision;

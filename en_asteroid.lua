@@ -28,10 +28,9 @@ function M.class:__init(_x, _y)
                               description,
                               5, 
                               1);
-
-  self.speed = 0;
-  self.maxSpeed = 25;
-  self.acceleration = 0.25;
+                              
+  self.sprite.maxSpeed = 200;
+  self.sprite.acceleration = 0.25;
   self.sprite.healthBar.maxHealth = 65;
   self.sprite.healthBar.health = 65;
   self.sprite.healthBar.armour = ((self.sprite.width + self.sprite.height)/200)*3;
@@ -40,7 +39,7 @@ function M.class:__init(_x, _y)
 end
 
 function M.class:runCoroutine(  )
-  
+
 end
 
 return M;

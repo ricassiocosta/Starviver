@@ -28,8 +28,8 @@ function M.class:__init( _x, _y )
                               description,
                               10,
                               1);
-  self.maxSpeed = 42;
-  self.acceleration = 1;
+  self.sprite.maxSpeed = 1200;
+  self.sprite.acceleration = 1;
   self.sprite.healthBar.maxHealth = 30;
   self.sprite.healthBar.health = 30;
   self.sprite.healthBar.armour = 5;

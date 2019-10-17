@@ -63,43 +63,43 @@ end
 local enemyTimer = 0;
 -- Runs continously, but with different code for each different game state
 function gameloop:run()	
-	
+  
+  local enemyCount = 0;
 	actualScore.text = score:get();
 
-  if (enemyTimer < 30) then
-    enemyTimer = enemyTimer + 1;
+  player:run(); --runs player controls
+  if (fireBtn:isPressed() == true) then
+    player:setIsShooting(true);
   else
-    enemyTimer = 0;
-    if (table.getn(enemy:get(3)) < 10) then
-      enemy:spawn(3);
-    end
+    player:setIsShooting(false);
   end
 
-  player:run();
   --player:debug();
 
+  --runs logic behind enemies
   for i = 1, table.getn(enemy:get()) do
     for j = 1, table.getn(enemy:get(i)) do
       if (enemy:get(i,j) == nil) then break
       elseif (enemy:get(i,j).isDead == true) then
         enemy:get(i,j):kill();
         table.remove(enemy:get(i), j);
+      else
+        enemy:get(i, j):run();
+        enemy:get(i, j):runCoroutine();
+        enemyCount = enemyCount + 1;
       end
     end
   end
 
-  for k = 1, table.getn(enemy:get()) do
-    for l = 1, table.getn(enemy:get(k)) do
-      enemy:get(k,l):run();
-      enemy:get(k,l):runCoroutine();
+  if (enemyTimer < 30) then
+    enemyTimer = enemyTimer + 1;
+  else
+    enemyTimer = 0;
+    if(enemyCount < 25) then
+      enemy:spawn(math.random(1, table.getn(enemy:get())), math.random(player:getX()-1000, player:getX()+1000), math.random(player:getY()-1000, player:getY()+1000));
     end
   end
-
-  if (fireBtn:isPressed() == true) then
-    player:setIsShooting(true);
-  else
-    player:setIsShooting(false);
-  end
+  print(enemyCount)
 end
 
 return gameloop;

@@ -42,8 +42,10 @@ function spaceship.new(_x, _y, _acceleration)
 	player.name = "Player";
 	player.health = 100;
 	player.maxHealth = 100;
+	player.damage = nil;
+	player.damageTimeout = 0;
 
-	physics.addBody(player, "kinematic")
+	physics.addBody(player, "kinematic", {filter = {categoryBits=1, maskBits=5}});
 
 	healthBar = display.newRect(_x, _y - 100, 150, 20);
 	healthBar:setFillColor(50/255, 100/255, 255/255);
@@ -91,11 +93,17 @@ function spaceship:setAcceleration( _acceleration )
 	accelerationRate = _acceleration;
 end
 
-function spaceship:damage( _damage )
-	player.health = player.health - _damage;
+function spaceship.damage( _damage )
+	if(player.damageTimeout <= 0) then
+		player.damageTimeout = 300;
+		player.health = player.health - _damage;
+	elseif(player.damageTimeout <= 285) then
+		player.health = player.health - _damage;
+	end
 end
 
 function spaceship:init(  )
+	player.damage = spaceship.damage;
 	bullets:init();
 	scene:addObjectToScene(player, 0);
 	scene:addObjectToScene(healthMissing, 0);
@@ -118,14 +126,15 @@ function spaceship:translate( _x, _y, _angle )
 	end
 end
 
-function spaceship:run( )
+function spaceship:run( ) --Runs every fram
 
 	healthBar.width = (player.health/player.maxHealth) * healthMissing.width;
 
-	healthBar.y = player.y - 100 - currentSpeed * math.cos(math.rad(lastAngle));
-	healthBar.x = player.x - ((healthMissing.width - healthBar.width)/2) + currentSpeed * math.sin(math.rad(lastAngle));
-	healthMissing.y = player.y - 100 - currentSpeed * math.cos(math.rad(lastAngle));
-	healthMissing.x = player.x + currentSpeed * math.sin(math.rad(lastAngle));
+	--Moves the healthbar with player
+	healthBar.y = player.y - 100 - speed * lastMagnitude * math.cos(math.rad(lastAngle));
+  	healthBar.x = player.x - ((healthMissing.width - healthBar.width)/2) + speed * lastMagnitude * math.sin(math.rad(lastAngle));
+  	healthMissing.y = player.y - 100 - speed * lastMagnitude * math.cos(math.rad(lastAngle));
+  	healthMissing.x = player.x + speed * lastMagnitude * math.sin(math.rad(lastAngle));
 	
 	if(joystick:isInUse() == false and (speed) > 0) then
 		speed = speed - accelerationRate;
@@ -152,6 +161,11 @@ function spaceship:run( )
 		shootCooldown = 0
 	end
 	bullets:removeBullets();
+
+	player.damageTimeout = player.damageTimeout - 1;
+	if(player.damageTimeout <= 0 and player.health < player.maxHealth) then
+		player.health = player.health + 0.1;
+	end
 end
 
 return spaceship;
