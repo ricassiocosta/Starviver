@@ -18,6 +18,8 @@ M.BaseEnemy =  class("BaseEnemy")
 function M.BaseEnemy:__init(_enemyType, _x, _y, _width, _height, _rotation, _spriteImg, _name, _description, _pointsPerKill, _layer)
   self.x = _x or math.random(-10000, 10000);
   self.y = _y or math.random(-10000, 10000);
+  self.width = _width or 100;
+  self.height = _height or 100;
   self.sprite = display.newRect(self.x, self.y, _width, _height);
   if (_spriteImg ~= nil) then
     self.sprite.fill = {type = "image", filename = _spriteImg};
@@ -36,6 +38,7 @@ function M.BaseEnemy:__init(_enemyType, _x, _y, _width, _height, _rotation, _spr
   self.sprite.wayPointX = 0;
   self.sprite.wayPointY = 0;
   self.autoKill = true; --when true, will despawn enemies that are too far from player
+  self.sprite.damage = 2;
 
   self.sprite.chaseTimeout = 0;
   self.sprite.damageTimeout = 0;
@@ -131,7 +134,7 @@ end
 function M.BaseEnemy:onCollision( event )
   if(event.other.name ~= "Bullet") then
     if(event.other.name == "Player") then
-      event.other.damage(2);
+      event.other.damage(self.damage);
     elseif(self.chaseTimeout <= 0) then
       self.wayPointX = math.random(self.x - 5000, self.x + 5000);
       self.wayPointY = math.random(self.y - 5000, self.y + 5000);
@@ -156,7 +159,7 @@ function M.BaseEnemy:run( )
     self.sprite.healthMissing.y = self.sprite.healthBar.y
     self.sprite.healthMissing.x = self.sprite.x;
 
-    if(self:getDistanceTo(player:getX(), player:getY()) < 400) then
+    if(self:getDistanceTo(player:getX(), player:getY()) < 1080) then
       if(self.sprite.chaseTimeout <= 0) then
         self:lockOnTarget(self:getWayPoint(true));
         self.sprite.chaseTimeout = 120;

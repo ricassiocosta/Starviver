@@ -1,7 +1,7 @@
 local joystick = require("joystick");
 local physics = require("physics")
 local scene = require("scene")
-local bullets = require("bullets")
+local bullet = require("bullets")
 
 local spaceship = {};
 local spaceship_mt = {__index = spaceship};
@@ -19,6 +19,7 @@ local shootCooldown;
 local turnRateAngleDiff;
 local lastAngle;
 local lastMagnitude;
+local bullets
 
 function spaceship.new(_x, _y, _acceleration)
 	local newSpaceship = {
@@ -40,8 +41,8 @@ function spaceship.new(_x, _y, _acceleration)
 	player = display.newRect( _x, _y, width, lenght )
 	player.fill = spaceshipSprite;
 	player.name = "Player";
-	player.health = 100;
-	player.maxHealth = 100;
+	player.health = 1000;
+	player.maxHealth = 1000;
 	player.damage = nil;
 	player.damageTimeout = 0;
 
@@ -52,7 +53,7 @@ function spaceship.new(_x, _y, _acceleration)
 	healthMissing = display.newRect(_x, _y - 100, 150, 20);
 	healthMissing:setFillColor(255/255, 100/255, 60/255);
 
-	bullets.new(player);
+	bullets = bullet.newInstance(player);
 
 	return setmetatable( newSpaceship, spaceship_mt )
 end
@@ -117,10 +118,10 @@ function spaceship:translate( _x, _y, _angle )
 	player.y = player.y + _y;
 	turnRateAngleDiff = (player.rotation - _angle + 180) % 360 - 180;
 
-	if (turnRateAngleDiff > speed/2) then
-		player.rotation = player.rotation - speed/2
-	elseif (turnRateAngleDiff < -speed/2) then
-		player.rotation = player.rotation + speed/2
+	if (turnRateAngleDiff > speed/4) then
+		player.rotation = player.rotation - speed/4
+	elseif (turnRateAngleDiff < -speed/4) then
+		player.rotation = player.rotation + speed/4
 	else
 		player.rotation = _angle;
 	end
@@ -164,7 +165,7 @@ function spaceship:run( ) --Runs every fram
 
 	player.damageTimeout = player.damageTimeout - 1;
 	if(player.damageTimeout <= 0 and player.health < player.maxHealth) then
-		player.health = player.health + 0.1;
+		player.health = player.health + 1;
 	end
 end
 

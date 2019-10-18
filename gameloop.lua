@@ -44,13 +44,6 @@ function gameloop:init()
 	scene:init(1)
 	player:init();
 
-	--initializes scene; add objects
-	scene:addObjectToScene(player:getDisplayObject(), 0);
-	scene:addFocusTrack(player:getDisplayObject());
-
-	--Spawns in enemies
-	enemy:spawn(3, 500, -500)
-
 	-- Spawns in HUD and Controls
 	actualScore = display.newText("0", 1200, 300, "Arial", 72);
 	stick = joystick.new(1.125 * display.contentWidth / 8, 6 * display.contentHeight / 8);
@@ -96,7 +89,7 @@ function gameloop:run()
   else
     enemyTimer = 0;
     if(enemyCount < 25) then
-      enemy:spawn(math.random(1, table.getn(enemy:get())), math.random(player:getX()-1000, player:getX()+1000), math.random(player:getY()-1000, player:getY()+1000));
+      enemy:spawn(math.random(1, table.getn(enemy:get())), math.random(player:getX()-5000, player:getX()+5000), math.random(player:getY()-5000, player:getY()+5000));
     end
   end
   print(enemyCount)

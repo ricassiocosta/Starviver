@@ -7,49 +7,43 @@
 
 local physics = require("physics");
 local scene = require("scene");
+local class = require("classy")
 
 local bullets = {};
-local bullets_mt = {__index = bullets}; --metatable
-
-local bulletNum;
-local bullet = {};
-local numberOfBulletsToRemove;
-local baseObject;
+bullets.newInstance = class("BulletClass")
 
 
-function bullets.new(_object)
+function bullets.newInstance:__init(_object)
   local newBullets = {
   }
 
-  baseObject = _object; -- the object that the bullets originate from, e.g. the spaceship.
+  self.baseObject = _object; -- the object that the bullets originate from, e.g. the spaceship.
 
-  bulletNum = 0;
-  bullet = {};
-  numberOfBulletsToRemove = 0;
-
-  return setmetatable(newBullets, bullets_mt);
+  self.bulletNum = 0;
+  self.bullet = {};
+  self.numberOfBulletsToRemove = 0;
 end
 
-function bullets:init(  )
+function bullets.newInstance:init(  )
   physics.start();
   physics.setGravity(0, 0);
 end
 
-function bullets:getTable()
-  return bullet;
+function bullets.newInstance:getTable()
+  return self.bullet;
 end
 
 function bullets:getX( _index )
-  if (table.getn(bullet) >= 1) then
-    return bullet[_index].x;
+  if (table.getn(self.bullet) >= 1) then
+    return self.bullet[_index].x;
   else 
     return -99999
   end
 end
 
-function bullets:getY( _index )
-  if (table.getn(bullet) >= 1) then
-    return bullet[_index].y;
+function bullets.newInstance:getY( _index )
+  if (table.getn(self.bullet) >= 1) then
+    return self.bullet[_index].y;
   else
     return -99999
   end
@@ -67,31 +61,31 @@ function onBulletCollision( self, event )
   end
 end
 
-function bullets:shoot()
-  bulletNum = table.getn(bullet) + 1;
-  bullet[bulletNum] = display.newRect(baseObject.x, baseObject.y, baseObject.width/12, baseObject.height/3);
-  bullet[bulletNum]:setFillColor(0.3, 0.6, 0.9);
-  bullet[bulletNum].rotation = baseObject.rotation;
-  bullet[bulletNum].name = "Bullet";
-  bullet[bulletNum].enemyType = -1; --non enemy
-  scene:addObjectToScene(bullet[bulletNum], 1);
+function bullets.newInstance:shoot()
+  self.bulletNum = table.getn(self.bullet) + 1;
+  self.bullet[self.bulletNum] = display.newRect(self.baseObject.x, self.baseObject.y, self.baseObject.width/12, self.baseObject.height/3);
+  self.bullet[self.bulletNum]:setFillColor(0.3, 0.6, 0.9);
+  self.bullet[self.bulletNum].rotation = self.baseObject.rotation;
+  self.bullet[self.bulletNum].name = "Bullet";
+  self.bullet[self.bulletNum].enemyType = -1; --non enemy
+  scene:addObjectToScene(self.bullet[self.bulletNum], 1);
 
-  physics.addBody(bullet[bulletNum], "dynamic", {filter = {categoryBits=2, maskBits=4 }});
-  bullet[bulletNum].isBullet = true;
-  bullet[bulletNum]:setLinearVelocity(math.sin(math.rad(bullet[bulletNum].rotation))*50000, -math.cos(math.rad(bullet[bulletNum].rotation))*50000);
-  bullet[bulletNum].collision = onBulletCollision;
-  bullet[bulletNum]:addEventListener("collision", bullet[bulletNum])
+  physics.addBody(self.bullet[self.bulletNum], "dynamic", {filter = {categoryBits=2, maskBits=4 }});
+  self.bullet[self.bulletNum].isBullet = true;
+  self.bullet[self.bulletNum]:setLinearVelocity(math.sin(math.rad(self.bullet[self.bulletNum].rotation))*50000, -math.cos(math.rad(self.bullet[self.bulletNum].rotation))*50000);
+  self.bullet[self.bulletNum].collision = onBulletCollision;
+  self.bullet[self.bulletNum]:addEventListener("collision", self.bullet[self.bulletNum])
 end
 
-function bullets:removeBullets()
-  for i = 0, table.getn(bullet) do
-    if (bullet[i] == nil) then break
-    elseif(bullet[i].x > (baseObject.x + 2000)
-    or bullet[i].x < (baseObject.x - 2000) 
-    or bullet[i].y > (baseObject.y + 1000) 
-    or bullet[i].y < (baseObject.y - 1000)) then
-      bullet[i]:removeSelf();
-      table.remove(bullet, i);
+function bullets.newInstance:removeBullets()
+  for i = 0, table.getn(self.bullet) do
+    if (self.bullet[i] == nil) then break
+    elseif(self.bullet[i].x > (self.baseObject.x + 2000)
+    or self.bullet[i].x < (self.baseObject.x - 2000) 
+    or self.bullet[i].y > (self.baseObject.y + 1000) 
+    or self.bullet[i].y < (self.baseObject.y - 1000)) then
+      self.bullet[i]:removeSelf();
+      table.remove(self.bullet, i);
     end
   end
 end
