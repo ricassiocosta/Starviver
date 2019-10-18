@@ -19,7 +19,9 @@ local shootCooldown;
 local turnRateAngleDiff;
 local lastAngle;
 local lastMagnitude;
-local bullets
+
+local bullets;
+local collisionID;
 
 function spaceship.new(_x, _y, _acceleration)
 	local newSpaceship = {
@@ -39,21 +41,25 @@ function spaceship.new(_x, _y, _acceleration)
 	lenght = 130;
 
 	player = display.newRect( _x, _y, width, lenght )
+
+	player.healthBar = display.newRect(_x, _y - 100, 150, 20);
+  	player.healthBar:setFillColor(50/255, 100/255, 255/255);
+  	player.healthMissing = display.newRect(_x, _y - 100, 150, 20);
+  	player.healthMissing:setFillColor(255/255, 100/255, 60/255);
+
 	player.fill = spaceshipSprite;
 	player.name = "Player";
-	player.health = 1000;
+	player.healthBar.health = 1000;
+	player.healthBar.armour = 0;
 	player.maxHealth = 1000;
 	player.damage = nil;
 	player.damageTimeout = 0;
 
-	physics.addBody(player, "kinematic", {filter = {categoryBits=1, maskBits=5}});
+	collisionID = 1;
 
-	healthBar = display.newRect(_x, _y - 100, 150, 20);
-	healthBar:setFillColor(50/255, 100/255, 255/255);
-	healthMissing = display.newRect(_x, _y - 100, 150, 20);
-	healthMissing:setFillColor(255/255, 100/255, 60/255);
+	physics.addBody(player, "kinematic", {filter = {categoryBits = collisionID, maskBits = 7}});
 
-	bullets = bullet.newInstance(player);
+	bullets = bullet.newInstance(player, "imgs/bullet_3.png", player.width / 3, player.height/1.25);
 
 	return setmetatable( newSpaceship, spaceship_mt )
 end
@@ -97,20 +103,19 @@ end
 function spaceship.damage( _damage )
 	if(player.damageTimeout <= 0) then
 		player.damageTimeout = 300;
-		player.health = player.health - _damage;
+		player.healthBar.health = player.healthBar.health - _damage;
 	elseif(player.damageTimeout <= 285) then
-		player.health = player.health - _damage;
+		player.healthBar.health = player.healthBar.health - _damage;
 	end
 end
 
 function spaceship:init(  )
 	player.damage = spaceship.damage;
-	bullets:init();
 	scene:addObjectToScene(player, 0);
-	scene:addObjectToScene(healthMissing, 0);
-	scene:addObjectToScene(healthBar, 0);
+	scene:addObjectToScene(player.healthMissing, 0);
+	scene:addObjectToScene(player.healthBar, 0);
 	scene:addFocusTrack(player);
-	healthBar.x = player.x - ((healthMissing.width - healthBar.width)/2);
+	player.healthBar.x = player.x - ((player.healthMissing.width - player.healthBar.width)/2);
 end
 
 function spaceship:translate( _x, _y, _angle )
@@ -129,13 +134,13 @@ end
 
 function spaceship:run( ) --Runs every fram
 
-	healthBar.width = (player.health/player.maxHealth) * healthMissing.width;
+	player.healthBar.width = (player.healthBar.health/player.maxHealth) * player.healthMissing.width;
 
 	--Moves the healthbar with player
-	healthBar.y = player.y - 100 - speed * lastMagnitude * math.cos(math.rad(lastAngle));
-  	healthBar.x = player.x - ((healthMissing.width - healthBar.width)/2) + speed * lastMagnitude * math.sin(math.rad(lastAngle));
-  	healthMissing.y = player.y - 100 - speed * lastMagnitude * math.cos(math.rad(lastAngle));
-  	healthMissing.x = player.x + speed * lastMagnitude * math.sin(math.rad(lastAngle));
+	player.healthBar.y = player.y - 100 - speed * lastMagnitude * math.cos(math.rad(lastAngle));
+	player.healthBar.x = player.x - ((player.healthMissing.width - player.healthBar.width)/2) + speed * lastMagnitude * math.sin(math.rad(lastAngle));
+	player.healthMissing.y = player.y - 100 - speed * lastMagnitude * math.cos(math.rad(lastAngle));
+	player.healthMissing.x = player.x + speed * lastMagnitude * math.sin(math.rad(lastAngle));
 	
 	if(joystick:isInUse() == false and (speed) > 0) then
 		speed = speed - accelerationRate;
@@ -158,14 +163,24 @@ function spaceship:run( ) --Runs every fram
 	shootCooldown = shootCooldown + 1;
 
 	if(isShooting == true and shootCooldown > (8)) then
-		bullets:shoot();
+		bullets:shoot(4);
+		bullets:shoot(4, 15 - (speed/3));
+		bullets:shoot(4, -15 + (speed/3));
 		shootCooldown = 0
 	end
 	bullets:removeBullets();
 
+	print("PLAYER:" .. table.getn(bullets:getTable()))
+
+	if(player.damageTimeout <= 295) then
+		player.isVisible = true;
+	else
+		player.isVisible = not player.isVisible;
+	end
+
 	player.damageTimeout = player.damageTimeout - 1;
-	if(player.damageTimeout <= 0 and player.health < player.maxHealth) then
-		player.health = player.health + 1;
+	if(player.damageTimeout <= 0 and player.healthBar.health < player.maxHealth) then
+		player.healthBar.health = player.healthBar.health + 1;
 	end
 end
 

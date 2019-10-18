@@ -15,7 +15,19 @@ local M = {}
 
 M.BaseEnemy =  class("BaseEnemy")
 
-function M.BaseEnemy:__init(_enemyType, _x, _y, _width, _height, _rotation, _spriteImg, _name, _description, _pointsPerKill, _layer)
+function M.BaseEnemy:__init(_enemyType, 
+                            _x, 
+                            _y, 
+                            _width, 
+                            _height, 
+                            _rotation, 
+                            _spriteImg, 
+                            _name, 
+                            _description, 
+                            _pointsPerKill, 
+                            _layer,
+                            _maskBits)
+
   self.x = _x or math.random(-10000, 10000);
   self.y = _y or math.random(-10000, 10000);
   self.width = _width or 100;
@@ -43,6 +55,9 @@ function M.BaseEnemy:__init(_enemyType, _x, _y, _width, _height, _rotation, _spr
   self.sprite.chaseTimeout = 0;
   self.sprite.damageTimeout = 0;
   self.turnRateAngleDiff = 0;
+  self.collisionID = 4;
+  self.maskBits = _maskBits or 7;
+  self.isChasingPlayer = false;
   self.sprite.pointsPerKill = _pointsPerKill;
 
   self.sprite.healthBar = display.newRect(self.x, self.y - (self.sprite.height/2) - 50, 150, 20)
@@ -55,7 +70,7 @@ function M.BaseEnemy:__init(_enemyType, _x, _y, _width, _height, _rotation, _spr
   scene:addObjectToScene(self.sprite.healthMissing, self.layer);
   scene:addObjectToScene(self.sprite.healthBar, self.layer);
 
-  physics.addBody(self.sprite, "dynamic", {filter = {categoryBits=4, maskBits=7}});
+  physics.addBody(self.sprite, "dynamic", {filter = {categoryBits = self.collisionID, maskBits = self.maskBits}});
 
   self.sprite.collision = self.onCollision;
   self.sprite:addEventListener("collision", self.sprite);
@@ -163,11 +178,14 @@ function M.BaseEnemy:run( )
       if(self.sprite.chaseTimeout <= 0) then
         self:lockOnTarget(self:getWayPoint(true));
         self.sprite.chaseTimeout = 120;
+        self.isChasingPlayer = false;
       else
         self:lockOnTarget(player:getX(), player:getY())
+        self.isChasingPlayer = true;
         self.sprite.chaseTimeout = self.sprite.chaseTimeout - 1;
       end
     else
+      self.isChasingPlayer = false;
       self:lockOnTarget(self:getWayPoint());
     end
   end

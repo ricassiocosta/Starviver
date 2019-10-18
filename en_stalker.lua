@@ -27,7 +27,8 @@ function M.class:__init( _x, _y )
                               "Perseguidores",
                               description,
                               10,
-                              1);
+                              0);
+  
   self.sprite.maxSpeed = 1200;
   self.sprite.acceleration = 1;
   self.sprite.healthBar.maxHealth = 30;

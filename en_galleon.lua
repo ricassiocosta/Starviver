@@ -9,6 +9,7 @@ local enemyBase = require("baseEnemy");
 local class = require("classy");
 local player = require("spaceship");
 local physics = require("physics");
+local bullets = require("bullets")
 physics.start();
 
 local M = {};
@@ -30,7 +31,7 @@ function M.class:__init(_x, _y)
                               "Galeão de Ataque", 
                               description,
                               20, 
-                              1);
+                              0);
 
   self.sprite.maxSpeed = 800;
   self.sprite.acceleration = 0.5;
@@ -38,10 +39,20 @@ function M.class:__init(_x, _y)
   self.sprite.healthBar.health = 25;
   self.sprite.healthBar.armour = math.random(12, 17);
 
+  self.bullets = bullets.newInstance(self.sprite, "imgs/bullet_1.png", self.sprite.width / 4, self.sprite.height - 50, self.sprite.maxSpeed * 125);
+  self.bulletCooldown = 0;  
+
 end
 
 function M.class:runCoroutine()
+  if(self.isChasingPlayer == true and self.bulletCooldown <= 0) then
+    self.bulletCooldown = 10;
+    self.bullets:shoot(1);
+  end
+self.bullets:removeBullets();
+print("Attack_Galleon:" .. table.getn(self.bullets:getTable()))
 
+self.bulletCooldown = self.bulletCooldown - 1;
 end
 
 return M;

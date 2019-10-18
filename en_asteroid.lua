@@ -27,7 +27,7 @@ function M.class:__init(_x, _y)
                               "Asteroide", 
                               description,
                               5, 
-                              1);
+                              0);
                               
   self.sprite.maxSpeed = 200;
   self.sprite.acceleration = 0.25;
