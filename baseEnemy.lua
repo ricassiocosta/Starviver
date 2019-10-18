@@ -73,7 +73,7 @@ function M.BaseEnemy:shake()
 end
 
 function M.BaseEnemy:kill()
-  score:increase(self.sprite.pointsPerKill);
+  score:increase(self, self.sprite.pointsPerKill);
   self.sprite:removeSelf();
   self.sprite.healthBar:removeSelf();
   self.sprite.healthMissing:removeSelf();
