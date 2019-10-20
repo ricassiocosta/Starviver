@@ -5,6 +5,7 @@
 -- en_asteroid.lua
 --
 ------------------------------- Private Fields ---------------------------------
+
 local enemyBase = require("baseEnemy")
 local class = require("classy")
 
@@ -40,42 +41,7 @@ function M.class:__init(_x, _y)
 end
 
 function M.class:runCoroutine(  )
-  --Add enemytype specific run routines here
 
-  --Size of Asteroids change over time
-  --[[
-  self.widthSinFactor = math.random(-100, 100); --Used to change width and height based on sine waves over time
-  self.heightSinFactor = math.random( -100, 100 ); -- ||
-  self.widthSinFactor =self.widthSinFactor + 1;
-  self.heightSinFactor = self.heightSinFactor + 1;
-  self.sprite.width = self.width + (1000 * math.sin( self.widthSinFactor/50000 ));
-  self.sprite.height = self.height + (1000 * math.sin(self.widthSinFactor/50000));]]
-
-  if(self.sprite.width >= self.width + 99) then
-    self.widthIncrease = false
-  elseif(self.sprite.width <= self.width - 99) then
-    self.widthIncrease = true;
-  end
-
-  if(self.widthIncrease == true) then
-    self.sprite.width = self.sprite.width + 1;
-  else
-    self.sprite.width = self.sprite.width - 1;
-  end
-
-  if(self.sprite.height >= self.height + 99) then
-    self.heightIncrease = false;
-  elseif(self.sprite.height <= self.height - 99) then
-    self.heightIncrease = true;
-  end
-
-  if(self.heightIncrease == true) then
-    self.sprite.height = self.sprite.height + 1;
-  else
-    self.sprite.height = self.sprite.height - 1;
-  end
-
-  self.sprite.healthBar.armour = ((self.sprite.width + self.sprite.height) / 200) / 10;
 end
 
 return M;

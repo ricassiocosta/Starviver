@@ -1,4 +1,12 @@
+--------------------------------------------------------------------------------
+--
+-- Controls the player and their spaceship
+--
+-- spaceship.lua
+--
+------------------------------- Private Fields ---------------------------------
 local joystick = require("joystick");
+local button = require("button")
 local physics = require("physics")
 local scene = require("scene")
 local bullet = require("bullets")
@@ -23,6 +31,7 @@ local lastMagnitude;
 local bullets;
 local collisionID;
 
+--Constructor
 function spaceship.new(_x, _y, _acceleration)
 	local newSpaceship = {
 		speed = 0;
@@ -63,6 +72,60 @@ function spaceship.new(_x, _y, _acceleration)
 
 	return setmetatable( newSpaceship, spaceship_mt )
 end
+
+------------------------------ Public Functions --------------------------------
+
+--[[
+  getDisplayObject
+    @return player
+    - returns the display object / sprite of the ship
+    - used for camera tracking
+  getX
+    @return x
+    - gets the ship's x position on the screen
+  getY
+    @return y
+    - gets the ship's y position on the screen
+  getSpeed
+    @return speed
+    - gets the speed of the ship
+  getBullets
+    @return bullets
+    - gets the table containing all shot bullets
+  setIsShooting
+    ( _flag = boolean to set isShooting as)
+    - used to toggle shooting on or off
+  setX
+    ( _x = new x coordinate of the ship)
+    - sets the ship's x coordinate
+  setY
+    ( _y = new y coordinate of the ship)
+    - sets the ship's y coordinate
+  setSpeed
+    (_speed = new speed of ship)
+    - sets the ship's new speed
+  setAcceleration
+    (_acceleration = new accelerationRate of ship)
+    - sets the acceleartion and decceleration rate of the ship (in pixels per 1/60th of a second squared)
+  init
+    - runs once at the beginning of the game loop
+    - used to initiate the physics engine
+  translate
+    (_x = new x coordinate
+     _y = new y coordinate
+     _angle = angle to rotate the ship)
+    - translates the ship around
+    - usually used alongside the joystick in a gameloop
+  debug
+    - sets the gui texts as important info, such as coordinates or speed
+    - mainly used to debug game during development
+  run
+    - runs during the game loop.
+    - allows for the ship to move using the joystick.
+  shoot
+    - controlls the shooting of bullets
+    - adds bullets to a table containing all bullets
+]]--
 
 function spaceship:getDisplayObject(  )
 	return player;
@@ -109,15 +172,6 @@ function spaceship.damage( _damage )
 	end
 end
 
-function spaceship:init(  )
-	player.damage = spaceship.damage;
-	scene:addObjectToScene(player, 0);
-	scene:addObjectToScene(player.healthMissing, 0);
-	scene:addObjectToScene(player.healthBar, 0);
-	scene:addFocusTrack(player);
-	player.healthBar.x = player.x - ((player.healthMissing.width - player.healthBar.width)/2);
-end
-
 function spaceship:translate( _x, _y, _angle )
 	player.x = player.x + _x;
 	player.y = player.y + _y;
@@ -132,6 +186,31 @@ function spaceship:translate( _x, _y, _angle )
 	end
 end
 
+function spaceship:initHUD()
+	--spawns in HUD and controls
+	actualScore = display.newText("0", 1200, 300, "Arial", 72);
+	stick = joystick.new(1.125 * display.contentWidth / 8, 6 * display.contentHeight / 8);
+	fireBtn = button.new(1.7 * (display.contentWidth / 2), 
+						1.5 * (display.contentHeight / 2), 
+						display.contentWidth/17, 
+						display.contentWidth/17, 
+						255, 
+						45, 
+						65);
+
+	fireBtn:init();
+	stick:init();
+end
+
+function spaceship:init()
+	player.damage = spaceship.damage;
+	scene:addObjectToScene(player, 0);
+	scene:addObjectToScene(player.healthMissing, 0);
+	scene:addObjectToScene(player.healthBar, 0);
+	scene:addFocusTrack(player);
+	player.healthBar.x = player.x - ((player.healthMissing.width - player.healthBar.width)/2);
+end
+
 function spaceship:run( ) --Runs every frame
 
 	player.healthBar.width = (player.healthBar.health/player.maxHealth) * player.healthMissing.width;
@@ -141,6 +220,12 @@ function spaceship:run( ) --Runs every frame
 	player.healthBar.x = player.x - ((player.healthMissing.width - player.healthBar.width)/2) + speed * lastMagnitude * math.sin(math.rad(lastAngle));
 	player.healthMissing.y = player.y - 100 - speed * lastMagnitude * math.cos(math.rad(lastAngle));
 	player.healthMissing.x = player.x + speed * lastMagnitude * math.sin(math.rad(lastAngle));
+
+	if (fireBtn:isPressed() == true) then
+		isShooting = true;
+	else
+		isShooting = false;
+	end
 	
 	if(joystick:isInUse() == false and (speed) > 0) then
 		speed = speed - accelerationRate;
@@ -167,8 +252,6 @@ function spaceship:run( ) --Runs every frame
 		shootCooldown = 0
 	end
 	bullets:removeBullets();
-
-	--print("PLAYER:" .. table.maxn(bullets:getTable()))
 
 	if(player.damageTimeout <= 295) then
 		player.isVisible = true;
