@@ -72,7 +72,7 @@ function M.BaseEnemy:__init(_enemyType,
   self.sprite.isPassive = false;
   self.sprite.healthBar.maxHealth = 30;
   self.sprite.healthBar.health = 30;
-  self.sprite.healthBar.armour = 0.5;
+  self.sprite.healthBar.armour = 0.5; --armour is damage resistance. from 0-1 higher number means more resistance
 
   scene:addObjectToScene(self.sprite, self.layer);
   scene:addObjectToScene(self.sprite.healthMissing, self.layer);
@@ -87,13 +87,13 @@ end
 function M.BaseEnemy:shake()
   if(self.sprite.isShaking == true) then
     if(self.sprite.shakeMax <= 1) then
-      self.sprite.shakeMax = 15;
+      self.sprite.shakeMax = 12;
       self.sprite.isShaking = false;
     else
       self.sprite.shakeAmount = math.random(self.sprite.shakeMax);
       self.sprite.x = self.x + math.random(-self.sprite.shakeAmount, self.sprite.shakeAmount);
       self.sprite.y = self.y + math.random(-self.sprite.shakeAmount, self.sprite.shakeAmount);
-      self.sprite.shakeMax = self.sprite.shakeMax - 0.85;
+      self.sprite.shakeMax = self.sprite.shakeMax - 1;
     end
   end
 end
@@ -135,7 +135,7 @@ function M.BaseEnemy:getDirectionTo(_x, _y)
   return direction;
 end
 
-function M.BaseEnemy:getWayPoint(force)
+function M.BaseEnemy:getWaypoint(force)
   force = force or false;
   if(self:getDistanceTo(self.sprite.wayPointX, self.sprite.wayPointY) < 200 or force == true) then
     self.sprite.wayPointX = math.random(self.sprite.x - 5000, self.sprite.x + 5000)
@@ -151,7 +151,6 @@ function M.BaseEnemy:setOppositeAngle()
   if(self.oppositeAngle < 0) then
     self.oppositeAngle = 360 + self.oppositeAngle;
   end
-  print(self.oppositeAngle)
   return self.oppositeAngle;
 end
 
@@ -164,7 +163,7 @@ function M.BaseEnemy:turnAround()
   else
     self.sprite.rotation = self.oppositeAngle;
     self.sprite.isStuck = false;
-    self:lockOnTarget(self:getWayPoint(true));
+    self:lockOnTarget(self:getWaypoint(true));
   end
 end
 
@@ -184,7 +183,7 @@ end
 function M.BaseEnemy:chase(isPassive)
   if(isPassive == false and (self:getDistanceTo(player:getX(), player:getY()) < 1920 or self.sprite.healthBar.health < self.sprite.healthBar.maxHealth)) then
     if(self.sprite.chaseTimeout <= 0) then
-      self:lockOnTarget(self:getWayPoint(true));
+      self:lockOnTarget(self:getWaypoint(true));
       self.sprite.chaseTimeout = 120;
       self.sprite.isChasingPlayer = false;
     else
@@ -195,7 +194,7 @@ function M.BaseEnemy:chase(isPassive)
     end
   else
     self.sprite.isChasingPlayer = false;
-    self:lockOnTarget(self:getWayPoint());
+    self:lockOnTarget(self:getWaypoint());
   end
 end
 
@@ -233,7 +232,7 @@ function M.BaseEnemy:run()
 
     if(self.sprite.isStuck == false) then
       self:setOppositeAngle();
-      self:chase(self.sprite.isPassive);
+      self:chase(true);
     else
       self:turnAround();
     end

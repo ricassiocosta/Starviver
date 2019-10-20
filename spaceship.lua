@@ -249,6 +249,8 @@ function spaceship:run( ) --Runs every frame
 
 	if(isShooting == true and shootCooldown > (8)) then
 		bullets:shoot(4);
+		bullets:shoot(4, 2 - (currentSpeed/36.5));
+    	bullets:shoot(4, -2 + (currentSpeed/36.5));
 		shootCooldown = 0
 	end
 	bullets:removeBullets();
