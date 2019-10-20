@@ -56,17 +56,19 @@ end
 --gets distance, in pixel widths, to given point
 function bullets.newInstance:getDistanceTo(_bulletIndex, _x, _y)
   local distance = math.sqrt(((self.bullet[_bulletIndex].x - _x) * (self.bullet[_bulletIndex].x - _x)) + ((self.bullet[_bulletIndex].y - _y) * (self.bullet[_bulletIndex].y - _y)));
-  return distance;
+  return distance or 0;
 end
 
 function onBulletCollision( self, event )
   -- runs when the bullet hits something
   if (event.phase == "began") then
-    self:removeSelf();
+    self.isDead = true;
     if (event.other.name == "Player") then
       event.other.damage(80);
     else
-      event.other.healthBar.health = event.other.healthBar.health - 20 + event.other.healthBar.armour;
+      print(event.other.name .. " | " .. event.other.healthBar.armour);
+      event.other.healthBar.health = event.other.healthBar.health - (7 * event.other.healthBar.armour);
+      if(event.other.healthBar.health > event.other.healthBar.maxHealth) then event.other.healthBar.health = event.other.healthBar.maxHealth end
       event.other.isShaking = true;
       event.other.healthBar.isVisible = true; event.other.healthMissing.isVisible = true;
     end
@@ -83,6 +85,8 @@ function bullets.newInstance:shoot(_maskBits, _angleOffset)
     self.bullet[self.bulletNum]:setFillColor(0.3, 0.6, 0.9);
   end  
   self.bullet[self.bulletNum].rotation = self.baseObject.rotation + _angleOffset;
+  self.bullet[self.bulletNum].index = self.bulletNum;
+  self.bullet[self.bulletNum].bulletList = self.bullet;
   self.bullet[self.bulletNum].name = "Bullet";
   self.bullet[self.bulletNum].baseObject = self.baseObject;
   self.bullet[self.bulletNum].enemyType = self.baseObject.enemyType; --non-enemy
@@ -100,9 +104,9 @@ function bullets.newInstance:shoot(_maskBits, _angleOffset)
 end
 
 function bullets.newInstance:removeBullets()
-  for i = 0, table.maxn(self.bullet) do
+  for i = 1, table.getn(self.bullet) do
     if (self.bullet[i] == nil) then break
-    elseif(getDistanceTo(i, self.baseObject.x, self.baseObject.y)) then
+    elseif (self:getDistanceTo(i, self.baseObject.x, self.baseObject.y) > 5000 or (self.bullet[i].isDead == true or self.baseObject.isDead == true)) then
       self.bullet[i]:removeSelf();
       table.remove(self.bullet, i);
     end

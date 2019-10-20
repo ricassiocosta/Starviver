@@ -132,7 +132,7 @@ function spaceship:translate( _x, _y, _angle )
 	end
 end
 
-function spaceship:run( ) --Runs every fram
+function spaceship:run( ) --Runs every frame
 
 	player.healthBar.width = (player.healthBar.health/player.maxHealth) * player.healthMissing.width;
 
@@ -164,13 +164,11 @@ function spaceship:run( ) --Runs every fram
 
 	if(isShooting == true and shootCooldown > (8)) then
 		bullets:shoot(4);
-		bullets:shoot(4, 15 - (speed/3));
-		bullets:shoot(4, -15 + (speed/3));
 		shootCooldown = 0
 	end
 	bullets:removeBullets();
 
-	print("PLAYER:" .. table.maxn(bullets:getTable()))
+	--print("PLAYER:" .. table.maxn(bullets:getTable()))
 
 	if(player.damageTimeout <= 295) then
 		player.isVisible = true;

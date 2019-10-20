@@ -66,6 +66,12 @@ function M.BaseEnemy:__init(_enemyType,
   self.sprite.healthMissing:setFillColor(255/255, 100/255, 60/255);
   self.sprite.healthBar.isVisible = false;  self.sprite.healthMissing.isVisible = false;
 
+  self.sprite.maxSpeed = 1200;
+  self.sprite.acceleration = 1;
+  self.sprite.healthBar.maxHealth = 30;
+  self.sprite.healthBar.health = 30;
+  self.sprite.healthBar.armour = 0.5;
+
   scene:addObjectToScene(self.sprite, self.layer);
   scene:addObjectToScene(self.sprite.healthMissing, self.layer);
   scene:addObjectToScene(self.sprite.healthBar, self.layer);
@@ -159,7 +165,7 @@ end
 
 function M.BaseEnemy:run( )
   if(self.sprite.healthBar.health <= 0 or self:getDistanceTo(player:getX(), player:getY()) > 10000) then
-    self.isDead = true;
+    self.sprite.isDead = true;
   else
     self:shake();
     if(self.sprite.isShaking == false) then

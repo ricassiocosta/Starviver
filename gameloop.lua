@@ -73,7 +73,7 @@ function gameloop:run()
   for i = 1, table.getn(enemy:get()) do
     for j = 1, table.getn(enemy:get(i)) do
       if (enemy:get(i,j) == nil) then break
-      elseif (enemy:get(i,j).isDead == true) then
+      elseif (enemy:get(i,j).sprite.isDead == true) then
         enemy:get(i,j):kill();
         table.remove(enemy:get(i), j);
       else
@@ -89,7 +89,7 @@ function gameloop:run()
   else
     enemyTimer = 0;
     if(enemyCount < 25) then
-      enemy:spawn(math.random(1, table.getn(enemy:get())), math.random(player:getX()-5000, player:getX()+5000), math.random(player:getY()-5000, player:getY()+5000));
+      enemy:spawn(math.random(1, table.getn(enemy:get())), math.random(player:getX()-125, player:getX()+125), math.random(player:getY()-125, player:getY()+125));
     end
   end
   --print(enemyCount)
