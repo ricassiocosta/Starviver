@@ -10,6 +10,7 @@ local button = require("button")
 local physics = require("physics")
 local scene = require("scene")
 local bullet = require("bullets")
+local RadarClass = require("radar")
 
 local spaceship = {};
 local spaceship_mt = {__index = spaceship};
@@ -30,6 +31,8 @@ local lastMagnitude;
 
 local bullets;
 local collisionID;
+
+local radar;
 
 --Constructor
 function spaceship.new(_x, _y, _acceleration)
@@ -143,6 +146,10 @@ function spaceship:getSpeed(  )
 	return speed;
 end
 
+function spaceship:getRadar(  )
+	return radar;
+end
+
 function spaceship:setX( _x )
 	x = _x;
 end
@@ -198,6 +205,7 @@ function spaceship:initHUD()
 						45, 
 						65);
 
+	radar = RadarClass.class(player)
 	fireBtn:init();
 	stick:init();
 end
@@ -244,7 +252,9 @@ function spaceship:run( ) --Runs every frame
 		lastAngle = joystick:getAngle();
 		lastMagnitude = joystick:getMagnitude();
 	end
+	radar:run();
 
+	bullets:removeBullets();
 	shootCooldown = shootCooldown + 1;
 
 	if(isShooting == true and shootCooldown > (8)) then
@@ -253,7 +263,6 @@ function spaceship:run( ) --Runs every frame
     	bullets:shoot(4, -2 + (currentSpeed/36.5));
 		shootCooldown = 0
 	end
-	bullets:removeBullets();
 
 	if(player.damageTimeout <= 295) then
 		player.isVisible = true;

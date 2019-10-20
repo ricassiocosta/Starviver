@@ -75,13 +75,12 @@ end
 
 function enemies:spawn(_index, _x, _y)
   if (_index ~= nil) then
-    table.insert(enemyList[_index], moduleList[_index].class(_x, _y));
+    table.insert(enemyList[_index], moduleList[_index].class(_x, _y, table.getn(enemyList[_index])+1));
+    print(enemyList[_index][table.getn(enemyList[_index])].sprite.name .. " | " .. enemyList[_index][table.getn(enemyList[_index])].sprite.index);
     return enemyList[_index][table.getn(enemyList[_index])];
   else
     return -1;
   end
-  enemyList[_index][table.getn(enemyList[_index])]:init();
-  print(enemyList[_index][table.getn(enemyList[_index])].sprite.name);
 end
 
 function enemies:get(_index1, _index2)

@@ -26,7 +26,7 @@ function M.BaseEnemy:__init(_enemyType,
                             _description, 
                             _pointsPerKill, 
                             _layer,
-                            _maskBits)
+                            newIndex)
 
   self.x = _x or math.random(-10000, 10000);
   self.y = _y or math.random(-10000, 10000);
@@ -51,6 +51,7 @@ function M.BaseEnemy:__init(_enemyType,
   self.sprite.wayPointY = 0;
   self.autoKill = true; --when true, will despawn enemies that are too far from player
   self.sprite.damage = 2;
+  self.sprite.index = newIndex;
 
   self.sprite.chaseTimeout = -1;
   self.sprite.damageTimeout = 0;
@@ -232,9 +233,15 @@ function M.BaseEnemy:run()
 
     if(self.sprite.isStuck == false) then
       self:setOppositeAngle();
-      self:chase(true);
+      self:chase(self.sprite.isPassive == 44);
     else
       self:turnAround();
+    end
+
+    if(self:getDistanceTo(player:getX(), player:getY()) < 2250)then
+      player:getRadar():draw(self.sprite.x - player:getX(), self.sprite.y - player:getY(), self.sprite.enemyType, self.sprite.index);
+    else
+      player:getRadar():kill(self.sprite.enemyType, self.sprite.index)
     end
   end
 end

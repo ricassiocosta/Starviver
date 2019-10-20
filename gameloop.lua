@@ -1,11 +1,8 @@
 -- The game logic and loop
 local spaceship = require("spaceship")
-local joystick = require("joystick")
-local button = require("button")
 local physics = require("physics")
 local scene = require("scene")
 local enemies = require("enemies")
-local bullets = require("bullets")
 local score = require("score")
 
 ------------------------------- Private Fields ---------------------------------

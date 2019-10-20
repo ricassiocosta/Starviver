@@ -13,7 +13,7 @@ local M = {}
 M.class = class("Stalker", enemyBase.BaseEnemy);
 M.description = "Rápidos e leves, os Perseguidores são caçadores perigosos que estão sempre dispostos a adicionar uma nova estrela no universo."
 
-function M.class:__init( _x, _y )
+function M.class:__init( _x, _y, newIndex )
   self.x = _x;
   self.y = _y;
   enemyBase.BaseEnemy.__init( self,
@@ -27,7 +27,8 @@ function M.class:__init( _x, _y )
                               "Perseguidores",
                               description,
                               10,
-                              0);
+                              0,
+                              newIndex);
   
   self.sprite.maxSpeed = 1200;
   self.sprite.acceleration = 1;
