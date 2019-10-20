@@ -53,6 +53,12 @@ function bullets.newInstance:getY( _index )
   end
 end
 
+--gets distance, in pixel widths, to given point
+function bullets.newInstance:getDistanceTo(_bulletIndex, _x, _y)
+  local distance = math.sqrt(((self.bullet[_bulletIndex].x - _x) * (self.bullet[_bulletIndex].x - _x)) + ((self.bullet[_bulletIndex].y - _y) * (self.bullet[_bulletIndex].y - _y)));
+  return distance;
+end
+
 function onBulletCollision( self, event )
   -- runs when the bullet hits something
   if (event.phase == "began") then
@@ -94,12 +100,9 @@ function bullets.newInstance:shoot(_maskBits, _angleOffset)
 end
 
 function bullets.newInstance:removeBullets()
-  for i = 0, table.getn(self.bullet) do
+  for i = 0, table.maxn(self.bullet) do
     if (self.bullet[i] == nil) then break
-    elseif(self.bullet[i].x > (self.baseObject.x + 2000)
-    or self.bullet[i].x < (self.baseObject.x - 2000) 
-    or self.bullet[i].y > (self.baseObject.y + 1000) 
-    or self.bullet[i].y < (self.baseObject.y - 1000)) then
+    elseif(getDistanceTo(i, self.baseObject.x, self.baseObject.y)) then
       self.bullet[i]:removeSelf();
       table.remove(self.bullet, i);
     end
