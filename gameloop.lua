@@ -31,7 +31,7 @@ local enemy;
 -- Runs once to initialize the game
 -- Runs everytime the game state changes
 function gameloop:init()
-	math.randomseed(os.time());
+	--math.randomseed(os.time()); math.random( ); math.random( );
 	system.activate("multitouch")
 	native.setProperty("androidSystemVisibility", "immersiveSticky");
   --physics.setDrawMode("hybrid");

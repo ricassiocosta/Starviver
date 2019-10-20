@@ -23,7 +23,7 @@ function M.class:__init(_x, _y)
                               self.y, 
                               math.random(100, 300), 
                               math.random(100, 300), 
-                              0,
+                              45,
                               "imgs/asteroid.png", 
                               "Asteroide", 
                               description,

@@ -38,7 +38,7 @@ function M.BaseEnemy:__init(_enemyType,
   end
   self.sprite.enemyType = _enemyType; --base class
 
-  self.sprite.rotation = _rotation or 0;
+  self.sprite.rotation = self.rotation or 0;
   self.sprite.name = _name or "BaseEnemy";
   self.sprite.description = _description or "Base Description";
   self.layer = _layer or 1;
@@ -52,12 +52,13 @@ function M.BaseEnemy:__init(_enemyType,
   self.autoKill = true; --when true, will despawn enemies that are too far from player
   self.sprite.damage = 2;
 
-  self.sprite.chaseTimeout = 0;
+  self.sprite.chaseTimeout = -1;
   self.sprite.damageTimeout = 0;
   self.turnRateAngleDiff = 0;
   self.collisionID = 4;
   self.maskBits = _maskBits or 7;
-  self.isChasingPlayer = false;
+  self.sprite.isChasingPlayer = false;
+  self.sprite.isStuck = false;
   self.sprite.pointsPerKill = _pointsPerKill;
 
   self.sprite.healthBar = display.newRect(self.x, self.y - (self.sprite.height/2) - 50, 150, 20)
@@ -68,6 +69,7 @@ function M.BaseEnemy:__init(_enemyType,
 
   self.sprite.maxSpeed = 1200;
   self.sprite.acceleration = 1;
+  self.sprite.isPassive = false;
   self.sprite.healthBar.maxHealth = 30;
   self.sprite.healthBar.health = 30;
   self.sprite.healthBar.armour = 0.5;
@@ -94,6 +96,15 @@ function M.BaseEnemy:shake()
       self.sprite.shakeMax = self.sprite.shakeMax - 0.85;
     end
   end
+end
+
+function M.BaseEnemy:updateHealthBar()
+  --sets healthBar size, and make sure it follows the enemy's movement
+  self.sprite.healthBar.width = (self.sprite.healthBar.health / self.sprite.healthBar.maxHealth) * self.sprite.healthMissing.width;
+  self.sprite.healthBar.y = self.sprite.y - (self.sprite.height/2) - 50;
+  self.sprite.healthBar.x = self.sprite.x - ((self.sprite.healthMissing.width - self.sprite.healthBar.width)/2);
+  self.sprite.healthMissing.y = self.sprite.y - (self.sprite.height/2) - 50;
+  self.sprite.healthMissing.x = self.sprite.x;
 end
 
 function M.BaseEnemy:kill()
@@ -133,6 +144,30 @@ function M.BaseEnemy:getWayPoint(force)
   return self.sprite.wayPointX, self.sprite.wayPointY;
 end
 
+function M.BaseEnemy:setOppositeAngle()
+  --used to turn 180 degress around and go other way
+  --helps prevent massive pileups
+  self.oppositeAngle = self.sprite.rotation - 180;
+  if(self.oppositeAngle < 0) then
+    self.oppositeAngle = 360 + self.oppositeAngle;
+  end
+  print(self.oppositeAngle)
+  return self.oppositeAngle;
+end
+
+function M.BaseEnemy:turnAround()
+  self.turnRateAngleDiff = (self.sprite.rotation - self.oppositeAngle + 180) % 360 - 180;
+  if(self.turnRateAngleDiff > 10) then
+    self.sprite.rotation = self.sprite.rotation - 6;
+  elseif(self.turnRateAngleDiff < -10) then
+    self.sprite.rotation = self.sprite.rotation + 6;
+  else
+    self.sprite.rotation = self.oppositeAngle;
+    self.sprite.isStuck = false;
+    self:lockOnTarget(self:getWayPoint(true));
+  end
+end
+
 function M.BaseEnemy:lockOnTarget(_x, _y)
   self.turnRateAngleDiff = (self.sprite.rotation - self:getDirectionTo(_x, _y) + 180) % 360 - 180;
 
@@ -146,6 +181,25 @@ function M.BaseEnemy:lockOnTarget(_x, _y)
   self.sprite:setLinearVelocity(self.sprite.maxSpeed * math.sin(math.rad(self.sprite.rotation)), self.sprite.maxSpeed * -math.cos(math.rad(self.sprite.rotation)));
 end
 
+function M.BaseEnemy:chase(isPassive)
+  if(isPassive == false and (self:getDistanceTo(player:getX(), player:getY()) < 1920 or self.sprite.healthBar.health < self.sprite.healthBar.maxHealth)) then
+    if(self.sprite.chaseTimeout <= 0) then
+      self:lockOnTarget(self:getWayPoint(true));
+      self.sprite.chaseTimeout = 120;
+      self.sprite.isChasingPlayer = false;
+    else
+      self.sprite.speed = self.sprite.speed * 2;
+      self:lockOnTarget(player:getX(), player:getY())
+      self.sprite.isChasingPlayer = true;
+      self.sprite.chaseTimeout = self.sprite.chaseTimeout - 1;
+    end
+  else
+    self.sprite.isChasingPlayer = false;
+    self:lockOnTarget(self:getWayPoint());
+  end
+end
+
+
 function M.BaseEnemy:brake()
   self.sprite:setLinearVelocity(0, 0);
   self.sprite.x = self.sprite.x;
@@ -156,43 +210,32 @@ function M.BaseEnemy:onCollision( event )
   if(event.other.name ~= "Bullet") then
     if(event.other.name == "Player") then
       event.other.damage(self.damage);
-    elseif(self.chaseTimeout <= 0) then
-      self.wayPointX = math.random(self.x - 5000, self.x + 5000);
-      self.wayPointY = math.random(self.y - 5000, self.y + 5000);
+    else
+      self.isStuck = true;
     end
   end
 end
 
-function M.BaseEnemy:run( )
-  if(self.sprite.healthBar.health <= 0 or self:getDistanceTo(player:getX(), player:getY()) > 10000) then
+function M.BaseEnemy:run()
+  --Checks if enemy is dead
+  if (self.sprite.healthBar.health <= 0 or self:getDistanceTo(player:getX(), player:getY()) > 10000) then
     self.sprite.isDead = true;
   else
+    --print(self.sprite.isStuck)
+    self:updateHealthBar();
+    --runs shake routine
     self:shake();
+
     if(self.sprite.isShaking == false) then
       self.x = self.sprite.x;
       self.y = self.sprite.y;
     end
 
-    --sets health bar size, and makes sure it follows the enemy's movement
-    self.sprite.healthBar.width = (self.sprite.healthBar.health / self.sprite.healthBar.maxHealth) * self.sprite.healthMissing.width;
-    self.sprite.healthBar.y = self.sprite.y - (self.sprite.height/2) - 50;
-    self.sprite.healthBar.x = self.sprite.x;
-    self.sprite.healthMissing.y = self.sprite.healthBar.y
-    self.sprite.healthMissing.x = self.sprite.x;
-
-    if(self:getDistanceTo(player:getX(), player:getY()) < 1080) then
-      if(self.sprite.chaseTimeout <= 0) then
-        self:lockOnTarget(self:getWayPoint(true));
-        self.sprite.chaseTimeout = 120;
-        self.isChasingPlayer = false;
-      else
-        self:lockOnTarget(player:getX(), player:getY())
-        self.isChasingPlayer = true;
-        self.sprite.chaseTimeout = self.sprite.chaseTimeout - 1;
-      end
+    if(self.sprite.isStuck == false) then
+      self:setOppositeAngle();
+      self:chase(self.sprite.isPassive);
     else
-      self.isChasingPlayer = false;
-      self:lockOnTarget(self:getWayPoint());
+      self:turnAround();
     end
   end
 end
