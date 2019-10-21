@@ -52,6 +52,7 @@ function M.BaseEnemy:__init(_enemyType,
   self.autoKill = true; --when true, will despawn enemies that are too far from player
   self.sprite.damage = 2;
   self.sprite.index = newIndex;
+  self.sprite.radarColour = {1, 1, 1};
 
   self.sprite.chaseTimeout = -1;
   self.sprite.damageTimeout = 0;
@@ -110,6 +111,7 @@ end
 
 function M.BaseEnemy:kill()
   score:increase(self, self.sprite.pointsPerKill);
+  player:getRadar():kill(self.sprite.enemyType, self.sprite.index)
   self.sprite:removeSelf();
   self.sprite.healthBar:removeSelf();
   self.sprite.healthMissing:removeSelf();
@@ -239,7 +241,11 @@ function M.BaseEnemy:run()
     end
 
     if(self:getDistanceTo(player:getX(), player:getY()) < 2250)then
-      player:getRadar():draw(self.sprite.x - player:getX(), self.sprite.y - player:getY(), self.sprite.enemyType, self.sprite.index);
+      player:getRadar():draw(self.sprite.x - player:getX(),
+                            self.sprite.y - player:getY(),
+                            self.sprite.enemyType,
+                            self.sprite.index,
+                            self.sprite.radarColour);
     else
       player:getRadar():kill(self.sprite.enemyType, self.sprite.index)
     end

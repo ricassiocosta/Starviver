@@ -39,6 +39,7 @@ function M.class:__init(_x, _y, newIndex)
   self.sprite.healthBar.maxHealth = 25;
   self.sprite.healthBar.health = 25;
   self.sprite.healthBar.armour = math.random(30, 50) / 100;
+  self.sprite.radarColour = {1, 0.4, 0.2};
 
   self.bullets = bullets.newInstance(self.sprite, "imgs/bullet_1.png", self.sprite.width / 4, self.sprite.height - 50, self.sprite.maxSpeed * 125);
   self.bulletCooldown = 0;  

@@ -37,6 +37,7 @@ function M.class:__init(_x, _y, newIndex)
   self.sprite.healthBar.health = 65;
   self.sprite.healthBar.armour = ((self.sprite.width + self.sprite.height)) / 1010; --armour can never be 100% resistance
   self.sprite.damage = math.random(30,60);
+  self.sprite.radarColour = {0, 0.8, 1};
 
   physics.addBody(self.sprite, "kinematic");
 end

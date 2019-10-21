@@ -39,35 +39,31 @@ function radar.class:getDistanceTo( _x1, _y1, _x2, _y2 )
     return distance;
 end
 
-function radar.class:draw(_x, _y, _enemyType, _index)
-    _x = _x/10;
-    _y = _y/10;
-  
-    if(self.dotTable[_enemyType][_index] == nil) then
-      local dot = display.newCircle(275+_x, 275+_y, 7);
-      table.insert(self.dotTable[_enemyType], _index, dot);
-    else
-      self.dotTable[_enemyType][_index].isVisible = true;
-      self.dotTable[_enemyType][_index].x = 275+_x;
-      self.dotTable[_enemyType][_index].y = 275+_y;
-      if(_enemyType == 1) then
-        self.dotTable[_enemyType][_index]:setFillColor(1,0,0)
-      elseif(_enemyType == 2) then
-        self.dotTable[_enemyType][_index]:setFillColor(0,1,0)
-      elseif(_enemyType == 3) then
-        self.dotTable[_enemyType][_index]:setFillColor(0,0,1)
-      end
-    end
-  end
+function radar.class:draw(_x, _y, _enemyType, _index, _colour)
+  _colour = _colour or {1, 1, 1};
+  _x = _x/10;
+  _y = _y/10;
 
-  function radar.class:kill(_enemyType, _index)
-    if(self.dotTable[_enemyType][_index] ~= nil) then
-      self.dotTable[_enemyType][_index].isVisible = false;
-    end
+  if(self.dotTable[_enemyType][_index] == nil) then
+    local dot = display.newCircle(275+_x, 275+_y, 7);
+    table.insert(self.dotTable[_enemyType], _index, dot);
+  else
+    self.dotTable[_enemyType][_index].isVisible = true;
+    self.dotTable[_enemyType][_index].isVisible = true;
+    self.dotTable[_enemyType][_index].x = 275+_x;
+    self.dotTable[_enemyType][_index].y = 275+_y;
+    self.dotTable[_enemyType][_index]:setFillColor(unpack(_colour));
   end
-  
-  function radar.class:run()
-    self.radarTri.rotation = self.rootObject.rotation;
+end
+
+function radar.class:kill(_enemyType, _index)
+  if(self.dotTable[_enemyType][_index] ~= nil) then
+    self.dotTable[_enemyType][_index].isVisible = false;
   end
-  
-  return radar;
+end
+
+function radar.class:run()
+  self.radarTri.rotation = self.rootObject.rotation;
+end
+
+return radar;
