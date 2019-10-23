@@ -44,7 +44,7 @@ function M.BaseEnemy:__init(_enemyType,
   self.layer = _layer or 1;
 
   self.sprite.speed = 10;
-  self.sprite.shakeMax = 15;
+  self.sprite.shakeMax = 24;
   self.sprite.shakeAmount = 0;
   self.sprite.isShaking = false;
   self.sprite.wayPointX = 0;
@@ -53,6 +53,7 @@ function M.BaseEnemy:__init(_enemyType,
   self.sprite.damage = 2;
   self.sprite.index = newIndex;
   self.sprite.radarColour = {1, 1, 1};
+  self.oppositeAngle = 180;
 
   self.sprite.chaseTimeout = -1;
   self.sprite.damageTimeout = 0;
@@ -75,6 +76,7 @@ function M.BaseEnemy:__init(_enemyType,
   self.sprite.healthBar.maxHealth = 30;
   self.sprite.healthBar.health = 30;
   self.sprite.healthBar.armour = 0.5; --armour is damage resistance. from 0-1 higher number means more resistance
+  self.turnRate = 3;
 
   scene:addObjectToScene(self.sprite, self.layer);
   scene:addObjectToScene(self.sprite.healthMissing, self.layer);
@@ -89,12 +91,13 @@ end
 function M.BaseEnemy:shake()
   if(self.sprite.isShaking == true) then
     if(self.sprite.shakeMax <= 1) then
-      self.sprite.shakeMax = 12;
+      self.sprite.shakeMax = 24;
       self.sprite.isShaking = false;
+      self.sprite:setFillColor(1, 1, 1);
     else
       self.sprite.shakeAmount = math.random(self.sprite.shakeMax);
-      self.sprite.x = self.x + math.random(-self.sprite.shakeAmount, self.sprite.shakeAmount);
-      self.sprite.y = self.y + math.random(-self.sprite.shakeAmount, self.sprite.shakeAmount);
+      self.sprite.x = self.sprite.x + math.random(-self.sprite.shakeAmount, self.sprite.shakeAmount);
+      self.sprite.y = self.sprite.y + math.random(-self.sprite.shakeAmount, self.sprite.shakeAmount);
       self.sprite.shakeMax = self.sprite.shakeMax - 1;
     end
   end
@@ -159,10 +162,10 @@ end
 
 function M.BaseEnemy:turnAround()
   self.turnRateAngleDiff = (self.sprite.rotation - self.oppositeAngle + 180) % 360 - 180;
-  if(self.turnRateAngleDiff > 10) then
-    self.sprite.rotation = self.sprite.rotation - 6;
-  elseif(self.turnRateAngleDiff < -10) then
-    self.sprite.rotation = self.sprite.rotation + 6;
+  if(self.turnRateAngleDiff > self.turnRate * 4) then
+    self.sprite.rotation = self.sprite.rotation - 2 * self.turnRate;
+  elseif(self.turnRateAngleDiff < -self.turnRate * 4) then
+    self.sprite.rotation = self.sprite.rotation + 2 * self.turnRate;
   else
     self.sprite.rotation = self.oppositeAngle;
     self.sprite.isStuck = false;
@@ -173,10 +176,10 @@ end
 function M.BaseEnemy:lockOnTarget(_x, _y)
   self.turnRateAngleDiff = (self.sprite.rotation - self:getDirectionTo(_x, _y) + 180) % 360 - 180;
 
-  if(self.turnRateAngleDiff > 10) then
-    self.sprite.rotation = self.sprite.rotation - 3;
-  elseif(self.turnRateAngleDiff < -10) then
-    self.sprite.rotation = self.sprite.rotation + 3;
+  if(self.turnRateAngleDiff > self.turnRate * 2) then
+    self.sprite.rotation = self.sprite.rotation - self.turnRate;
+  elseif(self.turnRateAngleDiff < -self.turnRate * 2) then
+    self.sprite.rotation = self.sprite.rotation + self.turnRate;
   else
     self.sprite.rotation = self:getDirectionTo(_x, _y);
   end
@@ -220,7 +223,7 @@ end
 
 function M.BaseEnemy:run()
   --Checks if enemy is dead
-  if (self.sprite.healthBar.health <= 0 or self:getDistanceTo(player:getX(), player:getY()) > 10000) then
+  if (self.sprite.healthBar.health <= 0 or self:getDistanceTo(player:getX(), player:getY()) > 100000) then
     self.sprite.isDead = true;
   else
     --print(self.sprite.isStuck)
@@ -240,9 +243,9 @@ function M.BaseEnemy:run()
       self:turnAround();
     end
 
-    if(self:getDistanceTo(player:getX(), player:getY()) < 2250)then
-      player:getRadar():draw(self.sprite.x - player:getX(),
-                            self.sprite.y - player:getY(),
+    if(self:getDistanceTo(player:getX(), player:getY()) < 5500)then
+      player:getRadar():draw((self.sprite.x - player:getX())/25,
+                            (self.sprite.y - player:getY())/25,
                             self.sprite.enemyType,
                             self.sprite.index,
                             self.sprite.radarColour);

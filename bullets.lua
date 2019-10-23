@@ -24,8 +24,8 @@ function bullets.newInstance:__init(_object,
   if(_image ~= nil) then
     self.imagePath = _image;
   end
-  self.width = _width or self.baseObject.width/8;
-  self.height = _height or self.baseObject.height/3;
+  self.width = _width or self.baseObject.width/4;
+  self.height = _height or self.baseObject.height/1.5;
   self.speed = _speed or 5000;
 
   self.bulletNum = 0;
@@ -64,7 +64,7 @@ function onBulletCollision( self, event )
   if (event.phase == "began") then
     self.isDead = true;
     if (event.other.name == "Player") then
-      event.other.damage(80);
+      event.other.damage(self.baseObject.damage);
     else
       print(event.other.name .. " | " .. event.other.healthBar.armour);
       event.other.healthBar.health = event.other.healthBar.health - (4 * (1 - event.other.healthBar.armour));
@@ -103,10 +103,11 @@ function bullets.newInstance:shoot(_maskBits, _angleOffset)
   self.bullet[self.bulletNum]:addEventListener("collision", self.bullet[self.bulletNum])
 end
 
-function bullets.newInstance:removeBullets()
+function bullets.newInstance:removeBullets(_baseObj)
+  _baseObj = _baseObj or self.baseObject;
   for i = 1, table.getn(self.bullet) do
     if (self.bullet[i] == nil) then break
-    elseif (self:getDistanceTo(i, self.baseObject.x, self.baseObject.y) > 5000 or (self.bullet[i].isDead == true or self.baseObject.isDead == true)) then
+    elseif (self:getDistanceTo(i, _baseObj.x, _baseObj.y) > 5000 or (self.bullet[i].isDead == true or _baseObj.isDead == true)) then
       self.bullet[i]:removeSelf();
       table.remove(self.bullet, i);
     end

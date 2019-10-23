@@ -71,7 +71,7 @@ function spaceship.new(_x, _y, _acceleration)
 
 	physics.addBody(player, "kinematic", {filter = {categoryBits = collisionID, maskBits = 7}});
 
-	bullets = bullet.newInstance(player, "imgs/bullet_3.png", player.width / 3, player.height/1.25);
+	bullets = bullet.newInstance(player, "imgs/bullet_3.png", player.width/6);
 
 	return setmetatable( newSpaceship, spaceship_mt )
 end
@@ -264,7 +264,7 @@ function spaceship:run( ) --Runs every frame
 		shootCooldown = 0
 	end
 
-	if(player.damageTimeout <= 295) then
+	if(player.damageTimeout <= 299) then
 		player.isVisible = true;
 	else
 		player.isVisible = not player.isVisible;

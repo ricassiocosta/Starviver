@@ -51,7 +51,7 @@ function M.class:runCoroutine()
     self.bulletCooldown = 10;
     self.bullets:shoot(1);
   end
-self.bullets:removeBullets();
+self.bullets:removeBullets(player:getDisplayObject());
 --print("Attack_Galleon:" .. table.getn(self.bullets:getTable()))
 
 self.bulletCooldown = self.bulletCooldown - 1;

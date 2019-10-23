@@ -12,6 +12,7 @@ local scene = require("scene")
 local stalker = require("en_stalker")
 local asteroid = require("en_asteroid")
 local galleon = require("en_galleon")
+local station = require("en_station")
 
 enemies = {};
 enemies_mt = {__index = enemies}; --metatable
@@ -20,6 +21,8 @@ local enemyList;
 local moduleList;
 local stalkerList;
 local asteroidList;
+local galleonList;
+local stationList;
 
 local enemyCount = 0; --stores number of enemies spawned
 local enemyTimer = 0; --used to repeatedly spawn in enemies
@@ -33,6 +36,7 @@ function enemies.new()
   stalkerList = {};
   asteroidList = {};
   galleonList = {};
+  stationList = {};
 
   enemyList = {
     --[[
@@ -40,10 +44,12 @@ function enemies.new()
     [1] = stalkerList,
     [2] = asteroidList,
     [3] = galleonList,
+    [4] = stationList,
     ]]
     stalkerList,
     asteroidList,
-    galleonList
+    galleonList,
+    stationList
   }
 
 
@@ -51,7 +57,8 @@ function enemies.new()
   moduleList = {
     stalker,
     asteroid,
-    galleon
+    galleon,
+    station
   }
 
   return newEnemies;
@@ -76,7 +83,7 @@ end
 function enemies:spawn(_index, _x, _y)
   if (_index ~= nil) then
     table.insert(enemyList[_index], moduleList[_index].class(_x, _y, table.getn(enemyList[_index])+1));
-    print(enemyList[_index][table.getn(enemyList[_index])].sprite.name .. " | " .. enemyList[_index][table.getn(enemyList[_index])].sprite.index);
+    --print(enemyList[_index][table.getn(enemyList[_index])].sprite.name .. " | " .. enemyList[_index][table.getn(enemyList[_index])].sprite.index);
     return enemyList[_index][table.getn(enemyList[_index])];
   else
     return -1;
@@ -100,11 +107,11 @@ end
 function enemies:randomSpawn(_x, _y)
   --randomly spawns enemies
 
-  if(enemyTimer < 60) then
+  if(enemyTimer < 120) then
     enemyTimer = enemyTimer + 1;
   else
     enemyTimer = 0;
-    if(enemyCount < 25) then
+    if(enemyCount < 100) then
       enemies:spawn(math.random(1, table.getn(enemyList)), math.random(_x - 3000, _x + 3000), math.random(_y - 3000, _y + 3000));
     end
   end
