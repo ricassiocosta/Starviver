@@ -9,6 +9,7 @@
 local class = require("classy");
 local scene = require("scene");
 local physics = require("physics");
+physics:start();
 
 local powerups = {};
 powerups.class = class("Powerup");
@@ -25,6 +26,14 @@ function powerups.class:__init(params)
         self.rotationFactor = math.random(-360, 360)/120
     end
     scene:addObjectToScene(self.sprite, 1);
+
+    physics.addBody( self.sprite, "static", {isSensor=true, filter = {categoryBits = 16, maskBits = 1}});
+    self.sprite.collision = self.onCollision;
+    self.sprite:addEventListener("collision", self.sprite);
+end
+
+function powerups.class:onCollision(self, event)
+    print("COLLIDE");
 end
 
 function powerups.class:run(_index)

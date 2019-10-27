@@ -69,7 +69,7 @@ function spaceship.new(_x, _y, _acceleration)
 
 	collisionID = 1;
 
-	physics.addBody(player, "kinematic", {filter = {categoryBits = collisionID, maskBits = 7}});
+	physics.addBody(player, "kinematic", {filter = {categoryBits = collisionID, maskBits = 23}});
 
 	bullets = bullet.newInstance(player, "imgs/bullet_3.png", player.width/6);
 
