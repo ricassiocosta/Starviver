@@ -8,7 +8,7 @@
 local enemyBase = require("baseEnemy");
 local class = require("classy");
 
-local M = {}
+local M = {};
 
 M.class = class("Stalker", enemyBase.BaseEnemy);
 M.description = "Rápidos e leves, os Perseguidores são caçadores perigosos que estão sempre dispostos a adicionar uma nova estrela no universo."
@@ -29,7 +29,7 @@ function M.class:__init( _x, _y, newIndex )
                               10,
                               0,
                               newIndex);
-  
+                              
   self.sprite.maxSpeed = 1200;
   self.sprite.acceleration = 1;
   self.sprite.healthBar.maxHealth = 30;
@@ -40,8 +40,8 @@ function M.class:__init( _x, _y, newIndex )
   physics.addBody(self.sprite, "kinematic")
 end
 
-function M.class:runCoroutine( )
-  
+function M.class:runCoroutine()
+  --Add enemytype specific run routines here
 end
 
 return M;

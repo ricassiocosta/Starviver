@@ -8,7 +8,17 @@ local isPressed;
 
 local btnCircle;
 
-function button.new( _x, _y, _width, _height, _r, _g, _b )
+function button.new(_x,
+					_y,
+					_height,
+					_width,
+					_toggleable,
+					_r,
+					_g,
+					_b,
+					_a,
+					_tag)
+					
 	local newButton = {
 		x = _x;
 		y = _y;
@@ -18,13 +28,16 @@ function button.new( _x, _y, _width, _height, _r, _g, _b )
 	}
 
 	x = _x;
-	y = _y;
-	width = _width;
-	height = _height;
-	isPressed = false;
-	r = _r or 1;
-	g = _g or 1;
-	b = _b or 1;
+  y = _y;
+  width = _width;
+  height = _height;
+  tag = _tag or "button";
+  isToggleable = _toggleable or false;
+  isPressed = false;
+  r = _r or 1;
+  g = _g or 1;
+  b = _b or 1;
+  a = _a or 1;
 
 	btnCircle = display.newCircle(x, y, width, height);
 	btnCircle:setFillColor(r, g, b)

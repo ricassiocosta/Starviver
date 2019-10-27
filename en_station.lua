@@ -20,8 +20,20 @@ M.description = "Impenetrável. Imbatível. Inevitável"
 function M.class:__init(_x, _y, newIndex)
   self.x = _x;
   self.y = _y;
-  enemyBase.BaseEnemy.__init(self, 3, self.x, self.y, 260, 300, math.random(0, 359), "imgs/combat_station.png", "Estação de Combate", description, 0, newIndex);
-
+  enemyBase.BaseEnemy.__init( self, 
+                              3, 
+                              self.x, 
+                              self.y, 
+                              260, 
+                              300, 
+                              math.random(0, 359), 
+                              "imgs/combat_station.png", 
+                              "Estação de Combate", 
+                              description, 
+                              50, 
+                              0, 
+                              newIndex);
+  
   self.sprite.maxSpeed = 0;
   self.sprite.acceleration = 0.5;
   self.sprite.healthBar.maxHealth = 100;
@@ -35,7 +47,7 @@ function M.class:__init(_x, _y, newIndex)
   physics.removeBody(self.sprite);
   physics.addBody(self.sprite, "kinematic", {filter = { categoryBits = self.collisionID, maskBits=self.maskBits }});
 
-  self.bullets = bullets.newInstance(self.sprite, nil, self.sprite.width/15, self.sprite.height/1.5);
+  self.bullets = bullets.newInstance(self.sprite, "imgs/bullet_2.png", 25, 25);
   self.bulletCooldown = 0;
 end
 
@@ -66,16 +78,14 @@ end
 
 function M.class:runCoroutine()
   if(self.sprite.isChasingPlayer == true and self.bulletCooldown<=0) then
-    self.bulletCooldown = 4;
-    self.bullets:shoot(1, -10);
-    self.bullets:shoot(1, -5);
-    self.bullets:shoot(1);
-    self.bullets:shoot(1, 5);
-    self.bullets:shoot(1, 10);
+    self.bulletCooldown = 35;
+    self.bullets:shoot(1, -22);
+    self.bullets:shoot(1, 95);
+    self.bullets:shoot(1, 35);
   end
   self.bullets:removeBullets(player:getDisplayObject());
-
   self.bulletCooldown = self.bulletCooldown - 1;
+  self.sprite.rotation = self.sprite.rotation + 2;
 end
 
 return M;

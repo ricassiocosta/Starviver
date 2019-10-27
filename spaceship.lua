@@ -37,8 +37,8 @@ local radar;
 --Constructor
 function spaceship.new(_x, _y, _acceleration)
 	local newSpaceship = {
-		speed = 0;
 	}
+
 	speed = 0;
 	currentSpeed = 0;
 	maxSpeed = 30;
@@ -196,18 +196,20 @@ end
 function spaceship:initHUD()
 	--spawns in HUD and controls
 	actualScore = display.newText("0", 1200, 300, "Arial", 72);
-	stick = joystick.new(1.125 * display.contentWidth / 8, 6 * display.contentHeight / 8);
-	fireBtn = button.new(1.7 * (display.contentWidth / 2), 
-						1.5 * (display.contentHeight / 2), 
-						display.contentWidth/17, 
-						display.contentWidth/17, 
-						255, 
-						45, 
-						65);
+	stick = joystick.new(1.125 * display.contentWidth/8, 6 * display.contentHeight / 8);
+  	fireBttn = button.new(display.contentWidth - (display.contentHeight/4),  --x
+                        display.contentHeight-(display.contentHeight/6),   --y
+                        display.contentWidth/17, display.contentWidth/17,  --width, height
+                        false,     --toggleable?
+                        1,      --red
+                        0.6,      --green
+                        0.6,     --blue
+                        0.5,     --alpha
+                        "fire");  --tag
 
-	radar = RadarClass.class(player)
-	fireBtn:init();
-	stick:init();
+  radar = RadarClass.class(player);
+  fireBttn:init();
+  stick:init();
 end
 
 function spaceship:init()
@@ -229,7 +231,7 @@ function spaceship:run( ) --Runs every frame
 	player.healthMissing.y = player.y - 100 - speed * lastMagnitude * math.cos(math.rad(lastAngle));
 	player.healthMissing.x = player.x + speed * lastMagnitude * math.sin(math.rad(lastAngle));
 
-	if (fireBtn:isPressed() == true) then
+	if (fireBttn:isPressed() == true) then
 		isShooting = true;
 	else
 		isShooting = false;
