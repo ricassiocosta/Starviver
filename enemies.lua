@@ -13,6 +13,7 @@ local stalker = require("en_stalker")
 local asteroid = require("en_asteroid")
 local galleon = require("en_galleon")
 local station = require("en_station")
+local score = require("score")
 
 enemies = {};
 enemies_mt = {__index = enemies}; --metatable
@@ -81,9 +82,11 @@ end
 ]]
 
 function enemies:spawn(_index, _x, _y)
-  if (_index ~= nil) then
+  if(_index ~= nil and score:get() > 500) then
     table.insert(enemyList[_index], moduleList[_index].class(_x, _y, table.getn(enemyList[_index])+1));
-    --print(enemyList[_index][table.getn(enemyList[_index])].sprite.name .. " | " .. enemyList[_index][table.getn(enemyList[_index])].sprite.index);
+    return enemyList[_index][table.getn(enemyList[_index])];
+  elseif (_index ~= nil and _index ~= 4) then
+    table.insert(enemyList[_index], moduleList[_index].class(_x, _y, table.getn(enemyList[_index])+1));
     return enemyList[_index][table.getn(enemyList[_index])];
   else
     return -1;

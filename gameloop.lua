@@ -31,7 +31,8 @@ function gameloop:init()
 	--math.randomseed(os.time()); math.random( ); math.random( );
 	system.activate("multitouch")
 	native.setProperty("androidSystemVisibility", "immersiveSticky");
-  --physics.setDrawMode("hybrid");
+  	--physics.setDrawMode("hybrid");
+ 	display.setDefault("background", 0/255, 42/255, 60/255);
 
 	--sets gamestate
 	gameState = 2;
@@ -44,6 +45,9 @@ function gameloop:init()
 	scene:init(1)
   player:init();
   player:initHUD();
+
+  enemy:spawn(4);
+  enemy:spawn(4);
 end
 
 --Runs continously. Different code for each different game state

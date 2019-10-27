@@ -70,6 +70,7 @@ function onBulletCollision( self, event )
       event.other.healthBar.health = event.other.healthBar.health - (4 * (1 - event.other.healthBar.armour));
       if(event.other.healthBar.health > event.other.healthBar.maxHealth) then event.other.healthBar.health = event.other.healthBar.maxHealth end
       event.other.isShaking = true;
+      event.other.shakeMax = 24;
       event.other.healthBar.isVisible = true; event.other.healthMissing.isVisible = true;
     end
   end

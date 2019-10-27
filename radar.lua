@@ -18,7 +18,7 @@ function radar.class:__init(_rootObj)
 
   self.radarBackground = display.newCircle(275, 275, 225);
   self.radarBackground:setFillColor(0,0,0, 0.65);
-  self.radarTri = display.newImageRect("imgs/radar-triangle.png", 25, 25);
+  self.radarTri = display.newImageRect("imgs/radar-triangle.png", 50, 50);
   self.radarTri.x = 275; self.radarTri.y = 275;
 
   self.stalkerDot = {};
@@ -44,7 +44,7 @@ function radar.class:draw(_x, _y, _enemyType, _index, _colour)
   _y = _y;
 
   if(self.dotTable[_enemyType][_index] == nil) then
-    local dot = display.newCircle(275+_x, 275+_y, 6);
+    local dot = display.newCircle(275+_x, 275+_y, 10);
     table.insert(self.dotTable[_enemyType], _index, dot);
   else
     self.dotTable[_enemyType][_index].isVisible = true;

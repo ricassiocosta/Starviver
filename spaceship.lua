@@ -197,13 +197,13 @@ function spaceship:initHUD()
 	--spawns in HUD and controls
 	actualScore = display.newText("0", 1200, 300, "Arial", 72);
 	stick = joystick.new(1.125 * display.contentWidth/8, 6 * display.contentHeight / 8);
-  	fireBttn = button.new(display.contentWidth - (display.contentHeight/4),  --x
-                        display.contentHeight-(display.contentHeight/6),   --y
+  	fireBttn = button.new(1.7 * (display.contentWidth / 2),  --x
+                        1.5 * (display.contentHeight / 2),   --y
                         display.contentWidth/17, display.contentWidth/17,  --width, height
                         false,     --toggleable?
-                        1,      --red
-                        0.6,      --green
-                        0.6,     --blue
+                        255,      --red
+                        45,      --green
+                        65,     --blue
                         0.5,     --alpha
                         "fire");  --tag
 
