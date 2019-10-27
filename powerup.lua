@@ -14,16 +14,18 @@ local powerups = {};
 powerups.class = class("Powerup");
 
 function powerups.class:__init(params)
-  params.x = params.x or 0;
-  params.y = params.y or 0;
-  self.image = params.image or "";
-  self.sprite = display.newImageRect(params.image, params.width, params.height);
-  self.sprite.x, self.sprite.y = params.x, params.y
-  scene:addObjectToScene(self.sprite, 1);
+    self.x = params.x or 0;
+    self.y = params.y or 0;
+    self.width = params.width or 256;
+    self.height = params.height or 256;
+    self.image = params.image or "";
+    self.sprite = display.newImageRect(self.image, self.width, self.height);
+    self.sprite.x, self.sprite.y = self.x, self.y;
+    scene:addObjectToScene(self.sprite, 1);
 end
 
 function powerups.class:run()
-  self.sprite.rotation = self.sprite.rotation + 1;
+    self.sprite.rotation = self.sprite.rotation + 1;
 end
 
 return powerups;

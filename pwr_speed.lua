@@ -5,17 +5,19 @@
 --------------------------------------------------------------------------------
 --------------------------------- PWR_SPEED.LUA --------------------------------
 --------------------------------------------------------------------------------
-local powerups = require("powerup");
+local basePowerup = require("powerup");
 local class = require("classy");
 local physics = require("physics");
 
 local M = {};
 
-M.class = class("Speedboost", powerups.Powerup);
+M.class = class("Speedboost", basePowerup.class);
 
 function M.class:__init(_index, params)
+  params.image = "imgs/pwr-speed.png";
   self.index = _index;
-  self.name = params.name;
+  self.name = "Speedboost";
+  basePowerup.class:__init(params);
 end
 
 function M.class:sayHello()

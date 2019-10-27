@@ -1,24 +1,24 @@
 --------------------------------------------------------------------------------
 --
--- The powerup manager
+-- The M manager
 --
 --------------------------------------------------------------------------------
 ------------------------------ POWERUP_MANAGER.LUA -----------------------------
 --------------------------------------------------------------------------------
 local scene = require("scene");
-local classy = require("classy");
+local class = require("classy");
 --powerup modules
---local speedboost = require("pwr_speed");
+local speedboost = require("pwr_speed");
 
-local powerup = {};
-powerup.class = class("PowerupManager");
+local M = {};
+M.class = class("PowerupManager");
 
-function powerup.class:__init()
+function M.class:__init()
   self.moduleList = {
     --[[
         [1] --> Speed Boost
     --]]
-    --speedboost
+    speedboost
   }
 
   self.speedBoostList = {}
@@ -28,20 +28,33 @@ function powerup.class:__init()
   }
 end
 
-function powerup.class:get(_index1, _index2)
+function M.class:get(_index1, _index2)
   if (_index1 == nil) then
-    return powerupList;
+    return self.powerupList;
   elseif (_index2 == nil) then
-    return powerupList[_index1];
+    return self.powerupList[_index1];
   else
-    return powerupList[_index1][_index2];
+    return self.powerupList[_index1][_index2];
   end
 end
 
-function powerup.class:spawn(_index, params)
+function M.class:spawn(_index, params)
+  params = params or {};
   if (_index) then
-    table.insert(powerupList[_index], moduleList[_index].class(params));
+    table.insert(self.powerupList[_index], self.moduleList[_index].class(_index, params));
   end
 end
 
-return powerup;
+function M.class:run()
+  for i = 1, table.getn(self.powerupList) do
+    for j = 1, table.getn(self.powerupList[i]) do
+      print(i .. " | " .. j)
+      if (self.powerupList[i][j] == nil) then break
+      else
+        self.powerupList[i][j]:run();
+      end
+    end
+  end
+end
+
+return M;

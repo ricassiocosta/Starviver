@@ -42,15 +42,18 @@ function gameloop:init()
 	--creates instances of classes
 	enemy = enemies.new();
 	player = spaceship.new(0, 0, 0.75)
+	powerups = powerup:class();
 	
 	--initializes instances
 	scene:init(1)
-  player:init();
-  player:initHUD();
+	player:init();
+	player:initHUD();
 
-  enemy:spawn(4);
-  enemy:spawn(4);
-  powerups = powerup:class();
+	powerups:spawn(1, {x = 200, y = 300});
+	powerups:spawn(1);
+	powerups:spawn(1);
+	powerups:spawn(1);
+	powerups:spawn(1);
 end
 
 --Runs continously. Different code for each different game state
@@ -61,7 +64,7 @@ function gameloop:run()
   enemy:randomSpawn(player:getX(), player:getY()) --spawns enemies randomly
   enemy:run(); --runs enemy logic
 
-  speedboost:run();
+  powerups:run();
 end
 
 return gameloop;
