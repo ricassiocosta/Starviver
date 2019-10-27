@@ -7,6 +7,7 @@
 ------------------------------- Private Fields ---------------------------------
 local scene = require("scene");
 local class = require("classy");
+local score = require("score");
 local player = require("spaceship");
 local physics = require("physics");
 
@@ -26,7 +27,7 @@ function M.BaseEnemy:__init(_enemyType,
                             _pointsPerKill, 
                             _layer,
                             newIndex)
-                            
+
   self.x = _x or math.random(-10000, 10000);
   self.y = _y or math.random(-10000, 10000);
   self.width = _width or 100;
@@ -62,6 +63,7 @@ function M.BaseEnemy:__init(_enemyType,
   self.maskBits = _maskBits or 7;
   self.sprite.isChasingPlayer = false;
   self.sprite.isStuck = false;
+  self.sprite.pointsPerKill = _pointsPerKill;
 
   self.sprite.healthBar = display.newRect(self.x, self.y - (self.sprite.height/2) - 50, 150, 20);
   self.sprite.healthBar:setFillColor(100/255, 255/255, 60/255);
@@ -115,6 +117,7 @@ end
 
 --Kills the enemy (does NOT remove from list of enemies)
 function M.BaseEnemy:kill()
+  score:increase(self, self.sprite.pointsPerKill);
   player:getRadar():kill(self.sprite.enemyType, self.sprite.index)
   self.sprite.healthBar:removeSelf();
   self.sprite.healthMissing:removeSelf();
