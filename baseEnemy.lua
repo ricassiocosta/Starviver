@@ -196,7 +196,7 @@ end
 
 --
 function M.BaseEnemy:chase(isPassive)
-  if(isPassive == false and (self:getDistanceTo(player:getX(), player:getY()) < 1920 or self.sprite.healthBar.health < self.sprite.healthBar.maxHealth)) then
+  if(isPassive == false and (self:getDistanceTo(player:getX(), player:getY()) < 5500)) then
     if(self.sprite.chaseTimeout <= 0) then
       self:lockOnTarget(self:getWaypoint(true));
       self.sprite.chaseTimeout = 120;
@@ -246,7 +246,7 @@ function M.BaseEnemy:run()
 
     if(self.sprite.isStuck == false) then
       self:setOppositeAngle();
-      self:chase(self.sprite.isPassive == 44);
+      self:chase(self.sprite.isPassive);
     else
       self:turnAround();
     end
