@@ -5,7 +5,7 @@
 --
 -- scene.lua
 ------------------------------- Private Fields ---------------------------------
-local perspective = require("perspective")
+local perspective = require("perspective");
 
 local scene = {};
 local scene_mt = {__index = scene}; --metatable

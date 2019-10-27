@@ -3,6 +3,7 @@ local spaceship = require("spaceship")
 local physics = require("physics")
 local scene = require("scene")
 local enemies = require("enemies")
+local powerup = require("powerup_manager")
 local score = require("score")
 
 ------------------------------- Private Fields ---------------------------------
@@ -22,6 +23,7 @@ local stick;
 local fireBtn;
 local testEn;
 local enemy;
+local powerups;
 
 ------------------------------ Public Functions --------------------------------
 
@@ -48,6 +50,7 @@ function gameloop:init()
 
   enemy:spawn(4);
   enemy:spawn(4);
+  powerups = powerup:class();
 end
 
 --Runs continously. Different code for each different game state
@@ -57,6 +60,8 @@ function gameloop:run()
   player:run(); --runs player controls
   enemy:randomSpawn(player:getX(), player:getY()) --spawns enemies randomly
   enemy:run(); --runs enemy logic
+
+  speedboost:run();
 end
 
 return gameloop;
