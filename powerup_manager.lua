@@ -48,7 +48,7 @@ end
 function M.class:run()
   for i = 1, table.getn(self.powerupList) do
     for j = 1, table.getn(self.powerupList[i]) do
-      print(i .. " | " .. j)
+      --print(i .. " | " .. j)
       if (self.powerupList[i][j] == nil) then break
       else
         self.powerupList[i][j]:run();

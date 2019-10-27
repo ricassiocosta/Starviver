@@ -34,7 +34,7 @@ function gameloop:init()
 	system.activate("multitouch")
 	native.setProperty("androidSystemVisibility", "immersiveSticky");
   	--physics.setDrawMode("hybrid");
- 	display.setDefault("background", 0/255, 42/255, 60/255);
+ 	display.setDefault("background", 0/255, 32/255, 50/255);
 
 	--sets gamestate
 	gameState = 2;
@@ -49,7 +49,7 @@ function gameloop:init()
 	player:init();
 	player:initHUD();
 
-	powerups:spawn(1, {x = 200, y = 300});
+	powerups:spawn(1);
 	powerups:spawn(1);
 	powerups:spawn(1);
 	powerups:spawn(1);

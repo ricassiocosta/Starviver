@@ -15,9 +15,9 @@ M.class = class("Speedboost", basePowerup.class);
 
 function M.class:__init(_index, params)
   params.image = "imgs/pwr-speed.png";
+  basePowerup.class:__init(self, params);
   self.index = _index;
   self.name = "Speedboost";
-  basePowerup.class:__init(params);
 end
 
 function M.class:sayHello()
