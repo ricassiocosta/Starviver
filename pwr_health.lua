@@ -14,7 +14,7 @@ local M = {};
 M.class = class("Healthkit", basePowerup.class);
 
 function M.class:__init(_index, params)
-  params.image = "img/sprites/pwr-health.png";
+  params.image = "imgs/pwr-health.png";
   basePowerup.class.__init(self, params);
   self.index = _index;
   self.name = "Healthkit";

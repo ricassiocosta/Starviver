@@ -24,8 +24,8 @@ function M.class:sayHello()
   if(self.name) then print(self.name); end
 end
 
-function M.class.onCollision( self, event )
-  if (event.phase == "began") then
+function M.class.onCollision(self, event)
+  if(event.phase == "began") then
     self.isDead = true;
     if (event.other.maxSpeed < 72) then
       event.other.maxSpeed = event.other.maxSpeed + 15;

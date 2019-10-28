@@ -45,14 +45,14 @@ function M.class:get(_index1, _index2)
   end
 end
 
-function M.class:randomSpawn( _x, _y )
+function M.class:randomSpawn(_x, _y)
   --randomly spawns enemies
-  if(self.spawnTimer < 90) then
+  if (self.spawnTimer < 90) then
     self.spawnTimer = self.spawnTimer + 1;
   else
     self.spawnTimer = 0;
-    if(true) then
-      self:spawn(math.random(1, table.getn(self.powerupList)), {x = math.random(_x - 3000, _x + 3000), y = math.random(_y - 3000, _y + 3000)})
+    if (true) then
+      self:spawn(math.random(1, table.getn(self.powerupList)), {x = math.random(_x - 3000, _x + 3000), y = math.random(_y - 3000, _y + 3000)});
     end
   end
 end
