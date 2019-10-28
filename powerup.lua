@@ -28,6 +28,7 @@ function powerups.class:__init(params)
     scene:addObjectToScene(self.sprite, 1);
 
     physics.addBody( self.sprite, "dynamic", {isSensor=true, filter = {categoryBits = 16, maskBits = 1}});
+    self.sprite.gravityScale = 0;
     self.sprite.collision = self.onCollision;
     self.sprite:addEventListener("collision", self.sprite);
 end

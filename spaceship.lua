@@ -65,11 +65,11 @@ function spaceship.new(_x, _y, _acceleration)
 	player.healthBar.maxHealth = 1000;
 	player.damage = nil;
 	player.damageTimeout = 0;
-	player.maxSpeed = 30;
+	player.maxSpeed = 35;
 
 	collisionID = 1;
 
-	physics.addBody(player, "static", {filter = {categoryBits = collisionID, maskBits = 23}});
+	physics.addBody(player, "kinematic", {filter = {categoryBits = collisionID, maskBits = 23}});
 	player.isFixedRotation = true;
 	player.gravityScale = 0;
 
@@ -224,7 +224,7 @@ function spaceship:init()
 end
 
 function spaceship:run( ) --Runs every frame
-
+	print(player.maxSpeed)
 	player.healthBar.width = (player.healthBar.health/player.healthBar.maxHealth) * player.healthMissing.width;
 
 	--Moves the healthbar with player

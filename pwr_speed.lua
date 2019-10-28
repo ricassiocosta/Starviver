@@ -15,7 +15,7 @@ M.class = class("Speedboost", basePowerup.class);
 
 function M.class:__init(_index, params)
   params.image = "imgs/pwr-speed.png";
-  basePowerup.class:__init(self, params);
+  basePowerup.class.__init(self, params);
   self.index = _index;
   self.name = "Speedboost";
 end
@@ -27,10 +27,9 @@ end
 function M.class.onCollision(self, event)
   if(event.phase == "began") then
     self.isDead = true;
-    if (event.other.maxSpeed < 45) then
-      event.other.maxSpeed = event.other.maxSpeed + 15;
-    else
-      event.other.maxSpeed = 30;
+    event.other.maxSpeed = event.other.maxSpeed + 3;
+    if (event.other.maxSpeed > 50) then
+      event.other.maxSpeed = 50;
     end
   end
 end

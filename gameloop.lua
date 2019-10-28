@@ -49,13 +49,7 @@ function gameloop:init()
 	player:init();
 	player:initHUD();
 
-	enemy:spawn(3, 100, 100);
 
-	powerups:spawn(1);
-	powerups:spawn(1);
-	powerups:spawn(2);
-	powerups:spawn(2);
-	powerups:spawn(1);
 end
 
 --Runs continously. Different code for each different game state
