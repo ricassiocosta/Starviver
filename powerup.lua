@@ -32,10 +32,6 @@ function powerups.class:__init(params)
     self.sprite:addEventListener("collision", self.sprite);
 end
 
-function powerups.class:onCollision(self, event)
-    print("COLLIDE");
-end
-
 function powerups.class:run(_index)
     self.sprite.rotation = self.sprite.rotation + self.rotationFactor;
 end

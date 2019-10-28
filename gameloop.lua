@@ -33,7 +33,7 @@ function gameloop:init()
 	--math.randomseed(os.time()); math.random( ); math.random( );
 	system.activate("multitouch")
 	native.setProperty("androidSystemVisibility", "immersiveSticky");
-  	--physics.setDrawMode("hybrid");
+  	physics.setDrawMode("hybrid");
  	display.setDefault("background", 0/255, 32/255, 50/255);
 
 	--sets gamestate
@@ -49,10 +49,12 @@ function gameloop:init()
 	player:init();
 	player:initHUD();
 
+	enemy:spawn(3, 100, 100);
+
 	powerups:spawn(1);
 	powerups:spawn(1);
-	powerups:spawn(1);
-	powerups:spawn(1);
+	powerups:spawn(2);
+	powerups:spawn(2);
 	powerups:spawn(1);
 end
 
@@ -60,11 +62,12 @@ end
 function gameloop:run()	
 	actualScore.text = score:get();
 
-  player:run(); --runs player controls
-  enemy:randomSpawn(player:getX(), player:getY()) --spawns enemies randomly
-  enemy:run(); --runs enemy logic
+	player:run(); --runs player controls
+	enemy:randomSpawn(player:getX(), player:getY()) --spawns enemies randomly
+	enemy:run(); --runs enemy logic
 
-  powerups:run();
+	powerups:randomSpawn(player:getX(), player:getY()) --spawns enemies randomly
+	powerups:run();
 end
 
 return gameloop;

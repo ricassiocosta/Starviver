@@ -9,6 +9,7 @@ local scene = require("scene");
 local class = require("classy");
 --powerup modules
 local speedboost = require("pwr_speed");
+local healthkit = require("pwr_health")
 
 local M = {};
 M.class = class("PowerupManager");
@@ -17,15 +18,21 @@ function M.class:__init()
   self.moduleList = {
     --[[
         [1] --> Speed Boost
+        [2] --> HealthKi
     --]]
-    speedboost
+    speedboost,
+    healthkit
   }
 
   self.speedBoostList = {}
+  self.healthkitList = {}
 
   self.powerupList = {
     self.speedBoostList;
+    self.healthkitList;
   }
+
+  self.spawnTimer = 0;
 end
 
 function M.class:get(_index1, _index2)
@@ -35,6 +42,18 @@ function M.class:get(_index1, _index2)
     return self.powerupList[_index1];
   else
     return self.powerupList[_index1][_index2];
+  end
+end
+
+function M.class:randomSpawn( _x, _y )
+  --randomly spawns enemies
+  if(self.spawnTimer < 90) then
+    self.spawnTimer = self.spawnTimer + 1;
+  else
+    self.spawnTimer = 0;
+    if(true) then
+      self:spawn(math.random(1, table.getn(self.powerupList)), {x = math.random(_x - 3000, _x + 3000), y = math.random(_y - 3000, _y + 3000)})
+    end
   end
 end
 
@@ -50,6 +69,9 @@ function M.class:run()
     for j = 1, table.getn(self.powerupList[i]) do
       --print(i .. " | " .. j)
       if (self.powerupList[i][j] == nil) then break
+      elseif (self.powerupList[i][j].sprite.isDead == true) then
+        self.powerupList[i][j].sprite:removeSelf();
+        table.remove(self.powerupList[i], j)
       else
         self.powerupList[i][j]:run();
       end

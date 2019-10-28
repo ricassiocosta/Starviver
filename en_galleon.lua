@@ -36,6 +36,7 @@ function M.class:__init(_x, _y, newIndex)
 
   self.sprite.maxSpeed = 800;
   self.sprite.acceleration = 0.5;
+  self.sprite.damage = 75;
   self.sprite.healthBar.maxHealth = 25;
   self.sprite.healthBar.health = 25;
   self.sprite.healthBar.armour = math.random(30, 50)/100;
