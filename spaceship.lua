@@ -39,7 +39,6 @@ function spaceship.new(_x, _y, _acceleration)
 	local newSpaceship = {
 	}
 
-	speed = 0;
 	currentSpeed = 0;
 	accelerationRate = _acceleration;
 	shootCooldown = 0;
@@ -66,6 +65,15 @@ function spaceship.new(_x, _y, _acceleration)
 	player.damage = nil;
 	player.damageTimeout = 0;
 	player.maxSpeed = 35;
+	player.speed = 0;
+	--stores the cooldowns on the buffs gained by most powerups
+	--counts down; 0 means cooldown is done
+	--[[
+		[1] --> speedBoost
+	]]
+	player.powerupBuffs = {
+		-1
+	}
 
 	collisionID = 1;
 
@@ -165,7 +173,7 @@ function spaceship:setIsShooting( _flag )
 end
 
 function spaceship:setSpeed( _speed )
-	speed = _speed;
+	player.speed = _speed;
 end
 
 function spaceship:setAcceleration( _acceleration )
@@ -181,15 +189,27 @@ function spaceship.damage( _damage )
 	end
 end
 
+function spaceship:updateBuffs()
+	for k = 1, table.getn(player.powerupBuffs) do
+		player.powerupBuffs[k] = player.powerupBuffs[k] - 1;
+		if(player.powerupBuffs[k] == 0) then
+		if(k == 1) then
+			player.maxSpeed = 35;
+			player.speed = 35;
+		end
+		end
+	end
+end
+
 function spaceship:translate( _x, _y, _angle )
 	player.x = player.x + _x;
 	player.y = player.y + _y;
 	turnRateAngleDiff = (player.rotation - _angle + 180) % 360 - 180;
 
-	if (turnRateAngleDiff > speed/4) then
-		player.rotation = player.rotation - speed/4
-	elseif (turnRateAngleDiff < -speed/4) then
-		player.rotation = player.rotation + speed/4
+	if (turnRateAngleDiff > player.speed/4) then
+		player.rotation = player.rotation - player.speed/4
+	elseif (turnRateAngleDiff < -player.speed/4) then
+		player.rotation = player.rotation + player.speed/4
 	else
 		player.rotation = _angle;
 	end
@@ -224,14 +244,14 @@ function spaceship:init()
 end
 
 function spaceship:run( ) --Runs every frame
-	print(player.maxSpeed)
+	spaceship:updateBuffs();
 	player.healthBar.width = (player.healthBar.health/player.healthBar.maxHealth) * player.healthMissing.width;
 
 	--Moves the healthbar with player
-	player.healthBar.y = player.y - 100 - speed * lastMagnitude * math.cos(math.rad(lastAngle));
-	player.healthBar.x = player.x - ((player.healthMissing.width - player.healthBar.width)/2) + speed * lastMagnitude * math.sin(math.rad(lastAngle));
-	player.healthMissing.y = player.y - 100 - speed * lastMagnitude * math.cos(math.rad(lastAngle));
-	player.healthMissing.x = player.x + speed * lastMagnitude * math.sin(math.rad(lastAngle));
+	player.healthBar.y = player.y - 100 - player.speed * lastMagnitude * math.cos(math.rad(lastAngle));
+	player.healthBar.x = player.x - ((player.healthMissing.width - player.healthBar.width)/2) + player.speed * lastMagnitude * math.sin(math.rad(lastAngle));
+	player.healthMissing.y = player.y - 100 - player.speed * lastMagnitude * math.cos(math.rad(lastAngle));
+	player.healthMissing.x = player.x + player.speed * lastMagnitude * math.sin(math.rad(lastAngle));
 
 	if (fireBttn:isPressed() == true) then
 		isShooting = true;
@@ -239,22 +259,22 @@ function spaceship:run( ) --Runs every frame
 		isShooting = false;
 	end
 	
-	if(joystick:isInUse() == false and (speed) > 0) then
-		speed = speed - accelerationRate;
-		currentSpeed = speed;
-		spaceship:translate( lastMagnitude * math.sin(math.rad(lastAngle)) * speed, 
-							-lastMagnitude * math.cos(math.rad(lastAngle)) * speed,
+	if(joystick:isInUse() == false and (player.speed) > 0) then
+		player.speed = player.speed - accelerationRate;
+		currentSpeed = player.speed;
+		spaceship:translate( lastMagnitude * math.sin(math.rad(lastAngle)) * player.speed, 
+							-lastMagnitude * math.cos(math.rad(lastAngle)) * player.speed,
 							 lastAngle);
 	elseif(joystick:isInUse() == true) then
 		player:setLinearVelocity(0, 0);
 		player:applyTorque(0);
 
-		if(speed < player.maxSpeed) then
-			speed = speed + (accelerationRate * joystick:getMagnitude());
+		if(player.speed < player.maxSpeed) then
+			player.speed = player.speed + (accelerationRate * joystick:getMagnitude());
 		end
-		currentSpeed = joystick:getMagnitude() * speed;
-		spaceship:translate( joystick:getMagnitude() * math.sin(math.rad(joystick:getAngle())) * speed,
-							-joystick:getMagnitude() * math.cos(math.rad(joystick:getAngle())) * speed, 
+		currentSpeed = joystick:getMagnitude() * player.speed;
+		spaceship:translate( joystick:getMagnitude() * math.sin(math.rad(joystick:getAngle())) * player.speed,
+							-joystick:getMagnitude() * math.cos(math.rad(joystick:getAngle())) * player.speed, 
 							 joystick:getAngle());
 		lastAngle = joystick:getAngle();
 		lastMagnitude = joystick:getMagnitude();

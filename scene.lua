@@ -24,6 +24,7 @@ function scene:addFocusTrack(_obj)
 end
 
 function scene:init(_sceneNum)
+  sceneNum = _sceneNum;
   camera = perspective.createView();
   camera:prependLayer();
 
