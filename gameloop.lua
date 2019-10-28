@@ -33,7 +33,7 @@ function gameloop:init()
 	--math.randomseed(os.time()); math.random( ); math.random( );
 	system.activate("multitouch")
 	native.setProperty("androidSystemVisibility", "immersiveSticky");
-  	physics.setDrawMode("hybrid");
+  	--physics.setDrawMode("hybrid");
  	display.setDefault("background", 0/255, 32/255, 50/255);
 
 	--sets gamestate

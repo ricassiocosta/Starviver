@@ -69,7 +69,7 @@ function spaceship.new(_x, _y, _acceleration)
 
 	collisionID = 1;
 
-	physics.addBody(player, "dynamic", {filter = {categoryBits = collisionID, maskBits = 23}});
+	physics.addBody(player, "static", {filter = {categoryBits = collisionID, maskBits = 23}});
 	player.isFixedRotation = true;
 	player.gravityScale = 0;
 
