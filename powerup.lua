@@ -17,8 +17,8 @@ powerups.class = class("Powerup");
 function powerups.class:__init(params)
     self.x = params.x or math.random(-1000, 1000);
     self.y = params.y or math.random(-1000, 1000);
-    self.width = params.width or 256;
-    self.height = params.height or 256;
+    self.width = params.width or 128;
+    self.height = params.height or 128;
     self.image = params.image or "";
     self.sprite = display.newImageRect(self.image, self.width, self.height);
     self.sprite.x, self.sprite.y = self.x, self.y;
