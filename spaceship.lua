@@ -90,90 +90,6 @@ end
 
 ------------------------------ Public Functions --------------------------------
 
---[[
-  getDisplayObject
-    @return player
-    - returns the display object / sprite of the spaceship
-    - used for camera tracking
-  getX
-    @return x
-    - gets the spaceship's x position on the screen
-  getY
-    @return y
-    - gets the spaceship's y position on the screen
-  getSpeed
-    @return speed
-    - gets the speed of the spaceship
-  getBullets
-    @return bullets
-    - gets the table containing all shot bullets
-  setIsShooting
-    ( _flag = boolean to set isShooting as)
-    - used to toggle shooting on or off
-  setX
-    ( _x = new x coordinate of the spaceship)
-    - sets the spaceship's x coordinate
-  setY
-    ( _y = new y coordinate of the spaceship)
-    - sets the spaceship's y coordinate
-  setSpeed
-    (_speed = new speed of spaceship)
-    - sets the spaceship's new speed
-  setAcceleration
-    (_acceleration = new accelerationRate of spaceship)
-    - sets the acceleartion and decceleration rate of the spaceship (in pixels per 1/60th of a second squared)
-  init
-    - runs once at the beginning of the game loop
-    - used to initiate the physics engine
-  translate
-    (_x = new x coordinate
-     _y = new y coordinate
-     _angle = angle to rotate the spaceship)
-    - translates the spaceship around
-    - usually used alongside the joystick in a gameloop
-  debug
-    - sets the gui texts as important info, such as coordinates or speed
-    - mainly used to debug game during development
-  run
-    - runs during the game loop.
-    - allows for the spaceship to move using the joystick.
-  shoot
-    - controlls the shooting of bullets
-    - adds bullets to a table containing all bullets
-]]--
-
-function spaceship:getGameOverBG()
-	return gameOverBackground;
-end
-
-function spaceship:isDead()
-	return player.isDead;
-end
-
-function spaceship:getDisplayObject(  )
-	return player;
-end
-
-function spaceship:getX()
-	return player.x;
-end
-
-function spaceship:getY(  )
-	return player.y;
-end
-
-function spaceship:getSpeed(  )
-	return speed;
-end
-
-function spaceship:setX( _x )
-	x = _x;
-end
-
-function spaceship:setY( _y )
-	y = _y;
-end
-
 function spaceship:setIsShooting( _flag )
 	isShooting = _flag;
 end
@@ -224,24 +140,6 @@ function spaceship:translate( _x, _y, _angle )
 	end
 end
 
-function spaceship:initHUD()
-	--spawns in HUD and controls
-	actualScore = display.newText("0", 1200, 300, "Arial", 72);
-	stick = joystick.new(1.125 * display.contentWidth/8, 6 * display.contentHeight / 8);
-  	fireBttn = button.new(1.7 * (display.contentWidth / 2),  --x
-                        1.5 * (display.contentHeight / 2),   --y
-                        display.contentWidth/17, display.contentWidth/17,  --width, height
-                        false,     --toggleable?
-                        255,      --red
-                        45,      --green
-                        65,     --blue
-                        0.5,     --alpha
-                        "fire");  --tag
-
-  fireBttn:init();
-  stick:init();
-end
-
 function spaceship:getStick()
 	return stick;
 end
@@ -262,10 +160,6 @@ end
 function spaceship:run( ) --Runs every frame
 	if(player.healthBar.health <= 0) then
 		player.isDead = true;
-		gameOverBackground = display.newRect(display.contentWidth/2, display.contentHeight/2, display.contentWidth, display.contentHeight);
-		gameOverBackground = display.newRect(display.contentWidth/2, display.contentHeight/2, display.actualContentWidth, display.actualContentHeight);
-		gameOverBackground:setFillColor(0.8, 0.1, 0.2, 1);
-		gameOverBackground.alpha = 0;
 	else
 		spaceship:updateBuffs();
 		player.healthBar.width = (player.healthBar.health/player.healthBar.maxHealth) * player.healthMissing.width;

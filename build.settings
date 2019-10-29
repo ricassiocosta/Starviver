@@ -5,21 +5,21 @@
 
 settings =
 {
-	
+
 	orientation =
 	{
 		-- Supported values for orientation:
 		-- portrait, portraitUpsideDown, landscapeLeft, landscapeRight
 
 		default = "landscapeRight",
-		supported = { "landscapeRight", "landscapeLeft"}
+		supported = { "landscapeRight", "landscapeLeft" }
 	},
-	
+
 	excludeFiles =
 	{
 		-- Include only the necessary icon files on each platform
-		iphone = { "Icon-*dpi.png", },
-		android = { "Icon.png", "Icon-Small-*.png", "Icon*@2x.png", },
+		iphone = { "img/icons.Icon-*dpi.png", },
+		android = { "img/icons.Icon.png", "img/icons.Icon-Small-*.png", "img/icons.Icon*@2x.png", },
 	},
 
 	--
@@ -35,22 +35,22 @@ settings =
 
 			CFBundleIconFiles =
 			{
-				"Icon.png",
-				"Icon@2x.png",
-				"Icon-60.png",
-				"Icon-60@2x.png",
-				"Icon-60@3x.png",
-				"Icon-72.png",
-				"Icon-72@2x.png",
-				"Icon-76.png",
-				"Icon-76@2x.png",
-				"Icon-Small.png",
-				"Icon-Small@2x.png",
-				"Icon-Small@3x.png",
-				"Icon-Small-40.png",
-				"Icon-Small-40@2x.png",
-				"Icon-Small-50.png",
-				"Icon-Small-50@2x.png",
+				"img/icons.Icon.png",
+				"img/icons.Icon@2x.png",
+				"img/icons.Icon-60.png",
+				"img/icons.Icon-60@2x.png",
+				"img/icons.Icon-60@3x.png",
+				"img/icons.Icon-72.png",
+				"img/icons.Icon-72@2x.png",
+				"img/icons.Icon-76.png",
+				"img/icons.Icon-76@2x.png",
+				"img/icons.Icon-Small.png",
+				"img/icons.Icon-Small@2x.png",
+				"img/icons.Icon-Small@3x.png",
+				"img/icons.Icon-Small-40.png",
+				"img/icons.Icon-Small-40@2x.png",
+				"img/icons.Icon-Small-50.png",
+				"img/icons.Icon-Small-50@2x.png",
 			},
 
 			--[[
@@ -67,15 +67,15 @@ settings =
 			--]]
 		}
 	},
-	
+
 	--
 	-- Android Section
 	--
 	android =
 	{
-		usesPermissions =
+		UIAppFonts =  --List of supported fonts
 		{
-			"android.permission.INTERNET",
+			"font/LeagueSpartan-Bold.ttf",
 		},
 	},
 }
