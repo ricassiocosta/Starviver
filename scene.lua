@@ -32,21 +32,21 @@ function scene:init(_sceneNum)
     ----------------------------------------------------------------------------
     -- Adds in Scenery
     ----------------------------------------------------------------------------
-    local sceneDots = {};
+    local sceneStars = {};
     for i = 1, 5000 do
       if (math.random(1, 4) == 1) then
-        sceneDots[i] = display.newRect(0, 0, 10, 10);
-        sceneDots[i].rotation = 45;
+        sceneStars[i] = display.newRect(0, 0, 10, 10);
+        sceneStars[i].rotation = 45;
       else
-        sceneDots[i] = display.newCircle(0, 0, 10);
+        sceneStars[i] = display.newCircle(0, 0, 10);
       end
-      sceneDots[i].x = math.random(-display.contentWidth * 3, display.contentWidth * 3);
-      sceneDots[i].y = math.random(-display.contentHeight * 3, display.contentHeight * 3);
-      sceneDots[i]:setFillColor(math.random(100) * 0.01, math.random(100) * 0.01, math.random(100) * 0.01);
+      sceneStars[i].x = math.random(-display.contentWidth * 3, display.contentWidth * 3);
+      sceneStars[i].y = math.random(-display.contentHeight * 3, display.contentHeight * 3);
+      sceneStars[i]:setFillColor(math.random(100) * 0.01, math.random(100) * 0.01, math.random(100) * 0.01);
       local layer = math.random(2, camera:layerCount());
-      camera:add(sceneDots[i], layer);
-      sceneDots[i].width = (11 - layer) * 3;
-      sceneDots[i].height = (11 - layer) * 3;
+      camera:add(sceneStars[i], layer);
+      sceneStars[i].width = (11 - layer) * 3;
+      sceneStars[i].height = (11 - layer) * 3;
     end
 
     --adds paralax to the layers

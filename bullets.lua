@@ -67,7 +67,7 @@ function onBulletCollision( self, event )
       event.other.damage(self.baseObject.damage);
     else
       print(event.other.name .. " | " .. event.other.healthBar.armour);
-      event.other.healthBar.health = event.other.healthBar.health - (4 * (1 - event.other.healthBar.armour));
+      event.other.healthBar.health = event.other.healthBar.health - (self.baseObject.bulletDamage * (1 - event.other.healthBar.armour));
       if(event.other.healthBar.health > event.other.healthBar.maxHealth) then event.other.healthBar.health = event.other.healthBar.maxHealth end
       event.other.isShaking = true;
       event.other.shakeMax = 24;

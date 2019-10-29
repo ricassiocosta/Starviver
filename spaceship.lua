@@ -63,6 +63,7 @@ function spaceship.new(_x, _y, _acceleration)
 	player.healthBar.armour = 0;
 	player.healthBar.maxHealth = 1000;
 	player.damage = nil;
+	player.bulletDamage = 4;
 	player.damageTimeout = 0;
 	player.maxSpeed = 35;
 	player.speed = 0;
@@ -70,8 +71,10 @@ function spaceship.new(_x, _y, _acceleration)
 	--counts down; 0 means cooldown is done
 	--[[
 		[1] --> speedBoost
+		[2] --> double Damage
 	]]
 	player.powerupBuffs = {
+		-1,
 		-1
 	}
 
@@ -196,6 +199,9 @@ function spaceship:updateBuffs()
 		if(k == 1) then
 			player.maxSpeed = 35;
 			player.speed = 35;
+		elseif(k == 2) then
+			player:setFillColor(1, 1, 1)
+			player.bulletDamage = player.bulletDamage / 2;
 		end
 		end
 	end
