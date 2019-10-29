@@ -60,6 +60,14 @@ function radar.class:kill(_enemyType, _index)
   end
 end
 
+function radar.class:clear()
+  for i = 1, table.getn(self.dotTable) do
+    for i = 1, table.getn(self.dotTable[i]) do
+      self.dotTable[i][j].isVisible = false;
+    end
+  end
+end
+
 function radar.class:run()
   self.radarTri.rotation = self.rootObject.rotation;
 end

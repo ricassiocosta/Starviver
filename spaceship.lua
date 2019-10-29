@@ -10,7 +10,6 @@ local button = require("button")
 local physics = require("physics")
 local scene = require("scene")
 local bullet = require("bullets")
-local RadarClass = require("radar")
 
 local spaceship = {};
 local spaceship_mt = {__index = spaceship};
@@ -31,8 +30,6 @@ local lastMagnitude;
 
 local bullets;
 local collisionID;
-
-local radar;
 
 --Constructor
 function spaceship.new(_x, _y, _acceleration)
@@ -67,6 +64,8 @@ function spaceship.new(_x, _y, _acceleration)
 	player.damageTimeout = 0;
 	player.maxSpeed = 35;
 	player.speed = 0;
+	player.isDead = false;
+
 	--stores the cooldowns on the buffs gained by most powerups
 	--counts down; 0 means cooldown is done
 	--[[
@@ -94,17 +93,17 @@ end
 --[[
   getDisplayObject
     @return player
-    - returns the display object / sprite of the ship
+    - returns the display object / sprite of the spaceship
     - used for camera tracking
   getX
     @return x
-    - gets the ship's x position on the screen
+    - gets the spaceship's x position on the screen
   getY
     @return y
-    - gets the ship's y position on the screen
+    - gets the spaceship's y position on the screen
   getSpeed
     @return speed
-    - gets the speed of the ship
+    - gets the speed of the spaceship
   getBullets
     @return bullets
     - gets the table containing all shot bullets
@@ -112,36 +111,44 @@ end
     ( _flag = boolean to set isShooting as)
     - used to toggle shooting on or off
   setX
-    ( _x = new x coordinate of the ship)
-    - sets the ship's x coordinate
+    ( _x = new x coordinate of the spaceship)
+    - sets the spaceship's x coordinate
   setY
-    ( _y = new y coordinate of the ship)
-    - sets the ship's y coordinate
+    ( _y = new y coordinate of the spaceship)
+    - sets the spaceship's y coordinate
   setSpeed
-    (_speed = new speed of ship)
-    - sets the ship's new speed
+    (_speed = new speed of spaceship)
+    - sets the spaceship's new speed
   setAcceleration
-    (_acceleration = new accelerationRate of ship)
-    - sets the acceleartion and decceleration rate of the ship (in pixels per 1/60th of a second squared)
+    (_acceleration = new accelerationRate of spaceship)
+    - sets the acceleartion and decceleration rate of the spaceship (in pixels per 1/60th of a second squared)
   init
     - runs once at the beginning of the game loop
     - used to initiate the physics engine
   translate
     (_x = new x coordinate
      _y = new y coordinate
-     _angle = angle to rotate the ship)
-    - translates the ship around
+     _angle = angle to rotate the spaceship)
+    - translates the spaceship around
     - usually used alongside the joystick in a gameloop
   debug
     - sets the gui texts as important info, such as coordinates or speed
     - mainly used to debug game during development
   run
     - runs during the game loop.
-    - allows for the ship to move using the joystick.
+    - allows for the spaceship to move using the joystick.
   shoot
     - controlls the shooting of bullets
     - adds bullets to a table containing all bullets
 ]]--
+
+function spaceship:getGameOverBG()
+	return gameOverBackground;
+end
+
+function spaceship:isDead()
+	return player.isDead;
+end
 
 function spaceship:getDisplayObject(  )
 	return player;
@@ -157,10 +164,6 @@ end
 
 function spaceship:getSpeed(  )
 	return speed;
-end
-
-function spaceship:getRadar(  )
-	return radar;
 end
 
 function spaceship:setX( _x )
@@ -235,9 +238,16 @@ function spaceship:initHUD()
                         0.5,     --alpha
                         "fire");  --tag
 
-  radar = RadarClass.class(player);
   fireBttn:init();
   stick:init();
+end
+
+function spaceship:getStick()
+	return stick;
+end
+
+function spaceship:getButton()
+	return fireBttn;
 end
 
 function spaceship:init()
@@ -250,66 +260,72 @@ function spaceship:init()
 end
 
 function spaceship:run( ) --Runs every frame
-	spaceship:updateBuffs();
-	player.healthBar.width = (player.healthBar.health/player.healthBar.maxHealth) * player.healthMissing.width;
-
-	--Moves the healthbar with player
-	player.healthBar.y = player.y - 100 - player.speed * lastMagnitude * math.cos(math.rad(lastAngle));
-	player.healthBar.x = player.x - ((player.healthMissing.width - player.healthBar.width)/2) + player.speed * lastMagnitude * math.sin(math.rad(lastAngle));
-	player.healthMissing.y = player.y - 100 - player.speed * lastMagnitude * math.cos(math.rad(lastAngle));
-	player.healthMissing.x = player.x + player.speed * lastMagnitude * math.sin(math.rad(lastAngle));
-
-	if (fireBttn:isPressed() == true) then
-		isShooting = true;
+	if(player.healthBar.health <= 0) then
+		player.isDead = true;
+		gameOverBackground = display.newRect(display.contentWidth/2, display.contentHeight/2, display.contentWidth, display.contentHeight);
+		gameOverBackground:setFillColor(0.8, 0.1, 0.2, 1);
+		gameOverBackground.alpha = 0;
 	else
-		isShooting = false;
-	end
-	
-	if(joystick:isInUse() == false and (player.speed) > 0) then
-		player.speed = player.speed - accelerationRate;
-		currentSpeed = player.speed;
-		spaceship:translate( lastMagnitude * math.sin(math.rad(lastAngle)) * player.speed, 
-							-lastMagnitude * math.cos(math.rad(lastAngle)) * player.speed,
-							 lastAngle);
-	elseif(joystick:isInUse() == true) then
-		player:setLinearVelocity(0, 0);
-		player:applyTorque(0);
+		spaceship:updateBuffs();
+		player.healthBar.width = (player.healthBar.health/player.healthBar.maxHealth) * player.healthMissing.width;
 
-		if(player.speed < player.maxSpeed) then
-			player.speed = player.speed + (accelerationRate * joystick:getMagnitude());
+		--Moves the healthbar with player
+		player.healthBar.y = player.y - 100 - player.speed * lastMagnitude * math.cos(math.rad(lastAngle));
+		player.healthBar.x = player.x - ((player.healthMissing.width - player.healthBar.width)/2) + player.speed * lastMagnitude * math.sin(math.rad(lastAngle));
+		player.healthMissing.y = player.y - 100 - player.speed * lastMagnitude * math.cos(math.rad(lastAngle));
+		player.healthMissing.x = player.x + player.speed * lastMagnitude * math.sin(math.rad(lastAngle));
+
+		if (fireBttn:isPressed() == true) then
+			isShooting = true;
+		else
+			isShooting = false;
 		end
-		currentSpeed = joystick:getMagnitude() * player.speed;
-		spaceship:translate( joystick:getMagnitude() * math.sin(math.rad(joystick:getAngle())) * player.speed,
-							-joystick:getMagnitude() * math.cos(math.rad(joystick:getAngle())) * player.speed, 
-							 joystick:getAngle());
-		lastAngle = joystick:getAngle();
-		lastMagnitude = joystick:getMagnitude();
+		
+		if(joystick:isInUse() == false and (player.speed) > 0) then
+			player.speed = player.speed - accelerationRate;
+			currentSpeed = player.speed;
+			spaceship:translate( lastMagnitude * math.sin(math.rad(lastAngle)) * player.speed, 
+								-lastMagnitude * math.cos(math.rad(lastAngle)) * player.speed,
+								lastAngle);
+		elseif(joystick:isInUse() == true) then
+			player:setLinearVelocity(0, 0);
+			player:applyTorque(0);
+
+			if(player.speed < player.maxSpeed) then
+				player.speed = player.speed + (accelerationRate * joystick:getMagnitude());
+			end
+			currentSpeed = joystick:getMagnitude() * player.speed;
+			spaceship:translate( joystick:getMagnitude() * math.sin(math.rad(joystick:getAngle())) * player.speed,
+								-joystick:getMagnitude() * math.cos(math.rad(joystick:getAngle())) * player.speed, 
+								joystick:getAngle());
+			lastAngle = joystick:getAngle();
+			lastMagnitude = joystick:getMagnitude();
+		end
+
+		bullets:removeBullets();
+		shootCooldown = shootCooldown + 1;
+
+		if(isShooting == true and shootCooldown > (8)) then
+			bullets:shoot(4);
+			bullets:shoot(4, 2 - (currentSpeed/36.5));
+			bullets:shoot(4, -2 + (currentSpeed/36.5));
+			shootCooldown = 0
+		end
+
+		if(player.damageTimeout <= 299) then
+			player.isVisible = true;
+		else
+			player.isVisible = not player.isVisible;
+		end
+
+		player.damageTimeout = player.damageTimeout - 1;
+		if(player.damageTimeout <= 0 and player.healthBar.health < player.healthBar.maxHealth) then
+			player.healthBar.health = player.healthBar.health + 1;
+		end
+
+		player.x = player.x;
+		player.y = player.y;
 	end
-	radar:run();
-
-	bullets:removeBullets();
-	shootCooldown = shootCooldown + 1;
-
-	if(isShooting == true and shootCooldown > (8)) then
-		bullets:shoot(4);
-		bullets:shoot(4, 2 - (currentSpeed/36.5));
-    	bullets:shoot(4, -2 + (currentSpeed/36.5));
-		shootCooldown = 0
-	end
-
-	if(player.damageTimeout <= 299) then
-		player.isVisible = true;
-	else
-		player.isVisible = not player.isVisible;
-	end
-
-	player.damageTimeout = player.damageTimeout - 1;
-	if(player.damageTimeout <= 0 and player.healthBar.health < player.healthBar.maxHealth) then
-		player.healthBar.health = player.healthBar.health + 1;
-	end
-
-	player.x = player.x;
-	player.y = player.y;
 end
 
 return spaceship;

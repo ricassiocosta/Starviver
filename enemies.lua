@@ -119,18 +119,19 @@ function enemies:randomSpawn(_x, _y)
   end
 end
 
-function enemies:run()
+function enemies:run(params)
   enemyCount = 0;
   --runs logic behind enemies
   for i = 1, table.getn(enemyList) do
     for j = 1, table.getn(enemyList[i]) do
       if (enemyList[i][j] == nil) then break
       elseif (enemyList[i][j].sprite.isDead == true) then
-        enemyList[i][j]:kill();
+        enemyList[i][j]:kill(params.radar);
         table.remove(enemyList[i], j);
       else
         enemyList[i][j]:run();
         enemyList[i][j]:runCoroutine();
+        enemyList[i][j]:drawOnRadar(params.radar);
         enemyCount = enemyCount + 1;
       end
     end

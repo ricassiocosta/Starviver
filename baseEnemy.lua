@@ -116,9 +116,9 @@ function M.BaseEnemy:updateHealthBar()
 end
 
 --Kills the enemy (does NOT remove from list of enemies)
-function M.BaseEnemy:kill()
+function M.BaseEnemy:kill(_radarObject)
   score:increase(self, self.sprite.pointsPerKill);
-  player:getRadar():kill(self.sprite.enemyType, self.sprite.index)
+  _radarObject:kill(self.sprite.enemyType, self.sprite.index)
   self.sprite.healthBar:removeSelf();
   self.sprite.healthMissing:removeSelf();
   self.sprite:removeSelf();
@@ -229,6 +229,18 @@ function M.BaseEnemy:onCollision(event)
   end
 end
 
+function M.BaseEnemy:drawOnRadar(_radarObject)
+  if(self:getDistanceTo(player:getX(), player:getY()) < 5500)then
+    _radarObject:draw((self.sprite.x - player:getX())/25,
+                      (self.sprite.y - player:getY())/25,
+                      self.sprite.enemyType,
+                      self.sprite.index,
+                      self.sprite.radarColour);
+  else
+    _radarObject:kill(self.sprite.enemyType, self.sprite.index)
+  end
+end
+
 function M.BaseEnemy:run()
   --Checks if enemy is dead
   if (self.sprite.healthBar.health <= 0 or self:getDistanceTo(player:getX(), player:getY()) > 100000) then
@@ -249,16 +261,6 @@ function M.BaseEnemy:run()
       self:chase(self.sprite.isPassive);
     else
       self:turnAround();
-    end
-
-    if(self:getDistanceTo(player:getX(), player:getY()) < 5500)then
-      player:getRadar():draw((self.sprite.x - player:getX())/25,
-                            (self.sprite.y - player:getY())/25,
-                            self.sprite.enemyType,
-                            self.sprite.index,
-                            self.sprite.radarColour);
-    else
-      player:getRadar():kill(self.sprite.enemyType, self.sprite.index)
     end
   end
 end
