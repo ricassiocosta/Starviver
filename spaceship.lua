@@ -263,6 +263,7 @@ function spaceship:run( ) --Runs every frame
 	if(player.healthBar.health <= 0) then
 		player.isDead = true;
 		gameOverBackground = display.newRect(display.contentWidth/2, display.contentHeight/2, display.contentWidth, display.contentHeight);
+		gameOverBackground = display.newRect(display.contentWidth/2, display.contentHeight/2, display.actualContentWidth, display.actualContentHeight);
 		gameOverBackground:setFillColor(0.8, 0.1, 0.2, 1);
 		gameOverBackground.alpha = 0;
 	else
