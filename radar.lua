@@ -32,6 +32,15 @@ function radar.class:__init(_rootObj)
   }
 end
 
+--returns the display object
+function radar.class:getRadarObject()
+  return self.radarBackground;
+end
+
+function radar.class:getRadarTriangle()
+  return self.radarTri;
+end
+
 --Gets distance, in pixel widths, to a given point
 function radar.class:getDistanceTo(_x1, _y1, _x2, _y2)
   local distance = math.sqrt(((_x1 - _x2) * (_x1 - _x2)) + ((_y1 - _y2) * (_y1 - _y2)));

@@ -13,6 +13,7 @@ local gui = require("gui");
 local gameloop = {};
 local gameloop_mt = {};
 local gameState = 0;
+
 --[[  GameStates
 	0 = not initialized
 	1 = main menu
@@ -25,9 +26,8 @@ local player;
 local testEn;
 local enemy;
 local powerups;
+local hud;
 
-local stickee;
-local kek;
 ------------------------------ Public Functions --------------------------------
 
 -- Runs once to initialize the game
@@ -45,13 +45,15 @@ function gameloop:init()
 
 	--creates instances of classes
 	enemy = enemies.new();
-	--player = spaceship.new(0, 0, 0.75)
+	player = spaceship.new(0, 0, 0.75)
 	powerups = powerup:class();
 	
-	kek = gui.class();
 	--initializes instances
 	scene:init(1)
-	--player:init();
+	player:init();
+
+  	--initializes the hud
+  	hud = gui.class();
 end
 
 --Runs continously. Different code for each different game state
@@ -62,14 +64,14 @@ function gameloop:run()
   
 	if(gameState == 2) then
   
-	  --player:run(); --runs player controls
-	  --player:debug();
+	  player:run(); --runs player controls
   
 	  --enemy:randomSpawn(player:getX(), player:getY()) --spawns enemies randomly
-	  enemy:run({radar = radar}); --runs enemy logic
+	  enemy:run({}); --runs enemy logic
   
 	  --powerups:randomSpawn(player:getX(), player:getY()) --spawns powerups randomly
 	  powerups:run();
+	  hud:run();
 	elseif(gameState == 4) then
 	  --if player.getGameOverBG().alpha <= 0.9 then
 	  --  player.getGameOverBG().alpha = player.getGameOverBG().alpha + 0.01

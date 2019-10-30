@@ -40,6 +40,8 @@ function button.new(_x,
   a = _a or 1;
 
 	btnCircle = display.newCircle(x, y, width, height);
+	btnCircle.anchorX = 1;
+ 	btnCircle.anchorY = 1;
 	btnCircle:setFillColor(r, g, b)
 	return setmetatable(newButton, button_mt);
 end
@@ -64,6 +66,10 @@ end
 
 function button:init(  )
 	btnCircle:addEventListener("touch", run);
+end
+
+function button:getDisplayObject()
+	return btnCircle;
 end
 
 function button:isPressed(  )
