@@ -1,7 +1,9 @@
 -- Joystick code, used for moving the player
 
+local class = require("classy")
+
 local joystick = {};
-local joystick_mt = {__index = joystick};
+joystick.newInstance = class("Joystick");
 
 --[[
   angle
@@ -20,60 +22,50 @@ local joystick_mt = {__index = joystick};
     - Display object for movable joystick
 ]]--
 
-local angle;
-local magnitude;
-local background;
-local stick;
-local x, y;
+function joystick.newInstance:__init( _x, _y )
+	self.x = _x;
+	self.y = _y;
 
-local angleText;
-local magText;
+	self.angle = 0;
+	self.magnitude = 0;
 
-function joystick.new( _x, _y )
-	local newJoystick = {
-		x = _x;
-		y = _y;
+	self.background = display.newCircle(_x, _y, display.contentWidth/12);
+	self.background.x = _x;
+	self.background.y = _y;
+	self.background:setFillColor(0.5, 0.5, 0.5, 0.4);
 
-		angle = 0;
-		magnitude = 0;
-		background = nil;
-		stick = nil;
-	}
+	self.background.stick = display.newCircle(_x, _y, display.contentWidth/30);
+	self.background.stick:setFillColor(0.6, 1, 0.6, 1);
+	self.background.stick.defaultX = self.background.x;
+	self.background.stick.defaultY = self.background.y;
+	self.deltaRadius = (3 * display.contentWidth)/40;
 
-	angle = 0;
-
-	background = display.newCircle(_x, _y, display.contentWidth/12 );
-	background.x = _x;
-  	background.y = _y;
-	background:setFillColor( 0.7, 0.7, 0.7, 0.5);
-	stick = display.newCircle(_x, _y, display.contentWidth/30);
-	stick:setFillColor( 0.7, 0, 1);
-
-	angleText = display.newText("", 500, 300, "Arial", 72);
-	magText = display.newText("", 500, 500, "Arial", 72);
-
-	return setmetatable( newJoystick, joystick_mt )
+	self.angleText = display.newText("", 500, 300, "Arial", 72);
+	self.magText = display.newText("", 500, 500, "Arial", 72);
 end
 
-local function onStickHold( event )
+function joystick.newInstance:onStickHold(event)
 	if (isStickFocused == true) then	
-		stick.x = event.x;
-		stick.y = event.y;
+		self.x = event.x;
+		self.y = event.y;
+		xMag = 0;
+   		yMag = 0;
 		if(event.phase == "ended" or event.phase == "canceled") then
 			display.getCurrentStage():setFocus( self, nil );
 			isStickFocused = false;
-			stick.x = background.x;
-			stick.y = background.y;
-			stick:removeEventListener( "touch", onStickHold )
+			self.x = self.defaultX;
+      		self.y = self.defaultY;
+			self:removeEventListener( "touch", onStickHold )
 		end
 	end
 end
 
-local function snapStick( event )
+function joystick.newInstance:snapStick( event )
 	if (event.phase == "began") then
-		stick.x = event.x;
-		stick.y = event.y;
-		stick:addEventListener("touch", onStickHold);
+		event.target.stick.x = event.x;
+		event.target.stick.y = event.y;
+		event.target.stick.touch = event.target.onStickHold;
+		event.target.stick:addEventListener("touch", event.target.stick);
 		display.getCurrentStage( ):setFocus( stick , event.id )
 		isStickFocused = true;
 	end
@@ -100,61 +92,55 @@ end
     - gets user input, and returns angle and magnitude values
 ]]--
 
-function joystick:getStickDisplayObject()
-	return stick;
+function joystick.newInstance:getStickDisplayObject()
+	return self.background.stick; --returns the actual DISPLAY OBJECT of the stick
 end
 
-function joystick:getBackgroundDisplayObject()
-	return background;
+function joystick.newInstance:getBackgroundDisplayObject()
+	return self.background; --returns the background display object, behind the stick
 end
 
-function joystick:getAngle(  )
-	if(stick.x - background.x < 0) then
-		angle = math.deg(math.atan((stick.y - background.y)/(stick.x - background.x))) + 270;
-	elseif (stick.x - background.x > 0) then
-		angle = math.deg(math.atan((stick.y - background.y)/(stick.x - background.x))) + 90;
-	elseif (stick.x - background.x == 0) then
-		if(stick.y - background.y > 0) then
-			angle = 180;
+function joystick.newInstance:getAngle()
+	if (self.background.stick.x - self.background.x < 0) then
+	  self.angle = math.deg(math.atan((self.background.stick.y - self.background.y)/(self.background.stick.x - self.background.x))) + 270;
+	elseif (self.background.stick.x - self.background.x > 0) then
+	  self.angle = math.deg(math.atan((self.background.stick.y - self.background.y)/(self.background.stick.x - self.background.x))) + 90;
+	elseif (self.background.stick.x - self.background.x == 0) then
+	  if (self.background.stick.y - self.background.y > 0) then
+		self.angle = 180;
 		else
-			angle = 0;
+			self.angle = 0;
 		end
 	end
-	return angle;
+	return self.angle;
 end
 
-function joystick:getMagnitude(  )
-	magnitude = math.sqrt(math.pow((stick.x-background.x),2) + math.pow((stick.y-background.y),2)) / (background.width/2)
-	if(magnitude > 1) then
+function joystick.newInstance:getMagnitude()
+	self.magnitude = math.sqrt(math.pow((self.background.stick.x-self.background.x),2) + math.pow((self.background.stick.y-self.background.y),2)) / (self.background.width/2)
+	if self.magnitude > 1 then
 		return 1
 	else
-		return magnitude;
+		return self.magnitude;
 	end
 end
 
-function joystick:getStickX ()
-	return stick.x;
+function joystick.newInstance:init()
+	self.background.touch = self.snapStick;
+	self.background.onStickHold = self.onStickHold;
+	self.background:addEventListener("touch", self.background);
 end
 
-function joystick:getStickY(  )
-	return stick.y;
-end
-
-function joystick:init()
-	background:addEventListener( "touch", snapStick );
-end 
-
-function joystick:isInUse(  )
-	if(joystick:getMagnitude() == 0) then
+function joystick.newInstance:isInUse()
+	if (self:getMagnitude() == 0) then
 		return false;
 	else 
 		return true;
 	end
 end
 
-function joystick:debug(  )
-	angleText.text = joystick:getAngle();
-	magText.text = joystick:getMagnitude();
+function joystick.newInstance:debug()
+	self.angleText.text = self:getAngle();
+	self.magText.text = self:getMagnitude();
 end
 
 return joystick;

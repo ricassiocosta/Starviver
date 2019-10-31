@@ -20,7 +20,7 @@ function gui.class:__init(params)
 
   --GUI
   self.radar = radar.class(params.player);
-  self.stick = stick.new(1.125 * display.contentWidth/8, 6 * display.contentHeight / 8);
+  self.stick = stick.newInstance(1.125 * display.contentWidth/8, 6 * display.contentHeight / 8);
   self.button = button.new(1.7 * (display.contentWidth / 2),  --x
                         1.5 * (display.contentHeight / 2),   --y
                         display.contentWidth/17, display.contentWidth/17,  --width, height
@@ -56,7 +56,7 @@ function gui.class:__init(params)
   self.groupGUI:insert(self.radarGUI);
   self.groupGUI:insert(self.stickGUI);
   self.groupGUI:insert(self.gameOverGUI);
-  self.groupGUI[5].alpha = 0.9;
+  self.groupGUI[5].alpha = 0.2;
 
 end
 
