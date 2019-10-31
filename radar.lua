@@ -20,6 +20,7 @@ function radar.class:__init(_rootObj)
   self.radarBackground:setFillColor(0,0,0, 0.65);
   self.radarTri = display.newImageRect("imgs/radar-triangle.png", 50, 50);
   self.radarTri.x = 275; self.radarTri.y = 275;
+  self.radarTri.rotation = self.rootObject.rotation;
 
   self.stalkerDot = {};
   self.asteroidDot = {};

@@ -46,6 +46,7 @@ function spaceship.new(_x, _y, _acceleration)
 	lenght = 130;
 
 	player = display.newRect( _x, _y, width, lenght )
+	player.rotation = 50;
 
 	player.healthBar = display.newRect(_x, _y - 100, 150, 20);
   	player.healthBar:setFillColor(50/255, 100/255, 255/255);
@@ -109,6 +110,10 @@ function spaceship.damage( _damage )
 	end
 end
 
+function spaceship:getDisplayObject()
+	return player;
+end
+
 function spaceship:updateBuffs()
 	for k = 1, table.getn(player.powerupBuffs) do
 		player.powerupBuffs[k] = player.powerupBuffs[k] - 1;
@@ -136,14 +141,6 @@ function spaceship:translate( _x, _y, _angle )
 	else
 		player.rotation = _angle;
 	end
-end
-
-function spaceship:getStick()
-	return stick;
-end
-
-function spaceship:getButton()
-	return fireBttn;
 end
 
 function spaceship:init()

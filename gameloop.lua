@@ -53,7 +53,8 @@ function gameloop:init()
 	player:init();
 
   	--initializes the hud
-  	hud = gui.class();
+  	hud = gui.class({player = player:getDisplayObject()});
+  	hud:initControls(); --adds event listeners
 end
 
 --Runs continously. Different code for each different game state
