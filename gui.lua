@@ -59,7 +59,7 @@ function gui.class:__init(params)
                                     r        = 255,
                                     g        = 45,
                                     b        = 65,
-                                    a        = 0.5,
+                                    a        = 1,
                                     tag      = "fire"});
 
   --Gameover Background
@@ -148,9 +148,9 @@ function gui.class:__init(params)
   self.menuGroup:insert(self.menuTitleGroup);
 
 
-  display.newText(self.menuTitleGroup, "STARVIVER", display.contentWidth/2+5, 155, "font/league-spartan-bold.otf", 164);
+  display.newText(self.menuTitleGroup, "STARVIVER", display.contentWidth/2+5, 145, "font/font-logo.ttf", 180);
   self.menuTitleGroup[1]:setFillColor(1, 1, 1);
-  display.newText(self.menuTitleGroup, "STARVIVER", display.contentWidth/2, 150, "font/league-spartan-bold.otf", 164);
+  display.newText(self.menuTitleGroup, "STARVIVER", display.contentWidth/2, 140, "font/font-logo.ttf", 180);
   self.menuTitleGroup[2]:setFillColor(0.673, 0.134, 0.564);
 
   display.newRect(self.menuKamikazeGroup,
