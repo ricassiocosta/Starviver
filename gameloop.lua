@@ -62,10 +62,13 @@ function gameloop:init()
 	powerups:spawn(3, {x =    0, y = -900})
   	powerups:spawn(3, {x =  300, y = -900})
 	
-	local kekme = progressRing.new({ringColor = {0.2, 0.1, 0.8}, bgColor = {0,0,0, 0.01}, position = 1, ringDepth = 1, radius = 80});
-	kekme.x = 1000; kekme.y = 500
-	kekme:goTo(0, 10000)
-
+	local timerDamage = progressRing.new({ringColor = {0.2, 0.1, 0.8}, bgColor = {0,0,0, 0.01}, position = 1, ringDepth = 1, radius = 80});
+	timerDamage.x = -1000; timerDamage.y = display.contentHeight - 120; timerDamage.isInProgress = false;
+	local timerSpeed = progressRing.new({ringColor = {0.8, 0.1, 0.6}, bgColor = {0,0,0, 0.01}, position = 1, ringDepth = 1, radius = 80});
+	timerSpeed.x = -1000; timerSpeed.y = display.contentHeight - 120; timerSpeed.isInProgress = false;
+	table.insert(powerups:getTimerObject(), 1, timerSpeed);
+	table.insert(powerups:getTimerObject(), 2, timerDamage);
+	
   	--initializes the hud
 	hud = gui.class({player = player:getDisplayObject()});
 	--adds misc. objects that belong in the HUD/GUI

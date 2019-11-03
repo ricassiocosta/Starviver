@@ -12,12 +12,6 @@ local timerManager = {};
 local countdownTimers = {};
 
 function timerManager:init()
-    countdownTimers = {
-        --speedboost
-        progressRing.new({ringColor = {0.8, 0.1, 0.6}, bgColor = {1,1,1}, position = 1, ringDepth = 0.89, radius = 80}),
-        --double damage
-        progressRing.new({ringColor = {0.2, 0.1, 0.8}, bgColor = {1,1,1}, position = 1, ringDepth = 0.9, radius = 80})
-       };
     for i = 1, table.getn(countdownTimers) do
         countdownTimers[i].y = display.contentHeight - 120;
         countdownTimers[i].x = -1000;
