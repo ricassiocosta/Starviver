@@ -96,6 +96,10 @@ function spaceship:getY()
 	return player.y;
 end
 
+function spaceship:getIsDead()
+	return player.isDead;
+end
+
 function spaceship:setIsShooting( _flag )
 	isShooting = _flag;
 end
@@ -162,6 +166,10 @@ end
 function spaceship:run(joystick, fireButton ) --Runs every frame
 	if(player.healthBar.health <= 0) then
 		player.isDead = true;
+		player.isFixedRotation = true;
+		player.bodyType = "dynamic";
+		player.density = 3.0;
+		player:applyAngularImpulse(math.random(1200));
 	else
 		spaceship:updateBuffs();
 		player.healthBar.width = (player.healthBar.health/player.healthBar.maxHealth) * player.healthMissing.width;

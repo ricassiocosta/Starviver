@@ -51,7 +51,14 @@ function gameloop:init()
 	--initializes instances
 	scene:init(1)
 	player:init();
-	powerups:spawn(1, {x = 300, y = 300})
+
+	enemy:spawn(3, 100, 100);
+	enemy:spawn(3, 100, 100);
+	enemy:spawn(3, 100, 100);
+	enemy:spawn(3, 100, 100);
+	enemy:spawn(3, 100, 100);
+	enemy:spawn(3, 100, 100);
+	
 
   	--initializes the hud
   	hud = gui.class({player = player:getDisplayObject()});
@@ -59,23 +66,19 @@ end
 
 --Runs continously. Different code for each different game state
 function gameloop:run()
-	if(false) then
+	if(player:getIsDead()) then
 		gameState = 4;
 	end
   
 	if(gameState == 2) then
 		enemy:randomSpawn(player:getX(), player:getY(), {radar = hud:get(4, 1)}) --spawns enemies randomly
     	powerups:randomSpawn(player:getX(), player:getY()) --spawns powerups randomly
-		player:run(hud:get(3, 1), hud:get(4, 1)); --runs player controls
+		player:run(hud:get(4, 1), hud:get(2, 1)); --runs player controls, passes in joystick and fire button
 		enemy:run({}); --runs enemy logic
 		powerups:run(); --runs misc. powerup animations and event listeners
 		hud:run(); --runs HUD and GUI elements
 	elseif(gameState == 4) then
-		--if player.getGameOverBG().alpha <= 0.9 then
-		--  player.getGameOverBG().alpha = player.getGameOverBG().alpha + 0.01
-		--else
-		--  gameOverText.text = "gaem is ded"
-		--end
+		hud:showEndscreen();
 	end
   end
 

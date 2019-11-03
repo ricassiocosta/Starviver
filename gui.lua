@@ -16,12 +16,12 @@ gui.class = class("GUI");
 
 function gui.class:__init(params)
   --Display Groups
-  self.groupGUI = display.newGroup();     --[ 0 ] -- main group. contains all sub groups within
-  self.gameOverGUI = display.newGroup();  --[ 1 ] -- Gameover Screens
-  self.stickGUI = display.newGroup();     --[ 2 ] -- Joysticks
-  self.buttonGUI = display.newGroup();    --[ 3 ] -- Buttons
-  self.radarGUI = display.newGroup();     --[ 4 ] -- Radar
-  self.miscGUI = display.newGroup();      --[ 5 ] -- Misc. GUI objects
+  self.groupGUI = display.newGroup();     --[ * ] -- main group. contains all sub groups within
+  self.miscGUI = display.newGroup();      --[ 1 ] -- Misc. GUI objects
+  self.buttonGUI = display.newGroup();    --[ 2 ] -- Buttons
+  self.radarGUI = display.newGroup();     --[ 3 ] -- Radar
+  self.stickGUI = display.newGroup();     --[ 4 ] -- Joysticks
+  self.gameOverGUI = display.newGroup();  --[ 5 ] -- Gameover Screens
 
   --adds the groups to the main group
   self.groupGUI:insert(self.miscGUI);
@@ -31,17 +31,22 @@ function gui.class:__init(params)
   self.groupGUI:insert(self.gameOverGUI);
 
   self.miscTable = {};      --[ 1 ] -- Misc. GUI objects
-  self.gameOverTable = {};  --[ 2 ] -- Gameover Screens
-  self.stickTable = {};     --[ 3 ] -- Joysticks
-  self.buttonTable = {};    --[ 4 ] -- Buttons
-  self.radarTable = {};     --[ 5 ] -- Radar
+  self.buttonTable = {};    --[ 2 ] -- Buttons
+  self.radarTable = {};     --[ 3 ] -- Radar
+  self.stickTable = {};     --[ 4 ] -- Joysticks
+  self.gameOverTable = {};  --[ 5 ] -- Gameover Screens
   self.GUItable = {
     self.miscTable,
-    self.gameOverTable,
-    self.stickTable,
     self.buttonTable,
-    self.radarTable
+    self.radarTable,
+    self.stickTable,
+    self.gameOverTable
   }
+
+  --Special settings for display groups
+  self.groupGUI[5].alpha = 0.0;
+
+  ------------------------------------------------------------------------------
 
   --GUI
   self.radar = radar.class(params.player);
@@ -57,8 +62,7 @@ function gui.class:__init(params)
                                     tag      = "fire"});
 
   self.gameOverBackground = display.newRect(display.contentWidth/2, display.contentHeight/2, display.contentWidth, display.contentHeight);
-  self.gameOverBackground:setFillColor(0.8, 0.1, 0.2, 1);
-  self.gameOverBackground.alpha = 0.5;
+  self.gameOverBackground:setFillColor(0.8, 0.2, 0.1);
   self.gameOverText = display.newText( "gaem is ded", display.contentWidth/2, display.contentHeight/1.2, "font/LeagueSpartan-Bold.ttf", 120 )
 
   self.gameOverGUI:insert(self.gameOverBackground);
@@ -78,10 +82,6 @@ function gui.class:__init(params)
   table.insert(self.stickTable, self.stick);
   table.insert(self.buttonTable, self.button);
   table.insert(self.radarTable, self.radar);
-
-  ---------
-
-  self.groupGUI[5].alpha = 0.2;
 end
 
 --gets an object from the hud
@@ -91,6 +91,10 @@ end
 
 function gui.class:run()
   self.radar:run();
+end
+
+function gui.class:showEndscreen()
+  self.groupGUI[5].alpha = self.groupGUI[5].alpha + 0.005;
 end
 
 return gui;
