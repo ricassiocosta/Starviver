@@ -24,8 +24,10 @@ function gui.class:__init(params)
   ]]
   self.gameState = 2;
 
+  -----------GAMEPLAY HUD / CONTROLS ------------
+
   --Display Groups
-  self.groupGUI = display.newGroup();     --[ * ] -- main group. contains all sub groups within
+  self.controlGroup = display.newGroup(); --[ * ] -- main group for the controls. contains all sub groups within
   self.miscGUI = display.newGroup();      --[ 1 ] -- Misc. GUI objects
   self.buttonGUI = display.newGroup();    --[ 2 ] -- Buttons
   self.radarGUI = display.newGroup();     --[ 3 ] -- Radar
@@ -33,11 +35,11 @@ function gui.class:__init(params)
   self.gameOverGUI = display.newGroup();  --[ 5 ] -- Gameover Screens
 
   --adds the groups to the main group
-  self.groupGUI:insert(self.miscGUI);
-  self.groupGUI:insert(self.buttonGUI);
-  self.groupGUI:insert(self.radarGUI);
-  self.groupGUI:insert(self.stickGUI);
-  self.groupGUI:insert(self.gameOverGUI);
+  self.controlGroup:insert(self.miscGUI);
+  self.controlGroup:insert(self.buttonGUI);
+  self.controlGroup:insert(self.radarGUI);
+  self.controlGroup:insert(self.stickGUI);
+  self.controlGroup:insert(self.gameOverGUI);
 
   self.miscTable = {};      --[ 1 ] -- Misc. GUI objects
   self.buttonTable = {};    --[ 2 ] -- Buttons
@@ -53,7 +55,7 @@ function gui.class:__init(params)
   }
 
   --Special settings for display groups
-  self.groupGUI[5].alpha = 0;
+  self.controlGroup[5].alpha = 0;
 
   ------------------------------------------------------------------------------
 
@@ -70,15 +72,39 @@ function gui.class:__init(params)
                                     a        = 0.5,
                                     tag      = "fire"});
 
-  self.gameOverBackground = display.newRect(display.contentWidth/2, display.contentHeight/2, display.actualContentWidth, display.actualContentHeight);
+  --Gameover Background
+  self.gameOverBackground = display.newRect(self.gameOverGUI, display.contentWidth/2, display.contentHeight/2, display.actualContentWidth, display.actualContentHeight);
   self.gameOverBackground:setFillColor(0.8, 0.2, 0.1);
-  self.gameOverBackground.touch = self.restartGame;
-  self.gameOverBackground:addEventListener("touch", self.gameOverBackground);
   self.gameOverBackground.super = self;
-  self.gameOverText = display.newText( "Starviver is Dead", display.contentWidth/2, display.contentHeight/1.2, "font/league-spartan-bold.otf", 120 )
+  self.gameOverText = display.newText(self.gameOverGUI, "gg", display.contentWidth/2, display.contentHeight/2, "font/LeagueSpartan-Bold.ttf", 212);
 
-  self.gameOverGUI:insert(self.gameOverBackground);
-  self.gameOverGUI:insert(self.gameOverText);
+  self.menuButtonGroup = display.newGroup();
+  self.menuButtonGroup.alpha = 0;
+
+  self.menuButton = display.newRect(self.menuButtonGroup, display.contentWidth/3, display.contentHeight-250, 590, 115);
+  self.menuButton.path.x1 = 30;
+  self.menuButton.path.x4 = 30;
+  self.menuButton:setFillColor(0.15, .55, .83)
+  self.menuButton.super = self;
+  self.menuButton.touch = self.returnToMenu;
+  self.menuButton:addEventListener("touch", self.menuButton);
+
+
+
+  self.restartButtonGroup = display.newGroup();
+  self.restartButtonGroup.alpha = 0;
+
+  self.restartButton = display.newRect(self.restartButtonGroup, 2*display.contentWidth/3, display.contentHeight-250, 590, 115);
+  self.restartButton.path.x1 = 30;
+  self.restartButton.path.x4 = 30;
+  self.restartButton:setFillColor(0.15, .83, .36)
+  self.restartButton.super = self;
+  self.restartButton.touch = self.restartGame;
+  self.restartButton:addEventListener("touch", self.restartButton);
+
+
+
+  --inserts everything into correct display groups
 
   self.stickGUI:insert(self.stick:getBackgroundDisplayObject());
   self.stickGUI:insert(self.stick:getStickDisplayObject());
@@ -95,6 +121,10 @@ function gui.class:__init(params)
   table.insert(self.stickTable, self.stick);
   table.insert(self.buttonTable, self.button);
   table.insert(self.radarTable, self.radar);
+  
+  -----------GAMEPLAY HUD / CONTROLS ------------
+
+  self.menuGroup = display.newGroup();
 end
 
 --gets an object from the hud
@@ -116,19 +146,34 @@ function gui.class:run()
 end
 
 function gui.class:showEndscreen()
-  -- if (self.groupGUI[5].alpha < 1) then
-  self.groupGUI[5].alpha = self.groupGUI[5].alpha + 0.005;
-  -- end
+  -- if (self.controlGroup[5].alpha < 1) then
+  self.controlGroup[5].alpha = self.controlGroup[5].alpha + 0.01;
+  if(self.controlGroup[5].alpha >= 0.87) then
+    self.menuButtonGroup.alpha = self.menuButtonGroup.alpha + 0.03
+    self.restartButtonGroup.alpha = self.restartButtonGroup.alpha + 0.03
+  end
 end
 
 function gui.class:insert(_displayObj, _index)
-  self.groupGUI[_index]:insert(_displayObj);
+  self.controlGroup[_index]:insert(_displayObj);
 end
 
 function gui.class:restartGame(event)
   if(event.phase == "began") then
     self.super.gameState = 5;
-    self.super.groupGUI[5].alpha = 0;
+    self.super.controlGroup[5].alpha = 0;
+    self.super.menuButtonGroup.alpha = 0;
+    self.super.restartButtonGroup.alpha = 0;
+  end
+end
+
+function gui.class:returnToMenu(event)
+  if(event.phase == "began") then
+    self.super.gameState = 1;
+    self.super.controlGroup[5].alpha = 0;
+    self.super.menuButtonGroup.alpha = 0;
+    self.super.restartButtonGroup.alpha = 0;
+    self.super.controlGroup.isVisible = false;
   end
 end
 

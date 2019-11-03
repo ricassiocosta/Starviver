@@ -50,7 +50,9 @@ end
 
 --Runs continously. Different code for each different game state
 function gameloop:run()
-	if(hud:getState() == 2) then  --GAMEPLAY--
+	if(hud:getState() == 1) then  --MAIN MENU--
+		display.newRect(300, 400, 300, 400);
+	elseif(hud:getState() == 2) then  --GAMEPLAY--
 	  --player:debug();
   
 	  enemy:randomSpawn(player:getX(), player:getY(), {radar = hud:get(4, 1)}) --spawns enemies randomly
@@ -68,10 +70,8 @@ function gameloop:run()
 	  hud:setState(2);
 	end
   
-	if(player:getIsDead()) then
+	if(player:getIsDead() and hud:getState() == 2) then
 	  hud:setState(4);
-	else
-	  hud:setState(2);
 	end
 end
 
