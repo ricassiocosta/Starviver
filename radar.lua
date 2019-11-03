@@ -31,6 +31,7 @@ function radar.class:__init(_rootObj)
     self.asteroidDot,
     self.stationDot
   }
+  self.dots = display.newGroup();
 end
 
 --returns the display object
@@ -40,6 +41,10 @@ end
 
 function radar.class:getRadarTriangle()
   return self.radarTri;
+end
+
+function radar.class:getDots()
+  return self.dots;
 end
 
 --Gets distance, in pixel widths, to a given point
@@ -56,6 +61,7 @@ function radar.class:draw(_x, _y, _enemyType, _index, _colour)
   if(self.dotTable[_enemyType][_index] == nil) then
     local dot = display.newCircle(275+_x, 275+_y, 10);
     table.insert(self.dotTable[_enemyType], _index, dot);
+    self.dots:insert(dot);
   else
     self.dotTable[_enemyType][_index].isVisible = true;
     self.dotTable[_enemyType][_index].x = 275+_x;
@@ -71,11 +77,14 @@ function radar.class:kill(_enemyType, _index)
 end
 
 function radar.class:clear()
+  self.dots.isVisible = false;
+  --[[
   for i = 1, table.getn(self.dotTable) do
     for i = 1, table.getn(self.dotTable[i]) do
       self.dotTable[i][j].isVisible = false;
     end
   end
+  ]]
 end
 
 function radar.class:run()

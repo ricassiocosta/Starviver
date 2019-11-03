@@ -130,7 +130,7 @@ function enemies:run(params)
         enemyList[i][j]:kill();
         table.remove(enemyList[i], j);
       else
-        enemyList[i][j]:run();
+        enemyList[i][j]:run(params.radar);
         enemyList[i][j]:runCoroutine();
         enemyCount = enemyCount + 1;
       end

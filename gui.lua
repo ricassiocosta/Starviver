@@ -74,6 +74,7 @@ function gui.class:__init(params)
   self.buttonGUI:insert(self.button:getDisplayObject());
   self.radarGUI:insert(self.radar:getRadarObject());
   self.radarGUI:insert(self.radar:getRadarTriangle());
+  self.radarGUI:insert(self.radar:getDots());
 
   ----------
 

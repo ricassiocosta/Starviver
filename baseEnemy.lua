@@ -231,26 +231,28 @@ function M.BaseEnemy:onCollision(event)
   end
 end
 
-function M.BaseEnemy:drawOnRadar()
-  if(self:getDistanceTo(player:getX(), player:getY()) < 5500)then
-    --[[_radarObject:draw((self.sprite.x - player:getX())/25,
-                      (self.sprite.y - player:getY())/25,
-                      self.sprite.enemyType,
-                      self.sprite.index,
-                      self.sprite.radarColour);]]
-  else
-    --self.radar:kill(self.sprite.enemyType, self.sprite.index)
+function M.BaseEnemy:drawOnRadar(radar)
+  if(radar) then
+    if(self:getDistanceTo(player:getX(), player:getY()) < 5500)then
+      radar:draw((self.sprite.x - player:getX())/25,
+                (self.sprite.y - player:getY())/25,
+                self.sprite.enemyType,
+                self.sprite.index,
+                self.sprite.radarColour);
+    else
+      radar:kill(self.sprite.enemyType, self.sprite.index)
+    end
   end
 end
 
-function M.BaseEnemy:run()
+function M.BaseEnemy:run(radar)
   --Checks if enemy is dead
   if (self.sprite.healthBar.health <= 0 or self:getDistanceTo(player:getX(), player:getY()) > 100000) then
     self.sprite.isDead = true;
   else
     --print(self.sprite.isStuck)
     self:updateHealthBar();
-    self:drawOnRadar();
+    self:drawOnRadar(radar);
     --runs shake routine
     self:shake();
 

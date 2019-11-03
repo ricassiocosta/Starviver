@@ -52,10 +52,10 @@ function gameloop:init()
 	scene:init(1)
 	player:init();
 
+	enemy:spawn(1, 100, 100);
+	enemy:spawn(2, 100, 100);
 	enemy:spawn(3, 100, 100);
-	enemy:spawn(3, 100, 100);
-	enemy:spawn(3, 100, 100);
-	enemy:spawn(3, 100, 100);
+	enemy:spawn(4, 100, 100);
 	enemy:spawn(3, 100, 100);
 	enemy:spawn(3, 100, 100);
 	
@@ -74,7 +74,7 @@ function gameloop:run()
 		enemy:randomSpawn(player:getX(), player:getY(), {radar = hud:get(4, 1)}) --spawns enemies randomly
     	powerups:randomSpawn(player:getX(), player:getY()) --spawns powerups randomly
 		player:run(hud:get(4, 1), hud:get(2, 1)); --runs player controls, passes in joystick and fire button
-		enemy:run({}); --runs enemy logic
+		enemy:run({radar = hud:get(3, 1)}); --runs enemy logic
 		powerups:run(); --runs misc. powerup animations and event listeners
 		hud:run(); --runs HUD and GUI elements
 	elseif(gameState == 4) then
