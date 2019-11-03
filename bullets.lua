@@ -72,6 +72,8 @@ function onBulletCollision( self, event )
       event.other.isShaking = true;
       event.other.shakeMax = 24;
       event.other.healthBar.isVisible = true; event.other.healthMissing.isVisible = true;
+      local soundEffect = audio.loadSound( "audio/sfx/hit1.wav" )
+			audio.play( soundEffect )
     end
   end
 end

@@ -36,6 +36,8 @@ function M.class.onCollision(self, event)
     event.other.powerupBuffs[2] = self.duration * 60; --buff duration
 
     timeMan:create({index = 2, x = 800, duration = self.duration});
+    local soundEffect = audio.loadSound( "audio/sfx/success.wav" )
+		audio.play( soundEffect )
   end
 end
 

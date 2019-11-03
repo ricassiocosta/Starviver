@@ -31,6 +31,8 @@ function M.class.onCollision(self, event)
     if (event.other.healthBar.health > event.other.healthBar.maxHealth) then
       event.other.healthBar.health = event.other.healthBar.maxHealth;
     end
+    local soundEffect = audio.loadSound( "audio/sfx/success.wav" )
+		audio.play( soundEffect )
   end
 end
 

@@ -52,10 +52,10 @@ function M.class:runCoroutine()
   if(self.sprite.isChasingPlayer == true and self.bulletCooldown<=0) then
     self.bulletCooldown = 10;
     self.bullets:shoot(1);
+    local soundEffect = audio.loadSound( "audio/sfx/shoot_single.mp3" )
+		audio.play( soundEffect )
   end
   self.bullets:removeBullets(player:getDisplayObject());
-  --print("FIREBALLER:" .. table.getn(self.bullets:getTable()))
-
   self.bulletCooldown = self.bulletCooldown - 1;
 end
 

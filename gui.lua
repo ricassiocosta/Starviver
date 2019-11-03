@@ -224,7 +224,7 @@ function gui.class:__init(params)
                   display.contentHeight - ((164+75+32) + 32 + self.menuOptionsButtonGroup[1].height + 32));
   self.menuMultiplayerButtonGroup[1].anchorX = 0;
   self.menuMultiplayerButtonGroup[1].anchorY = 0;
-  self.menuMultiplayerButtonGroup[1].fill = {type = "image", filename = "img/menu/twin1.jpg"}
+  --self.menuMultiplayerButtonGroup[1].fill = {type = "image", filename = "img/menu/twin1.jpg"}
   display.newRect(self.menuMultiplayerButtonGroup,
                   self.menuMultiplayerButtonGroup[1].x,
                   self.menuMultiplayerButtonGroup[1].y,

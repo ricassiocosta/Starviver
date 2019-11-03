@@ -75,7 +75,7 @@ settings =
 	{
 		UIAppFonts =  --List of supported fonts
 		{
-			"font/LeagueSpartan-Bold.ttf",
+			"font/league-spartan-bold.otf",
 		},
 	},
 }

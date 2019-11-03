@@ -54,7 +54,13 @@ function gameloop:run()
 		hud:getSelf().menuGroup.isVisible = true;
 		hud:getSelf().controlGroup.isVisible = false;
 		player:wander();
+		local menuBackgroundMusic = audio.loadSound( "audio/music/mainmenu.mp3" )
+		audio.play( menuBackgroundMusic, { channel=1, loops=-1} )
 	elseif(hud:getState() == 2) then  --GAMEPLAY--
+		audio.stop({channel = 1})
+		audio.stop({channel = 3})
+		local gameplayBackgroundMusic = audio.loadSound( "audio/music/gameplay.mp3" )
+		audio.play( gameplayBackgroundMusic, { channel=2, loops=-1} )
 		hud:getSelf().menuGroup.isVisible = false;
 		hud:getSelf().controlGroup.isVisible = true;
 
@@ -65,6 +71,9 @@ function gameloop:run()
 		powerups:run(); --runs misc. powerup animations and event listeners
 		hud:run(); --runs HUD and GUI elements
 	elseif(hud:getState() == 4) then --GAME OVER--
+		audio.stop({channel = 2})
+		local overBackgroundMusic = audio.loadSound( "audio/music/gameover.mp3" )
+		audio.play( overBackgroundMusic, { channel=3, loops=-1} )
 		hud:showEndscreen();
 	elseif(hud:getState() == 5) then --RESETTING
 		enemy:clear(hud:get(3, 1));
@@ -76,6 +85,7 @@ function gameloop:run()
 		powerups:clear();
 		player:reset();
 		hud:setState(1);
+		audio.stop({channel = 3})
 	end
   
 	if(player:getIsDead() and hud:getState() == 2) then

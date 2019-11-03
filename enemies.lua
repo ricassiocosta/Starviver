@@ -106,6 +106,8 @@ end
 
 function enemies:kill(_index1, _index2)
   table.remove(enemyList[_index1], _index2);
+  local soundEffect = audio.loadSound( "audio/sfx/success2.wav" )
+	audio.play( soundEffect )
 end
 
 function enemies:randomSpawn(_x, _y, params)
