@@ -26,7 +26,8 @@ function M.BaseEnemy:__init(_enemyType,
                             _description, 
                             _pointsPerKill, 
                             _layer,
-                            newIndex)
+                            newIndex,
+                            params)
 
   self.x = _x or math.random(-10000, 10000);
   self.y = _y or math.random(-10000, 10000);
@@ -43,6 +44,7 @@ function M.BaseEnemy:__init(_enemyType,
   self.sprite.name = _name or "BaseEnemy";
   self.sprite.description = _description or "Base Description";
   self.layer = _layer or 1;
+  self.radar = params.radar;
 
   self.sprite.speed = 10;
   self.sprite.shakeMax = 24;
@@ -116,9 +118,9 @@ function M.BaseEnemy:updateHealthBar()
 end
 
 --Kills the enemy (does NOT remove from list of enemies)
-function M.BaseEnemy:kill(_radarObject)
+function M.BaseEnemy:kill()
   score:increase(self, self.sprite.pointsPerKill);
-  _radarObject:kill(self.sprite.enemyType, self.sprite.index)
+  self.radar:kill(self.sprite.enemyType, self.sprite.index)
   self.sprite.healthBar:removeSelf();
   self.sprite.healthMissing:removeSelf();
   self.sprite:removeSelf();
@@ -229,15 +231,16 @@ function M.BaseEnemy:onCollision(event)
   end
 end
 
-function M.BaseEnemy:drawOnRadar(_radarObject)
+function M.BaseEnemy:drawOnRadar()
   if(self:getDistanceTo(player:getX(), player:getY()) < 5500)then
-    _radarObject:draw((self.sprite.x - player:getX())/25,
+    print(self.radar.getRadarObject);
+    --[[_radarObject:draw((self.sprite.x - player:getX())/25,
                       (self.sprite.y - player:getY())/25,
                       self.sprite.enemyType,
                       self.sprite.index,
-                      self.sprite.radarColour);
+                      self.sprite.radarColour);]]
   else
-    _radarObject:kill(self.sprite.enemyType, self.sprite.index)
+    self.radar:kill(self.sprite.enemyType, self.sprite.index)
   end
 end
 
@@ -248,6 +251,7 @@ function M.BaseEnemy:run()
   else
     --print(self.sprite.isStuck)
     self:updateHealthBar();
+    self:drawOnRadar();
     --runs shake routine
     self:shake();
 

@@ -14,7 +14,7 @@ local M = {}
 M.class = class("Asteroid", enemyBase.BaseEnemy);
 M.description = "Cuidado! Você não vai querer ser atingido por eles!"
 
-function M.class:__init(_x, _y, newIndex)
+function M.class:__init(_x, _y, newIndex, params)
   self.x = _x;
   self.y = _y;
   enemyBase.BaseEnemy.__init( self, 
@@ -29,7 +29,8 @@ function M.class:__init(_x, _y, newIndex)
                               description,
                               5, 
                               0,
-                              newIndex);
+                              newIndex,
+                              params);
                               
   self.sprite.maxSpeed = 200;
   self.sprite.acceleration = 0.25;

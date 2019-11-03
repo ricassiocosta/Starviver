@@ -58,7 +58,7 @@ function M.class:randomSpawn(_x, _y)
   else
     self.spawnTimer = 0;
     if (true) then
-      self:spawn(math.random(1, table.getn(self.powerupList)), {x = math.random(_x - 3000, _x + 3000), y = math.random(_y - 3000, _y + 3000)});
+      self:spawn(math.random(1, table.getn(self.powerupList)), {x = math.random(_x - 2200, _x + 2200), y = math.random(_y - 2200, _y + 2200)});
     end
   end
 end

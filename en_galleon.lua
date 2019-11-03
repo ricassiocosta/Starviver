@@ -17,7 +17,7 @@ local M = {};
 M.class = class("Attack_Galleon", enemyBase.BaseEnemy);
 M.description = "Não há barganhas com os Galeões de Ataque, eles só tem uma missão: Impedir a sua."
 
-function M.class:__init(_x, _y, newIndex)
+function M.class:__init(_x, _y, newIndex, params)
   self.x = _x;
   self.y = _y;
   enemyBase.BaseEnemy.__init( self, 
@@ -32,7 +32,8 @@ function M.class:__init(_x, _y, newIndex)
                               description,
                               20, 
                               0,
-                              newIndex);
+                              newIndex,
+                              params);
 
   self.sprite.maxSpeed = 800;
   self.sprite.acceleration = 0.5;

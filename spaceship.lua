@@ -88,6 +88,13 @@ function spaceship.new(_x, _y, _acceleration)
 end
 
 ------------------------------ Public Functions --------------------------------
+function spaceship:getX()
+	return player.x;
+end
+
+function spaceship:getY()
+	return player.y;
+end
 
 function spaceship:setIsShooting( _flag )
 	isShooting = _flag;

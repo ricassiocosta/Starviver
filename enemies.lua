@@ -81,12 +81,12 @@ end
     @return the instance of the enemy;
 ]]
 
-function enemies:spawn(_index, _x, _y)
+function enemies:spawn(_index, _x, _y, params)
   if(_index and score:get() > 500) then
-    table.insert(enemyList[_index], moduleList[_index].class(_x, _y, table.getn(enemyList[_index])+1));
+    table.insert(enemyList[_index], moduleList[_index].class(_x, _y, table.getn(enemyList[_index])+1, params));
     return enemyList[_index][table.getn(enemyList[_index])];
   elseif (_index and _index ~= 4) then
-    table.insert(enemyList[_index], moduleList[_index].class(_x, _y, table.getn(enemyList[_index])+1));
+    table.insert(enemyList[_index], moduleList[_index].class(_x, _y, table.getn(enemyList[_index])+1, params));
     return enemyList[_index][table.getn(enemyList[_index])];
   else
     return -1;
@@ -107,14 +107,14 @@ function enemies:kill(_index1, _index2)
   table.remove(enemyList[_index1], _index2);
 end
 
-function enemies:randomSpawn(_x, _y)
+function enemies:randomSpawn(_x, _y, params)
   --randomly spawns enemies
   if (enemyTimer < 120) then
     enemyTimer = enemyTimer + 1;
   else
     enemyTimer = 0;
     if (enemyCount < 100) then
-      enemies:spawn(math.random(1, table.getn(enemyList)), math.random(_x - 3000, _x + 3000), math.random(_y - 3000, _y + 3000));
+      enemies:spawn(math.random(1, table.getn(enemyList)), math.random(_x - 3000, _x + 3000), math.random(_y - 3000, _y + 3000), params);
     end
   end
 end
@@ -126,12 +126,11 @@ function enemies:run(params)
     for j = 1, table.getn(enemyList[i]) do
       if (enemyList[i][j] == nil) then break
       elseif (enemyList[i][j].sprite.isDead == true) then
-        enemyList[i][j]:kill(params.radar);
+        enemyList[i][j]:kill();
         table.remove(enemyList[i], j);
       else
         enemyList[i][j]:run();
         enemyList[i][j]:runCoroutine();
-        enemyList[i][j]:drawOnRadar(params.radar);
         enemyCount = enemyCount + 1;
       end
     end

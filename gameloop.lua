@@ -51,6 +51,7 @@ function gameloop:init()
 	--initializes instances
 	scene:init(1)
 	player:init();
+	powerups:spawn(1, {x = 300, y = 300})
 
   	--initializes the hud
   	hud = gui.class({player = player:getDisplayObject()});
@@ -63,6 +64,8 @@ function gameloop:run()
 	end
   
 	if(gameState == 2) then
+		enemy:randomSpawn(player:getX(), player:getY(), {radar = hud:get(4, 1)}) --spawns enemies randomly
+    	powerups:randomSpawn(player:getX(), player:getY()) --spawns powerups randomly
 		player:run(hud:get(3, 1), hud:get(4, 1)); --runs player controls
 		enemy:run({}); --runs enemy logic
 		powerups:run(); --runs misc. powerup animations and event listeners
