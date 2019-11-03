@@ -61,9 +61,9 @@ function gui.class:__init(params)
                                     a        = 0.5,
                                     tag      = "fire"});
 
-  self.gameOverBackground = display.newRect(display.contentWidth/2, display.contentHeight/2, display.contentWidth, display.contentHeight);
+  self.gameOverBackground = display.newRect(display.contentWidth/2, display.contentHeight/2, display.actualContentWidth, display.actualContentHeight);
   self.gameOverBackground:setFillColor(0.8, 0.2, 0.1);
-  self.gameOverText = display.newText( "gaem is ded", display.contentWidth/2, display.contentHeight/1.2, "font/league-spartan-bold.otf", 120 )
+  self.gameOverText = display.newText( "Starviver is Dead", display.contentWidth/2, display.contentHeight/1.2, "font/league-spartan-bold.otf", 120 )
 
   self.gameOverGUI:insert(self.gameOverBackground);
   self.gameOverGUI:insert(self.gameOverText);
@@ -101,6 +101,5 @@ end
 function gui.class:insert(_displayObj, _index)
   self.groupGUI[_index]:insert(_displayObj);
 end
-
 
 return gui;
