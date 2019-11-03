@@ -29,12 +29,13 @@ end
 function M.class.onCollision(self, event)
   if(event.phase == "began") then
     self.isDead = true;
+    if(event.other.powerupBuffs[2] <= 0) then
+      event.other.bulletDamage = event.other.bulletDamage * 2;
+      event.other:setFillColor(90/255, 30/255, 255/255)
+    end
     event.other.powerupBuffs[2] = self.duration * 60; --buff duration
 
     timeMan:create({index = 2, x = 800, duration = self.duration});
-
-    event.other:setFillColor(255/255, 30/255, 90/255)
-    event.other.bulletDamage = event.other.bulletDamage * 2;
   end
 end
 
