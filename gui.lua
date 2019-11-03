@@ -63,7 +63,7 @@ function gui.class:__init(params)
 
   self.gameOverBackground = display.newRect(display.contentWidth/2, display.contentHeight/2, display.contentWidth, display.contentHeight);
   self.gameOverBackground:setFillColor(0.8, 0.2, 0.1);
-  self.gameOverText = display.newText( "gaem is ded", display.contentWidth/2, display.contentHeight/1.2, "font/LeagueSpartan-Bold.ttf", 120 )
+  self.gameOverText = display.newText( "gaem is ded", display.contentWidth/2, display.contentHeight/1.2, "font/league-spartan-bold.otf", 120 )
 
   self.gameOverGUI:insert(self.gameOverBackground);
   self.gameOverGUI:insert(self.gameOverText);

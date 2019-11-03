@@ -8,6 +8,7 @@
 local basePowerup = require("powerup");
 local class = require("classy");
 local physics = require("physics");
+local timeMan = require("powerupTimerManager");
 
 local M = {};
 
@@ -30,9 +31,8 @@ function M.class.onCollision(self, event)
     self.isDead = true;
     event.other.powerupBuffs[1] = self.duration * 60; --buff duration
 
-    self.timeShown.x = 800;
-    self.timeShown:reset();
-    self.timeShown:goTo(0, self.duration * 1000);
+    timeMan:reset(1, {r = 0.8, g = 0.1, b = 0.6, x = 600});
+    timeMan:get(1):goTo(0, self.duration*1000);
 
     event.other.maxSpeed = 50;
   end

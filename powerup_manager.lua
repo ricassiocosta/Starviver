@@ -11,6 +11,7 @@ local class = require("classy");
 local speedboost = require("pwr_speed");
 local doubleDamage = require("pwr_doubledamage")
 local healthkit = require("pwr_health")
+local timeMan = require("powerupTimerManager")
 
 local M = {};
 M.class = class("PowerupManager");
@@ -39,6 +40,7 @@ function M.class:__init()
   }
 
   self.spawnTimer = 0;
+  timeMan:init();
 end
 
 function M.class:get(_index1, _index2)
