@@ -9,6 +9,7 @@
 local class = require("classy");
 local scene = require("scene");
 local physics = require("physics");
+local progressRing = require("progressRing")
 physics:start();
 
 local powerups = {};
@@ -31,6 +32,10 @@ function powerups.class:__init(params)
     self.sprite.gravityScale = 0;
     self.sprite.collision = self.onCollision;
     self.sprite:addEventListener("collision", self.sprite);
+
+    self.sprite.timeShown = progressRing.new({ringColor = {0.8, 0.2, 0.1}, bgColor = {1,1,1,0.01}, position = 1, ringDepth = 1, radius = 80});
+    self.sprite.timeShown.y = display.contentHeight - 200;
+    self.sprite.timeShown.x = -300;
 end
 
 function powerups.class:run(_index)

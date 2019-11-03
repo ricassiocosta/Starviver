@@ -28,6 +28,11 @@ function M.class.onCollision(self, event)
   if(event.phase == "began") then
     self.isDead = true;
     event.other.powerupBuffs[1] = 180; --buff duration
+
+    self.timeShown.x = 800;
+    self.timeShown:reset();
+    self.timeShown:goTo(0, 3000);
+    
     event.other.maxSpeed = 50;
   end
 end
