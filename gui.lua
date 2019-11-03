@@ -125,6 +125,21 @@ function gui.class:__init(params)
   -----------GAMEPLAY HUD / CONTROLS ------------
 
   self.menuGroup = display.newGroup();
+  self.menuArcadeButtonGroup = display.newGroup();
+  self.menuOptionsButtonGroup = display.newGroup();
+  self.menuMultiplayerButtonGroup = display.newGroup();
+  self.menuTitleGroup = display.newGroup();
+
+  self.menuGroup:insert(self.menuArcadeButtonGroup);
+  self.menuGroup:insert(self.menuOptionsButtonGroup);
+  self.menuGroup:insert(self.menuMultiplayerButtonGroup);
+  self.menuGroup:insert(self.menuTitleGroup);
+
+
+  display.newText(self.menuTitleGroup, "Starviver", display.contentWidth/2+5, 155, "font/league-spartan-bold.otf", 164);
+  self.menuTitleGroup[1]:setFillColor(0.1, 0.1, 0.1);
+  display.newText(self.menuTitleGroup, "Starviver", display.contentWidth/2, 150, "font/league-spartan-bold.otf", 164);
+  self.menuTitleGroup[2]:setFillColor(1, 0.5, 0.25);
 end
 
 --gets an object from the hud
