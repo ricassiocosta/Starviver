@@ -44,7 +44,7 @@ function gui.class:__init(params)
   }
 
   --Special settings for display groups
-  self.groupGUI[5].alpha = 0.0;
+  self.groupGUI[5].alpha = 0;
 
   ------------------------------------------------------------------------------
 
@@ -97,5 +97,10 @@ end
 function gui.class:showEndscreen()
   self.groupGUI[5].alpha = self.groupGUI[5].alpha + 0.005;
 end
+
+function gui.class:insert(_displayObj, _index)
+  self.groupGUI[_index]:insert(_displayObj);
+end
+
 
 return gui;

@@ -62,7 +62,8 @@ function gameloop:init()
   	powerups:spawn(3, {x =  300, y = -900})
 	
   	--initializes the hud
-  	hud = gui.class({player = player:getDisplayObject()});
+	hud = gui.class({player = player:getDisplayObject()});
+	hud:insert(player:getHealthGroup(), 1)
 end
 
 --Runs continously. Different code for each different game state
@@ -72,8 +73,8 @@ function gameloop:run()
 	end
   
 	if(gameState == 2) then
-		--enemy:randomSpawn(player:getX(), player:getY(), {radar = hud:get(4, 1)}) --spawns enemies randomly
-    	--powerups:randomSpawn(player:getX(), player:getY()) --spawns powerups randomly
+		enemy:randomSpawn(player:getX(), player:getY(), {radar = hud:get(4, 1)}) --spawns enemies randomly
+    	powerups:randomSpawn(player:getX(), player:getY()) --spawns powerups randomly
 		player:run(hud:get(4, 1), hud:get(2, 1)); --runs player controls, passes in joystick and fire button
 		enemy:run({radar = hud:get(3, 1)}); --runs enemy logic
 		powerups:run(); --runs misc. powerup animations and event listeners
