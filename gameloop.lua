@@ -7,6 +7,7 @@ local powerup = require("powerup_manager")
 local radarClass = require("radar")
 local score = require("score")
 local gui = require("gui");
+local progressRing = require("progressRing")
 
 ------------------------------- Private Fields ---------------------------------
 
@@ -34,8 +35,8 @@ local hud;
 function gameloop:init()
 	--math.randomseed(os.time()); math.random( ); math.random( );
 	system.activate("multitouch")
-	native.setProperty("androidSystemVisibility", "immersiveSticky");
-	display.setStatusBar(display.HiddenStatusBar);
+	--native.setProperty("androidSystemVisibility", "immersiveSticky");
+	--display.setStatusBar(display.HiddenStatusBar);
   	--physics.setDrawMode("hybrid");
  	display.setDefault("background", 0/255, 32/255, 50/255);
 
@@ -61,6 +62,10 @@ function gameloop:init()
 	powerups:spawn(3, {x =    0, y = -900})
   	powerups:spawn(3, {x =  300, y = -900})
 	
+	local kekme = progressRing.new({ringColor = {0.2, 0.1, 0.8}, bgColor = {0,0,0, 0.01}, position = 1, ringDepth = 1, radius = 80});
+	kekme.x = 1000; kekme.y = 500
+	kekme:goTo(0, 10000)
+
   	--initializes the hud
 	hud = gui.class({player = player:getDisplayObject()});
 	--adds misc. objects that belong in the HUD/GUI

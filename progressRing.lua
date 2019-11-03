@@ -161,7 +161,7 @@ function progressRing.new(params)
 	local sliceContainer = display.newContainer(group, radius*2, radius*2)
 	sliceContainer.anchorChildren = false
 	sliceContainer.anchorX = 0
-	group.isVisible = false
+	group.isVisible = true
 
 	local slices = {}
 
