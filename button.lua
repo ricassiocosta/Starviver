@@ -1,84 +1,84 @@
+--  button.lua
+--
+------------------------------- Private Fields ---------------------------------
+local class = require ("classy");
+
 local button = {};
-local button_mt = {__index = button};
+button.newInstance = class("Button");
 
-local r, g, b;
-local width, height;
-local x, y;
-local isPressed;
+--[[
+_x,
+_y,
+_width,
+_height,
+_toggleable,
+_r,
+_g,
+_b,
+_a,
+_tag
+]]
 
-local btnCircle;
+--Constructor
+function button.newInstance:__init(params)
 
-function button.new(_x,
-					_y,
-					_height,
-					_width,
-					_toggleable,
-					_r,
-					_g,
-					_b,
-					_a,
-					_tag)
-					
-	local newButton = {
-		x = _x;
-		y = _y;
-		width = _width;
-		height = _height;
-		color = {_r/255, _g/255, _b/255};
-	}
+	self.x = params.x;
+	self.y = params.y;
+	self.width = params.width;
+	self.height = params.height;
+  
+	self.btnCircle = display.newCircle(self.x, self.y, self.width, self.height);
+  
+	self.btnCircle.tag = params.tag or "button";
+	self.btnCircle.isToggleable = params.isToggleable or false;
+	self.btnCircle.isPressed = false;
+	self.btnCircle.r = params.r or 1;
+	self.btnCircle.g = params.g or 1;
+	self.btnCircle.b = params.b or 1;
+	self.btnCircle.a = params.a or 1;
+  
+	self.btnCircle.originalWidth = params.width;
+	self.btnCircle.originalHeight = params.height;
+	self.btnCircle.originalX = params.x;
+	self.btnCircle.originalY = params.y;
+	self.btnCircle:setFillColor(self.btnCircle.r, self.btnCircle.g, self.btnCircle.b, self.btnCircle.a);
+  
+	--initializes the touch input
+	self.btnCircle.touch = self.run;
+	self.btnCircle:addEventListener("touch", self.btnCircle);
+  end
 
-	x = _x;
-  y = _y;
-  width = _width;
-  height = _height;
-  tag = _tag or "button";
-  isToggleable = _toggleable or false;
-  isPressed = false;
-  r = _r or 1;
-  g = _g or 1;
-  b = _b or 1;
-  a = _a or 1;
+------------------------------ Public Functions --------------------------------
 
-	btnCircle = display.newCircle(x, y, width, height);
-	--btnCircle.anchorX = 1;
- 	--btnCircle.anchorY = 1;
-	btnCircle:setFillColor(r, g, b)
-	return setmetatable(newButton, button_mt);
-end
-
-local function run( event )
+function button.newInstance:run(event)
 	if(event.phase == "began") then
-		if(isPressed == false) then
+		if(event.target.isPressed == false) then
 			display.getCurrentStage():setFocus(event.target)
-			btnCircle.width = btnCircle.width / 1.5
-			btnCircle.height = btnCircle.height / 1.5
-			isPressed = true;
+			event.target.width = event.target.width / 1.5
+			event.target.height = event.target.height / 1.5
+			event.target.isPressed = true;
 		end
 	elseif(event.phase == "ended" or event.phase == "canceled") then
-		if(isPressed == true) then
-			btnCircle.width = btnCircle.width * 1.5
-			btnCircle.height = btnCircle.height * 1.5
-			isPressed = false;
+		if(event.target.isPressed == true) then
+			event.target.width = event.target.width * 1.5
+			event.target.height = event.target.height * 1.5
+			event.target.isPressed = false;
 			display.getCurrentStage():setFocus(nil)
 		end
 	end
 end
-
-function button:init(  )
-	btnCircle:addEventListener("touch", run);
+  
+function button.newInstance:getDisplayObject()
+	return self.btnCircle;
 end
 
-function button:getDisplayObject()
-	return btnCircle;
+function button.newInstance:isPressed()
+	return self.btnCircle.isPressed;
 end
 
-function button:isPressed(  )
-	return isPressed;
-end
-
-function button:setCoordinates( _x, _y )
-	x = _x;
-	y = _y;
+function button.newInstance:setCoordinates(_x, _y)
+	self.btnCircle.x = _x;
+	self.btnCircle.y = _y;
 end
 
 return button;

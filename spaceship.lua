@@ -152,7 +152,7 @@ function spaceship:init()
 	player.healthBar.x = player.x - ((player.healthMissing.width - player.healthBar.width)/2);
 end
 
-function spaceship:run( ) --Runs every frame
+function spaceship:run(joystick, fireButton ) --Runs every frame
 	if(player.healthBar.health <= 0) then
 		player.isDead = true;
 	else
@@ -164,25 +164,32 @@ function spaceship:run( ) --Runs every frame
 		player.healthBar.x = player.x - ((player.healthMissing.width - player.healthBar.width)/2) + player.speed * lastMagnitude * math.sin(math.rad(lastAngle));
 		player.healthMissing.y = player.y - 100 - player.speed * lastMagnitude * math.cos(math.rad(lastAngle));
 		player.healthMissing.x = player.x + player.speed * lastMagnitude * math.sin(math.rad(lastAngle));
-		--[[
-		if (player.speed) > 0) then
-			player.speed = player.speed - accelerationRate;
-			currentSpeed = player.speed;
-			ship:translate(lastMagnitude * math.sin(math.rad(lastAngle)) * player.speed,
-							-lastMagnitude * math.cos(math.rad(lastAngle)) * player.speed,
-							lastAngle);
-		elseif (joystick:isInUse() == true) then
+		
+		if (fireButton:isPressed() == true) then 
+			isShooting = true;
+		else
+			isShooting = false;
+		end
+
+		if (joystick:isInUse() == true) then
 			if (player.speed < player.maxSpeed) then
 				player.speed = player.speed + (accelerationRate * joystick:getMagnitude());
 			end
 			currentSpeed = joystick:getMagnitude() * player.speed;
-			ship:translate(currentSpeed * math.sin(math.rad(joystick:getAngle())),
+			spaceship:translate(currentSpeed * math.sin(math.rad(joystick:getAngle())),
 							-currentSpeed * math.cos(math.rad(joystick:getAngle())),
 							joystick:getAngle());
 			lastAngle = joystick:getAngle();
 			lastMagnitude = joystick:getMagnitude();
+		elseif (player.speed > 0) then
+
+			player.speed = player.speed - accelerationRate;
+			currentSpeed = player.speed;
+		
+			spaceship:translate(lastMagnitude * math.sin(math.rad(lastAngle)) * player.speed,
+						  -lastMagnitude * math.cos(math.rad(lastAngle)) * player.speed,
+						  lastAngle);
 		end
-		]]
 
 		bullets:removeBullets();
 		shootCooldown = shootCooldown + 1;

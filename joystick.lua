@@ -1,5 +1,10 @@
--- Joystick code, used for moving the player
-
+--------------------------------------------------------------------------------
+--
+-- Code behind the joystick code; Used for moving the player
+--
+-- joystick.lua
+--
+------------------------------- Private Fields ---------------------------------
 local class = require("classy")
 
 local joystick = {};
@@ -42,7 +47,14 @@ function joystick.newInstance:__init( _x, _y )
 
 	self.angleText = display.newText("", 500, 300, "Arial", 72);
 	self.magText = display.newText("", 500, 500, "Arial", 72);
+
+	--initalizes controls
+	self.background.touch = self.snapStick;
+	self.background.onStickHold = self.onStickHold;
+	self.background:addEventListener("touch", self.background);
 end
+
+----------------------------- Private Functions --------------------------------
 
 function joystick.newInstance:onStickHold(event)
 	if (isStickFocused == true) then	
@@ -70,6 +82,8 @@ function joystick.newInstance:snapStick( event )
 		isStickFocused = true;
 	end
 end
+
+------------------------------ Public Functions --------------------------------
 
 --[[
   joystick.new
@@ -122,12 +136,6 @@ function joystick.newInstance:getMagnitude()
 	else
 		return self.magnitude;
 	end
-end
-
-function joystick.newInstance:init()
-	self.background.touch = self.snapStick;
-	self.background.onStickHold = self.onStickHold;
-	self.background:addEventListener("touch", self.background);
 end
 
 function joystick.newInstance:isInUse()
