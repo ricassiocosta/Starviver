@@ -9,13 +9,15 @@ local progressRing = require("progressRing");
 
 local timerManager = {};
 
-local countdownTimers = {};
+local countdownTimers = {
+    progressRing.new({ringColor = {0.8, 0.1, 0.6}, bgColor = {0,0,0, 0.01}, position = 1, ringDepth = 1, radius = 80}),
+    progressRing.new({ringColor = {0.2, 0.1, 0.8}, bgColor = {0,0,0, 0.01}, position = 1, ringDepth = 1, radius = 80})
+  };
 
 function timerManager:init()
     for i = 1, table.getn(countdownTimers) do
         countdownTimers[i].y = display.contentHeight - 120;
-        countdownTimers[i].x = -1000;
-        countdownTimers[i].isInProgress = false;
+        countdownTimers[i].x = -1000
     end
 end
 
