@@ -127,7 +127,7 @@ function enemies:run(params)
     for j = 1, table.getn(enemyList[i]) do
       if (enemyList[i][j] == nil) then break
       elseif (enemyList[i][j].sprite.isDead == true) then
-        enemyList[i][j]:kill();
+        enemyList[i][j]:kill(params.radar);
         table.remove(enemyList[i], j);
       else
         enemyList[i][j]:run(params.radar);

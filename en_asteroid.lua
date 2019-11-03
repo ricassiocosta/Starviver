@@ -34,9 +34,9 @@ function M.class:__init(_x, _y, newIndex, params)
                               
   self.sprite.maxSpeed = 200;
   self.sprite.acceleration = 0.25;
-  self.sprite.healthBar.maxHealth = 65;
-  self.sprite.healthBar.health = 65;
-  self.sprite.healthBar.armour = ((self.sprite.width + self.sprite.height)) / 1010; --armour can never be 100% resistance
+  self.sprite.healthBar.maxHealth = 55;
+  self.sprite.healthBar.health = self.sprite.healthBar.maxHealth;
+  self.sprite.healthBar.armour = ((self.sprite.width + self.sprite.height)) / 2020; --armour can never be 100% resistance
   self.sprite.damage = math.random(5,12);
   self.sprite.radarColour = {0, 0.8, 1};
 

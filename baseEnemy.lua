@@ -118,9 +118,11 @@ function M.BaseEnemy:updateHealthBar()
 end
 
 --Kills the enemy (does NOT remove from list of enemies)
-function M.BaseEnemy:kill()
+function M.BaseEnemy:kill(radar)
   score:increase(self, self.sprite.pointsPerKill);
-  --self.radar:kill(self.sprite.enemyType, self.sprite.index)
+  if(radar) then 
+    radar:kill(self.sprite.enemyType, self.sprite.index) 
+  end
   self.sprite.healthBar:removeSelf();
   self.sprite.healthMissing:removeSelf();
   self.sprite:removeSelf();
@@ -250,7 +252,6 @@ function M.BaseEnemy:run(radar)
   if (self.sprite.healthBar.health <= 0 or self:getDistanceTo(player:getX(), player:getY()) > 100000) then
     self.sprite.isDead = true;
   else
-    --print(self.sprite.isStuck)
     self:updateHealthBar();
     self:drawOnRadar(radar);
     --runs shake routine
