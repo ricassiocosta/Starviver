@@ -48,18 +48,18 @@ function spaceship.new(_x, _y, _acceleration)
 	player = display.newRect( _x, _y, width, lenght )
 	player.rotation = 50;
 
-	player.healthMissing = display.newRect(500, 75, display.actualContentWidth-500, 100);
+	player.healthMissing = display.newRect(display.contentWidth, 75, display.actualContentWidth-550, 100);
 	player.healthMissing:setFillColor(0.3, 0.3, 0.3);
-	player.healthMissing.anchorX = 0;
+	player.healthMissing.anchorX = 1;
 	player.healthMissing.anchorY = 0;
-	player.healthMissing.path.x1 = -100;
+	player.healthMissing.path.x1 = -75;
 
-	player.healthBar = display.newRect(player.healthMissing.x, player.healthMissing.y, player.healthMissing.width, player.healthMissing.height);
+	player.healthBar = display.newRect(player.healthMissing.x+75, player.healthMissing.y, player.healthMissing.width, player.healthMissing.height);
 	player.healthBar:setFillColor(0.2, 0.85, 0.4);
-	player.healthBar.anchorX = 0;
+	player.healthBar.anchorX = 1;
 	player.healthBar.anchorY = 0;
-	player.healthBar.path.x1 = -100;
-	player.healthBar.path.x4 = -100;
+	player.healthBar.path.x1 = -75;
+	player.healthBar.path.x4 = -75;
 
 	player.healthGroup = display.newGroup();
 	player.healthGroup:insert(player.healthMissing);

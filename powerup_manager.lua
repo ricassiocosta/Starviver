@@ -43,6 +43,14 @@ function M.class:__init()
   timeMan:init();
 end
 
+function M.class:getTimerObject(_index)
+  if(_index) then
+    return timeMan:get(_index);
+  else
+    return timeMan:get();
+  end
+end
+
 function M.class:get(_index1, _index2)
   if (_index1 == nil) then
     return self.powerupList;

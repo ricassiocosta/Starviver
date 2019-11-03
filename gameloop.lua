@@ -63,7 +63,11 @@ function gameloop:init()
 	
   	--initializes the hud
 	hud = gui.class({player = player:getDisplayObject()});
-	hud:insert(player:getHealthGroup(), 1)
+	--adds misc. objects that belong in the HUD/GUI
+	hud:insert(player:getHealthGroup(), 1) --player healthbar
+	for i = 1, table.getn(powerups:getTimerObject()) do
+	  hud:insert(powerups:getTimerObject(i), 1) --all powerup timers
+	end
 end
 
 --Runs continously. Different code for each different game state
