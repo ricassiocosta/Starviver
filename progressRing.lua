@@ -92,7 +92,7 @@ testGroup.isVisible = false
 local testObject = display.newRect(testGroup, 0, 0, 1, 1)
 function testObject.finalize(self, event)
 	finalizeFixed = true
-	--print("no longer any need to fix finalize() - thanks Corona Labs!")
+	print("no longer any need to fix finalize() - thanks Corona Labs!")
 end
 testObject:addEventListener("finalize")
 display.remove(testGroup)
@@ -221,51 +221,52 @@ function progressRing.new(params)
 	--------------------------------------------------------------------------------
 	-- CREATE CIRCULAR MASK FOR SLICES
 	--------------------------------------------------------------------------------
-	local stageColor = display.getDefault("background")
-	local coverUp = display.newRect(centerX, centerY, screenWidth, screenHeight)
-	coverUp:setFillColor(stageColor)
-	display.getCurrentStage():insert(1, coverUp)
-
-	local squareSize = screenWidth - 16
-	if screenWidth > screenHeight then squareSize = screenHeight - 16 end
-	squareSize = math.floor(squareSize*.25)*4 + 16
-	local maskRadius = squareSize * .5 - 16
-	local maskScaleX = radius / (maskRadius / display.contentScaleX)
-	local maskScaleY = radius / (maskRadius / display.contentScaleY)
-
-	local maskGroup = display.newGroup()
-	maskGroup.x, maskGroup.y = centerX, centerY
-	display.getCurrentStage():insert(1, maskGroup)
-	local square = display.newRect(maskGroup, 0, 0, squareSize, squareSize)
-	square:setFillColor(0)
-	local circle = display.newCircle(maskGroup, 0, 0, maskRadius)
-	circle:setFillColor(1)
-	local circle2 = display.newCircle(maskGroup, 0, 0, maskRadius*(1-ringDepth))
-	circle2:setFillColor(0)
-	timer.performWithDelay(10, function()
-		local maskImage = display.capture(maskGroup, { saveToPhotoLibrary=false, isFullResolution=false } )
-		display.getCurrentStage():insert(1, maskImage)
-
-		timer.performWithDelay(1, function()
-			display.save( maskImage, {filename=objectName..".jpg", baseDir=system.TemporaryDirectory, isFullResolution=true} )
-			local mask = graphics.newMask( objectName..".jpg", system.TemporaryDirectory )
-
-			timer.performWithDelay(1, function()
-				bg:setMask(mask)
-				bg.maskScaleX, bg.maskScaleY = maskScaleX, maskScaleY
-				sliceGroup.group:setMask(mask)
-				sliceGroup.maskScaleX, sliceGroup.maskScaleY = maskScaleX, maskScaleY
-				display.remove(maskGroup)
-				display.remove(maskImage)
-				display.remove(coverUp)
-				sliceGroup.group:insert(sliceContainer)
+	-- local stageColor = display.getDefault("background")
+	-- local coverUp = display.newRect(centerX, centerY, screenWidth, screenHeight)
+	-- coverUp:setFillColor(stageColor)
+	-- display.getCurrentStage():insert(1, coverUp)
+--
+	-- local squareSize = screenWidth - 16
+	-- if screenWidth > screenHeight then squareSize = screenHeight - 16 end
+	-- squareSize = math.floor(squareSize*.25)*4 + 16
+	-- local maskRadius = squareSize * .5 - 16
+	-- local maskScaleX = radius / (maskRadius / display.contentScaleX)
+	-- local maskScaleY = radius / (maskRadius / display.contentScaleY)
+--
+	-- local maskGroup = display.newGroup()
+	-- maskGroup.x, maskGroup.y = centerX, centerY
+	-- display.getCurrentStage():insert(1, maskGroup)
+	-- local square = display.newRect(maskGroup, 0, 0, squareSize, squareSize)
+	-- square:setFillColor(0)
+	-- local circle = display.newCircle(maskGroup, 0, 0, maskRadius)
+	-- circle:setFillColor(1)
+	-- local circle2 = display.newCircle(maskGroup, 0, 0, maskRadius*(1-ringDepth))
+	-- circle2:setFillColor(0)
+	-- timer.performWithDelay(10, function()
+		-- local maskImage = display.capture(maskGroup, { saveToPhotoLibrary=false, isFullResolution=false } )
+		-- display.getCurrentStage():insert(1, maskImage)
+--
+		-- timer.performWithDelay(1, function()
+			-- display.save( maskImage, {filename=objectName..".jpg", baseDir=system.TemporaryDirectory, isFullResolution=true} )
+			-- local mask = graphics.newMask( objectName..".jpg", system.TemporaryDirectory )
+--
+			-- timer.performWithDelay(1, function()
+				-- bg:setMask(mask)
+				-- bg.maskScaleX, bg.maskScaleY = maskScaleX, maskScaleY
+				-- sliceGroup.group:setMask(mask)
+				-- sliceGroup.maskScaleX, sliceGroup.maskScaleY = maskScaleX, maskScaleY
+				-- display.remove(maskGroup)
+				-- display.remove(maskImage)
+				-- display.remove(coverUp)
+				-- sliceGroup.group:insert(sliceContainer)
+				group.localMask = graphics.newMask("imgs/pieMask.png")
+				group:setMask(group.localMask);
 				group.isCreated = true
-				group:goTo(startPosition, 0, true)
+				-- group:goTo(startPosition, 0, true)
 				group.isVisible = true
-			end)
-		end)
-	end)
-
+			-- end)
+		-- end)
+	-- end)
 	--------------------------------------------------------------------------------
 	-- SET RING POSITION (i.e. start rotation)
 	--------------------------------------------------------------------------------

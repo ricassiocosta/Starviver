@@ -33,7 +33,7 @@ function scene:init(_sceneNum)
     -- Adds in Scenery
     ----------------------------------------------------------------------------
     local sceneStars = {};
-    for i = 1, 5000 do
+    for i = 1, 2000 do
       if (math.random(1, 4) == 1) then
         sceneStars[i] = display.newRect(0, 0, 10, 10);
         sceneStars[i].rotation = 45;
