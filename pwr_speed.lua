@@ -18,6 +18,7 @@ function M.class:__init(_index, params)
   basePowerup.class.__init(self, params);
   self.index = _index;
   self.name = "Speedboost";
+  self.sprite.duration = 3;
 end
 
 function M.class:sayHello()
@@ -27,12 +28,12 @@ end
 function M.class.onCollision(self, event)
   if(event.phase == "began") then
     self.isDead = true;
-    event.other.powerupBuffs[1] = 180; --buff duration
+    event.other.powerupBuffs[1] = self.duration * 60; --buff duration
 
     self.timeShown.x = 800;
     self.timeShown:reset();
-    self.timeShown:goTo(0, 3000);
-    
+    self.timeShown:goTo(0, self.duration * 1000);
+
     event.other.maxSpeed = 50;
   end
 end

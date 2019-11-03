@@ -18,6 +18,7 @@ function M.class:__init(_index, params)
   basePowerup.class.__init(self, params);
   self.index = _index;
   self.name = "Double Damage";
+  self.sprite.duration = 7;
 end
 
 function M.class:sayHello()
@@ -27,12 +28,12 @@ end
 function M.class.onCollision(self, event)
   if(event.phase == "began") then
     self.isDead = true;
-    event.other.powerupBuffs[2] = 420; --buff duration
+    event.other.powerupBuffs[2] = self.duration * 60; --buff duration
 
     self.timeShown.x = 600;
     self.timeShown:reset();
-    self.timeShown:goTo(0, 7000);
-    
+    self.timeShown:goTo(0, self.duration * 1000);
+
     event.other:setFillColor(255/255, 30/255, 90/255)
     event.other.bulletDamage = event.other.bulletDamage * 2;
   end
