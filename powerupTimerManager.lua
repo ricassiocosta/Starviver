@@ -12,10 +12,16 @@ local timerManager = {};
 local countdownTimers = {};
 
 function timerManager:init()
-        countdownTimers = { };
+    countdownTimers = {
+        --speedboost
+        progressRing.new({ringColor = {0.8, 0.1, 0.6}, bgColor = {1,1,1,0.01}, position = 1, ringDepth = 1, radius = 80}),
+        --double damage
+        progressRing.new({ringColor = {0.2, 0.1, 0.8}, bgColor = {1,1,1,0.01}, position = 1, ringDepth = 1, radius = 80})
+       };
     for i = 1, table.getn(countdownTimers) do
         countdownTimers[i].y = display.contentHeight - 200;
         countdownTimers[i].x = -1000;
+        countdownTimers[i].isInProgress = false;
     end
 end
 
@@ -27,21 +33,26 @@ function timerManager:get(_index)
     end
 end
 
-function timerManager:create(_index, params)
-    local r = params.r or 0.2;
-    local g = params.g or 0.8;
-    local b = params.b or 0.1;
+function timerManager:create(params)
     params.duration = params.duration or 1;
-    countdownTimers[_index] = progressRing.new({ringColor = {r, g, b}, bgColor = {1,1,1,0.01}, position = 1, ringDepth = 1, radius = 80});
-
-    countdownTimers[_index].y = display.contentHeight - 200;
-    countdownTimers[_index].x = params.x or 300;
-    countdownTimers[_index]:goTo(0, params.duration*1000);
-    countdownTimers[_index]:addEventListener("completed", self.reset)
+    if(countdownTimers[params.index].isInProgress == false) then
+        countdownTimers[params.index].isInProgress = true;
+        countdownTimers[params.index].x = params.x or 300;
+        countdownTimers[params.index]:goTo(0, 1000*params.duration);
+        --countdownTimers[params.index]:addEventListener("completed", timerManager.onComplete)
+    else
+        countdownTimers[params.index]:goTo(1, 0.1);
+        countdownTimers[params.index].isInProgress = false;
+        local recursiveTimer = timer.performWithDelay(5, function() timerManager:create({index = params.index, duration = params.duration, x = params.x}) end);
+    end
 end
 
-function timerManager:reset()
-    self = nil;
+function timerManager:onComplete()
+    print(self);
+    print(countdownTimers);
+    print(countdownTimers[1]);
+    print(countdownTimers[2]);
+    print("~~~~~~~~~~~~~~~~~~~~~~~~~")
 end
 
 return timerManager;

@@ -31,7 +31,7 @@ function M.class.onCollision(self, event)
     self.isDead = true;
     event.other.powerupBuffs[1] = self.duration * 60; --buff duration
 
-    timeMan:create(1, {r = 0.8, g = 0.1, b = 0.6, x = 600, duration = self.duration});
+    timeMan:create({index = 1, x = 600, duration = self.duration});
 
     event.other.maxSpeed = 50;
   end
