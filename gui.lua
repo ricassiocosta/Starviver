@@ -11,10 +11,19 @@ local stick = require("joystick");
 local button = require("button");
 
 local gui = {};
-
 gui.class = class("GUI");
 
 function gui.class:__init(params)
+  --[[  Stores the gameState
+    0 = not initialized
+    1 = main menu
+    2 = gameplay
+    3 = pause menu
+    4 = game over
+    5 = resetting process
+  ]]
+  self.gameState = 2;
+
   --Display Groups
   self.groupGUI = display.newGroup();     --[ * ] -- main group. contains all sub groups within
   self.miscGUI = display.newGroup();      --[ 1 ] -- Misc. GUI objects
@@ -63,6 +72,9 @@ function gui.class:__init(params)
 
   self.gameOverBackground = display.newRect(display.contentWidth/2, display.contentHeight/2, display.actualContentWidth, display.actualContentHeight);
   self.gameOverBackground:setFillColor(0.8, 0.2, 0.1);
+  self.gameOverBackground.touch = self.restartGame;
+  self.gameOverBackground:addEventListener("touch", self.gameOverBackground);
+  self.gameOverBackground.super = self;
   self.gameOverText = display.newText( "Starviver is Dead", display.contentWidth/2, display.contentHeight/1.2, "font/league-spartan-bold.otf", 120 )
 
   self.gameOverGUI:insert(self.gameOverBackground);
@@ -90,16 +102,34 @@ function gui.class:get(index1, index2)
   return self.GUItable[index1][index2];
 end
 
+function gui.class:getState()
+  return self.gameState;
+end
+
+function gui.class:setState(_state)
+  self.gameState = _state;
+  return self.gameState;
+end
+
 function gui.class:run()
   self.radar:run();
 end
 
 function gui.class:showEndscreen()
+  -- if (self.groupGUI[5].alpha < 1) then
   self.groupGUI[5].alpha = self.groupGUI[5].alpha + 0.005;
+  -- end
 end
 
 function gui.class:insert(_displayObj, _index)
   self.groupGUI[_index]:insert(_displayObj);
+end
+
+function gui.class:restartGame(event)
+  if(event.phase == "began") then
+    self.super.gameState = 5;
+    self.super.groupGUI[5].alpha = 0;
+  end
 end
 
 return gui;

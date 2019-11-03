@@ -120,6 +120,18 @@ function enemies:randomSpawn(_x, _y, params)
   end
 end
 
+function enemies:clear(radar)
+  for i = 1, table.getn(enemyList) do
+    for j = 1, table.getn(enemyList[i]) do
+      if (enemyList[i][j] == nil) then break
+      else
+        enemyList[i][j]:kill(radar);
+        self:kill(i, j);
+      end
+    end
+  end
+end
+
 function enemies:run(params)
   enemyCount = 0;
   --runs logic behind enemies

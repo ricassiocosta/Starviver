@@ -95,4 +95,16 @@ function M.class:run()
   end
 end
 
+function M.class:clear()
+  for i = 1, table.getn(self.powerupList) do
+    for j = 1, table.getn(self.powerupList[i]) do
+      if (self.powerupList[i][j] == nil) then break
+      else
+        self.powerupList[i][j].sprite:removeSelf();
+        table.remove(self.powerupList[i], j)
+      end
+    end
+  end
+end
+
 return M;

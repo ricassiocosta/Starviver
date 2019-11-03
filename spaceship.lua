@@ -177,6 +177,17 @@ function spaceship:init()
 	scene:addFocusTrack(player);
 end
 
+function spaceship:reset()
+	player.isDead = false;
+	player.isFixedRotation = true;
+	player.bodyType = "kinematic";
+	player.healthBar.health = player.healthBar.maxHealth;
+	player.healthBar.width = player.healthMissing.width;
+	player.x = 0; player.y = 0;
+	player.rotation = 25;
+	player:setLinearVelocity(0, 0);
+end
+
 function spaceship:run(joystick, fireButton) --Runs every frame
 	if(player.healthBar.health <= 0) then
 	  player.isDead = true;
