@@ -21,10 +21,13 @@ function gui.class:__init(params)
     3 = pause menu
     4 = game over
     5 = resetting process
+    6 = resetting process in preparation of the main menu
   ]]
-  self.gameState = 2;
+  self.gameState = 1;
 
-  -----------GAMEPLAY HUD / CONTROLS ------------
+  ------------------------------------------------------------------------------
+  ---------------------------- Gameplay GUI / HUD ------------------------------
+  ------------------------------------------------------------------------------
 
   --Display Groups
   self.controlGroup = display.newGroup(); --[ * ] -- main group for the controls. contains all sub groups within
@@ -40,19 +43,6 @@ function gui.class:__init(params)
   self.controlGroup:insert(self.radarGUI);
   self.controlGroup:insert(self.stickGUI);
   self.controlGroup:insert(self.gameOverGUI);
-
-  self.miscTable = {};      --[ 1 ] -- Misc. GUI objects
-  self.buttonTable = {};    --[ 2 ] -- Buttons
-  self.radarTable = {};     --[ 3 ] -- Radar
-  self.stickTable = {};     --[ 4 ] -- Joysticks
-  self.gameOverTable = {};  --[ 5 ] -- Gameover Screens
-  self.GUItable = {
-    self.miscTable,
-    self.buttonTable,
-    self.radarTable,
-    self.stickTable,
-    self.gameOverTable
-  }
 
   --Special settings for display groups
   self.controlGroup[5].alpha = 0;
@@ -102,7 +92,7 @@ function gui.class:__init(params)
   self.restartButton.touch = self.restartGame;
   self.restartButton:addEventListener("touch", self.restartButton);
 
-
+  ------------------------------------------------------------------------------
 
   --inserts everything into correct display groups
 
@@ -114,6 +104,21 @@ function gui.class:__init(params)
   self.radarGUI:insert(self.radar:getRadarTriangle());
   self.radarGUI:insert(self.radar:getDots());
 
+  ------------------------------------------------------------------------------
+
+  self.miscTable = {};      --[ 1 ] -- Misc. GUI objects
+  self.buttonTable = {};    --[ 2 ] -- Buttons
+  self.radarTable = {};     --[ 3 ] -- Radar
+  self.stickTable = {};     --[ 4 ] -- Joysticks
+  self.gameOverTable = {};  --[ 5 ] -- Gameover Screens
+  self.gameplayHUDTable = {
+    self.miscTable,
+    self.buttonTable,
+    self.radarTable,
+    self.stickTable,
+    self.gameOverTable
+  }
+
   ----------
 
   table.insert(self.gameOverTable, self.gameOverBackground);
@@ -122,33 +127,82 @@ function gui.class:__init(params)
   table.insert(self.buttonTable, self.button);
   table.insert(self.radarTable, self.radar);
   
-  -----------GAMEPLAY HUD / CONTROLS ------------
+  ------------------------------------------------------------------------------
+  ---------------------------- Main Menu GUI / HUD -----------------------------
+  ------------------------------------------------------------------------------
 
   self.menuGroup = display.newGroup();
   self.menuArcadeButtonGroup = display.newGroup();
   self.menuOptionsButtonGroup = display.newGroup();
   self.menuMultiplayerButtonGroup = display.newGroup();
+  self.menuButtonGroup = display.newGroup();
   self.menuTitleGroup = display.newGroup();
 
-  self.menuGroup:insert(self.menuArcadeButtonGroup);
-  self.menuGroup:insert(self.menuOptionsButtonGroup);
-  self.menuGroup:insert(self.menuMultiplayerButtonGroup);
+  self.menuButtonGroup:insert(self.menuArcadeButtonGroup);
+  self.menuButtonGroup:insert(self.menuOptionsButtonGroup);
+  self.menuButtonGroup:insert(self.menuMultiplayerButtonGroup);
+
+  self.menuGroup:insert(self.menuButtonGroup);
   self.menuGroup:insert(self.menuTitleGroup);
 
 
   display.newText(self.menuTitleGroup, "Starviver", display.contentWidth/2+5, 155, "font/league-spartan-bold.otf", 164);
-  self.menuTitleGroup[1]:setFillColor(0.1, 0.1, 0.1);
+  self.menuTitleGroup[1]:setFillColor(0.5, 0.5, 0.5);
   display.newText(self.menuTitleGroup, "Starviver", display.contentWidth/2, 150, "font/league-spartan-bold.otf", 164);
   self.menuTitleGroup[2]:setFillColor(1, 0.5, 0.25);
+
+  display.newRect(self.menuArcadeButtonGroup,
+                  32,
+                  164+75+32,
+                  900,
+                  display.contentHeight - ((164+75+32) + 32));
+  self.menuArcadeButtonGroup[1].anchorX = 0;
+  self.menuArcadeButtonGroup[1].anchorY = 0;
+  self.menuArcadeButtonGroup[1]:setFillColor(0.8, 0.2, 0.3)
+
+  display.newRect(self.menuOptionsButtonGroup,
+                  32 + self.menuArcadeButtonGroup[1].width + 32,
+                  164+75+32,
+                  display.contentWidth - (self.menuArcadeButtonGroup[1].width + 32 + 32 + 32),
+                  250);
+  self.menuOptionsButtonGroup[1].anchorX = 0;
+  self.menuOptionsButtonGroup[1].anchorY = 0;
+  self.menuOptionsButtonGroup[1]:setFillColor(56/255, 173/255, 1)
+
+  display.newRect(self.menuMultiplayerButtonGroup,
+                  32 + self.menuArcadeButtonGroup[1].width + 32,
+                  164+75+32 + self.menuOptionsButtonGroup[1].height + 32,
+                  display.contentWidth - (self.menuArcadeButtonGroup[1].width + 32 + 32 + 32),
+                  display.contentHeight - ((164+75+32) + 32 + self.menuOptionsButtonGroup[1].height + 32));
+  self.menuMultiplayerButtonGroup[1].anchorX = 0;
+  self.menuMultiplayerButtonGroup[1].anchorY = 0;
+  self.menuMultiplayerButtonGroup[1]:setFillColor(1, 0.5, 0.1);
+
+  self.menuButtonGroup.alpha = 0.75
+
+  self.menuGroup.isVisible = false;
+
+  ------------------------------------------------------------------------------
+
 end
 
 --gets an object from the hud
 function gui.class:get(index1, index2)
-  return self.GUItable[index1][index2];
+  if(index1 == nil) then
+    return self.gameplayHUDTable;
+  elseif(index2 == nil) then
+    return self.gameplayHUDTable[index1];
+  else
+    return self.gameplayHUDTable[index1][index2];
+  end
 end
 
 function gui.class:getState()
   return self.gameState;
+end
+
+function gui.class:getSelf()
+  return self;
 end
 
 function gui.class:setState(_state)
@@ -184,11 +238,10 @@ end
 
 function gui.class:returnToMenu(event)
   if(event.phase == "began") then
-    self.super.gameState = 1;
+    self.super.gameState = 6;
     self.super.controlGroup[5].alpha = 0;
     self.super.menuButtonGroup.alpha = 0;
     self.super.restartButtonGroup.alpha = 0;
-    self.super.controlGroup.isVisible = false;
   end
 end
 
