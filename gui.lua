@@ -148,16 +148,16 @@ function gui.class:__init(params)
   self.menuGroup:insert(self.menuTitleGroup);
 
 
-  display.newText(self.menuTitleGroup, "STARVIVER", display.contentWidth/2+5, 145, "font/font-logo.ttf", 180);
+  display.newText(self.menuTitleGroup, "STARVIVER", display.actualContentWidth/2+5, 145, "font/font-logo.ttf", 180);
   self.menuTitleGroup[1]:setFillColor(1, 1, 1);
-  display.newText(self.menuTitleGroup, "STARVIVER", display.contentWidth/2, 140, "font/font-logo.ttf", 180);
+  display.newText(self.menuTitleGroup, "STARVIVER", display.actualContentWidth/2, 140, "font/font-logo.ttf", 180);
   self.menuTitleGroup[2]:setFillColor(0.673, 0.134, 0.564);
 
   display.newRect(self.menuKamikazeGroup,
-                  32,
-                  164+75+32,
-                  1024,
-                  display.contentHeight - ((164+75+32) + 32) - 400);
+                  display.actualContentWidth/2 - 300,
+                  display.actualContentHeight/3,
+                  600,
+                  display.contentHeight - ((164+75+32) + 32) - 600);
   self.menuKamikazeGroup[1].anchorX = 0;
   self.menuKamikazeGroup[1].anchorY = 0;
   self.menuKamikazeGroup[1].fill = {
@@ -171,16 +171,16 @@ function gui.class:__init(params)
                   self.menuKamikazeGroup[1].x + self.menuKamikazeGroup[1].width/2,
                   self.menuKamikazeGroup[1].y + self.menuKamikazeGroup[1].height/2,
                   "font/league-spartan-bold.otf",
-                  180);
+                  100);
   self.menuKamikazeGroup.super = self;
   self.menuKamikazeGroup.touch = self.restartGame;
   self.menuKamikazeGroup:addEventListener("touch", self.menuKamikazeGroup);
 
   display.newRect(self.menuTimeAttackGroup,
-                  32,
-                  164+75+32 + 400,
-                  self.menuKamikazeGroup[1].width,
-                  display.contentHeight - ((164+75+32) + 32 + 400));
+                  display.actualContentWidth/2 - 300,
+                  display.actualContentHeight/2 + 100,
+                  600,
+                  display.contentHeight - ((164+75+32) + 32 + 600));
   self.menuTimeAttackGroup[1].anchorX = 0;
   self.menuTimeAttackGroup[1].anchorY = 0;
   self.menuTimeAttackGroup[1].fill = {
@@ -194,14 +194,14 @@ function gui.class:__init(params)
                   self.menuTimeAttackGroup[1].x + self.menuTimeAttackGroup[1].width/2,
                   self.menuTimeAttackGroup[1].y + self.menuTimeAttackGroup[1].height/2,
                   "font/league-spartan-bold.otf",
-                  180);
+                  100);
 
 
   display.newRect(self.menuOptionsButtonGroup,
-                  32 + self.menuKamikazeGroup[1].width + 32,
-                  164+75+32,
-                  display.contentWidth - (self.menuKamikazeGroup[1].width + 32 + 32 + 32),
-                  250);
+                  display.actualContentWidth - 305,
+                  display.actualContentHeight - 155,
+                  300,
+                  150);
   self.menuOptionsButtonGroup[1].anchorX = 0;
   self.menuOptionsButtonGroup[1].anchorY = 0;
   self.menuOptionsButtonGroup[1].fill = {
@@ -215,23 +215,21 @@ function gui.class:__init(params)
                   self.menuOptionsButtonGroup[1].x + self.menuOptionsButtonGroup[1].width/2,
                   self.menuOptionsButtonGroup[1].y + self.menuOptionsButtonGroup[1].height/2,
                   "font/league-spartan-bold.otf",
-                  120);
+                  60);
 
   display.newRect(self.menuMultiplayerButtonGroup,
-                  32 + self.menuKamikazeGroup[1].width + 32,
-                  164+75+32 + self.menuOptionsButtonGroup[1].height + 32,
-                  display.contentWidth - (self.menuKamikazeGroup[1].width + 32 + 32 + 32),
-                  display.contentHeight - ((164+75+32) + 32 + self.menuOptionsButtonGroup[1].height + 32));
+                  display.actualContentWidth - (display.actualContentWidth - 5),
+                  display.actualContentHeight - 155,
+                  300,
+                  150);
   self.menuMultiplayerButtonGroup[1].anchorX = 0;
   self.menuMultiplayerButtonGroup[1].anchorY = 0;
   --self.menuMultiplayerButtonGroup[1].fill = {type = "image", filename = "img/menu/twin1.jpg"}
   display.newRect(self.menuMultiplayerButtonGroup,
-                  self.menuMultiplayerButtonGroup[1].x,
-                  self.menuMultiplayerButtonGroup[1].y,
-                  self.menuMultiplayerButtonGroup[1].width,
-                  self.menuMultiplayerButtonGroup[1].height)
-                  self.menuMultiplayerButtonGroup[2].anchorX = 0;
-                  self.menuMultiplayerButtonGroup[2].anchorY = 0;
+                  display.actualContentWidth - (display.actualContentWidth - 5),
+                  display.actualContentHeight - 155,
+                  300,
+                  150)
   self.menuMultiplayerButtonGroup[2].fill = {
     type = "gradient",
     color1 = { 1, 0.5, 0.1},
@@ -243,7 +241,9 @@ function gui.class:__init(params)
                   self.menuMultiplayerButtonGroup[1].x + self.menuMultiplayerButtonGroup[1].width/2,
                   self.menuMultiplayerButtonGroup[1].y + self.menuMultiplayerButtonGroup[1].height/2,
                   "font/league-spartan-bold.otf",
-                  150);
+                  50);
+  self.menuMultiplayerButtonGroup[2].anchorX = 0;
+  self.menuMultiplayerButtonGroup[2].anchorY = 0;
 
   self.mainMenuButtonGroup.alpha = 0.9
 
