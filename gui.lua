@@ -196,7 +196,7 @@ function gui.class:__init(params)
                   "font/league-spartan-bold.otf",
                   100);
 
-
+  --[[
   display.newRect(self.menuOptionsButtonGroup,
                   display.actualContentWidth - 305,
                   display.actualContentHeight - 155,
@@ -248,7 +248,7 @@ function gui.class:__init(params)
   self.mainMenuButtonGroup.alpha = 0.9
 
   self.menuGroup.isVisible = false;
-
+  ]]
 
   ------------------------------------------------------------------------------
 

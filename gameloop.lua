@@ -29,7 +29,7 @@ function gameloop:init()
 	--display.setStatusBar(display.HiddenStatusBar);
   	--physics.setDrawMode("hybrid");
  	display.setDefault("background", 0/255, 32/255, 50/255);
-
+	isFirstRun = true;
 	--creates instances of classes
 	enemy = enemies.new();
 	player = spaceship.new(0, 0, 0.75)
@@ -57,6 +57,10 @@ function gameloop:run()
 		local menuBackgroundMusic = audio.loadSound( "audio/music/mainmenu.mp3" )
 		audio.play( menuBackgroundMusic, { channel=1, loops=-1} )
 	elseif(hud:getState() == 2) then  --GAMEPLAY--
+		if(isFirstRun == true) then
+			actualScore = display.newText("0", 1200, 300, "Arial", 72);
+		end
+		actualScore.text = score:get();
 		audio.stop({channel = 1})
 		audio.stop({channel = 3})
 		local gameplayBackgroundMusic = audio.loadSound( "audio/music/gameplay.mp3" )
@@ -70,7 +74,15 @@ function gameloop:run()
 		enemy:run({radar = hud:get(3, 1)}); --runs enemy logic
 		powerups:run(); --runs misc. powerup animations and event listeners
 		hud:run(); --runs HUD and GUI elements
+		isFirstRun = false;
 	elseif(hud:getState() == 4) then --GAME OVER--
+		if(score:isHighscore(score:get())) then
+			score:setHighscore(score:get())
+		end
+		--display.remove(actualScore)
+		--finalScore = display.newText(score:get(), 1500, 600, "Arial", 72);
+		transition.to(actualScore, {time = 100, x = 1500, y = 600});
+		isFirstRun = true;
 		audio.stop({channel = 2})
 		local overBackgroundMusic = audio.loadSound( "audio/music/gameover.mp3" )
 		audio.play( overBackgroundMusic, { channel=3, loops=-1} )
@@ -80,12 +92,15 @@ function gameloop:run()
 		powerups:clear();
 		player:reset();
 		hud:setState(2);
+		score:set(0);
+		display.remove(actualScore)
 	elseif(hud:getState() == 6) then --PREPARING FOR MENU
 		enemy:clear(hud:get(3, 1));
 		powerups:clear();
 		player:reset();
 		hud:setState(1);
 		audio.stop({channel = 3})
+		display.remove(actualScore)
 	end
   
 	if(player:getIsDead() and hud:getState() == 2) then

@@ -11,7 +11,7 @@ local timerManager = {};
 
 local countdownTimers = {
     progressRing.new({ringColor = {0.8, 0.1, 0.6}, bgColor = {0,0,0, 0.01}, position = 1, ringDepth = 1, radius = 80}),
-    progressRing.new({ringColor = {0.2, 0.1, 0.8}, bgColor = {0,0,0, 0.01}, position = 1, ringDepth = 1, radius = 80})
+    progressRing.new({ringColor = {0.8, 0.1, 0.2}, bgColor = {0,0,0, 0.01}, position = 1, ringDepth = 1, radius = 80})
   };
 
 function timerManager:init()
@@ -44,7 +44,7 @@ function timerManager:create(params)
 end
 
 function timerManager:onComplete()
-    print("timeOUT!!!!!!!!!!!!!!!!!!!!!");
+    
 end
 
 return timerManager;

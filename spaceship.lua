@@ -68,7 +68,7 @@ function spaceship.new(_x, _y, _acceleration)
 
 	player.fill = spaceshipSprite;
 	player.name = "Player";
-	player.healthBar.health = 1000;
+	player.healthBar.health = 100;
 	player.healthBar.armour = 0;
 	player.healthBar.maxHealth = 1000;
 	player.damage = nil;
