@@ -48,7 +48,7 @@ function spaceship.new(_x, _y, _acceleration)
 	player = display.newRect( _x, _y, width, lenght )
 	player.rotation = 50;
 
-	player.healthMissing = display.newRect(display.contentWidth, 75, display.actualContentWidth-550, 100);
+	player.healthMissing = display.newRect(display.contentWidth, 75, display.contentWidth-550, 100);
 	player.healthMissing:setFillColor(0.3, 0.3, 0.3);
 	player.healthMissing.anchorX = 1;
 	player.healthMissing.anchorY = 0;

@@ -113,8 +113,8 @@ local centerX = display.contentCenterX
 local centerY = display.contentCenterY
 local screenTop = display.screenOriginY
 local screenLeft = display.screenOriginX
-local screenBottom = display.screenOriginY+display.actualContentHeight
-local screenRight = display.screenOriginX+display.actualContentWidth
+local screenBottom = display.screenOriginY+display.contentHeight
+local screenRight = display.screenOriginX+display.contentWidth
 local screenWidth = screenRight - screenLeft
 local screenHeight = screenBottom - screenTop
 
