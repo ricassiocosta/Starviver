@@ -165,7 +165,7 @@ function gui.class:__init(params)
   self.menuKamikazeGroup[1].fill = {
     type = "gradient",
     color1 = { 0.7, 0.1, 0.2},
-    color2 = { 0.9, 0.3, 0.4},
+    color2 = { 0.7, 0.1, 0.2},
     direction = "down"
   }
   display.newText(self.menuKamikazeGroup,
@@ -187,8 +187,8 @@ function gui.class:__init(params)
   self.menuTimeAttackGroup[1].anchorY = 0;
   self.menuTimeAttackGroup[1].fill = {
     type = "gradient",
-    color1 = { 0.7, 0.7, 0.2},
-    color2 = { 1, 1, 0.5},
+    color1 = { 0.26, 0.209, 1},
+    color2 = { 0.26, 0.209, 1},
     direction = "down"
   }
   display.newText(self.menuTimeAttackGroup,

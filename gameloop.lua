@@ -57,6 +57,7 @@ function gameloop:run()
 		local menuBackgroundMusic = audio.loadSound( "audio/music/mainmenu.mp3" )
 		audio.play( menuBackgroundMusic, { channel=1, loops=-1} )
 	elseif(hud:getState() == 2) then  --GAMEPLAY--
+		scene:setCameraDamping(5)
 		if(isFirstRun == true) then
 			actualScore = display.newText("0", 1200, 300, "Arial", 72);
 		end

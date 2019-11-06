@@ -68,4 +68,8 @@ function scene:change(_firstScene, _secondScene, _transition)
   scene:init(_secondScene);
 end
 
+function scene:setCameraDamping(_damping)
+  camera.damping = _damping;
+end
+
 return scene;
