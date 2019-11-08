@@ -56,10 +56,14 @@ function gameloop:run()
 		player:wander();
 		local menuBackgroundMusic = audio.loadSound( "audio/music/mainmenu.mp3" )
 		audio.play( menuBackgroundMusic, { channel=1, loops=-1} )
+		--score:clearHighscore();
 	elseif(hud:getState() == 2) then  --GAMEPLAY--
 		scene:setCameraDamping(5)
 		if(isFirstRun == true) then
-			actualScore = display.newText("0", 1200, 300, "Arial", 72);
+			scoreBox = display.newRect(display.contentWidth - ((display.contentWidth) * 0.06), display.contentHeight/2 - display.contentHeight/3.5, display.contentWidth/6, display.contentHeight/12)
+			scoreBox:setFillColor(0.2, 0.4, 0.85)
+			scoreBoxText = display.newText("SCORE", display.contentWidth - ((display.contentWidth) * 0.1), display.contentHeight/2 - display.contentHeight/3.6, "font/league-spartan-bold.otf", 45);
+			actualScore = display.newText("0", display.contentWidth - ((display.contentWidth) * 0.03), display.contentHeight/2 - display.contentHeight/3.6, "font/league-spartan-bold.otf", 45);
 		end
 		actualScore.text = score:get();
 		audio.stop({channel = 1})
@@ -76,6 +80,7 @@ function gameloop:run()
 		powerups:run(); --runs misc. powerup animations and event listeners
 		hud:run(); --runs HUD and GUI elements
 		isFirstRun = false;
+		--print(score:getHighscore());
 	elseif(hud:getState() == 4) then --GAME OVER--
 		if(score:isHighscore(score:get())) then
 			score:setHighscore(score:get())
@@ -92,7 +97,7 @@ function gameloop:run()
 		powerups:clear();
 		player:reset();
 		hud:setState(2);
-		--score:set(0);
+		score:set(0);
 	elseif(hud:getState() == 6) then --PREPARING FOR MENU
 		enemy:clear(hud:get(3, 1));
 		powerups:clear();

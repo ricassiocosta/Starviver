@@ -29,6 +29,10 @@ function score:set(_score)
 	totalScore = _score;
 end
 
+function score:clearHighscore()
+	preference.save{a=0}
+end
+
 function score:getHighscore()
 	return highscore
 end

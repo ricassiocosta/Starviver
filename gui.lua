@@ -71,9 +71,10 @@ function gui.class:__init(params)
   self.gameOverBackground = display.newRect(self.gameOverGUI, display.contentWidth/2, display.contentHeight/2, display.contentWidth, display.contentHeight);
   self.gameOverBackground:setFillColor(0.8, 0.2, 0.1);
   self.gameOverBackground.super = self;
-  gameOverText = display.newText(self.gameOverGUI, "A Starviver foi destruída!", display.contentWidth/2, display.contentHeight/3, "font/LeagueSpartan-Bold.ttf", 150);
-  gameOverHighscoreText = display.newText(self.gameOverGUI, "Parabéns! Você alcançou um novo recorde!", display.contentWidth/3 + display.contentWidth/6, display.contentHeight/2, "font/LeagueSpartan-Bold.ttf", 150);
-  gameOverScore = display.newText(self.gameOverGUI, "", display.contentWidth/2, display.contentWidth/3 + display.contentWidth/5, "font/LeagueSpartan-Bold.ttf", 180);
+  gameOverText = display.newText(self.gameOverGUI, "A Starviver foi destruída!", display.contentWidth/2, display.contentHeight/7, "font/league-spartan-bold.otf", 80);
+  gameOverScoreText = display.newText(self.gameOverGUI, "SCORE:", display.contentWidth/2.4, display.contentHeight/2.7, "font/league-spartan-bold.otf", 120);
+  gameOverScore = display.newText(self.gameOverGUI, "", display.contentWidth/2 + ((display.contentWidth/2)* 0.25), display.contentHeight/2.7, "font/league-spartan-bold.otf", 120);
+  gameOverHighscoreText = display.newText(self.gameOverGUI, "Parabéns! Você alcançou um novo recorde!", display.contentWidth/2, display.contentHeight/4 + display.contentHeight/3, "font/league-spartan-bold.otf", 60);
   
   self.menuButtonGroup = display.newGroup();
   self.menuButtonGroup.alpha = 0;
@@ -270,10 +271,11 @@ function gui.class:returnToMenu(event)
 end
 
 function gui.class:showHighscore() 
-  if(true) then
-    gameOverScore.text = -1;
-  elseif(player.isDead == true) then
-    self.gameOverText = display.newText(self.gameOverGUI, score:get(), display.contentWidth/2, display.contentHeight/2, "font/LeagueSpartan-Bold.ttf", 212);
+  if(score:isHighscore(score:get())) then
+    gameOverScore.text = score:get();
+  else
+    gameOverScore.text = score:get();
+    display.remove(gameOverHighscoreText);
   end
 end
 

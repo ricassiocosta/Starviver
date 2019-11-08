@@ -131,7 +131,7 @@ end
 
 function spaceship.damage( _damage )
 	if(player.damageTimeout <= 275) then
-		player.healthBar.health = player.healthBar.health - _damage * 10;
+		player.healthBar.health = player.healthBar.health - _damage * 100;
 		player.damageTimeout = 300;
 	
 			local soundEffect = audio.loadSound( "audio/sfx/hurt1.wav" )
