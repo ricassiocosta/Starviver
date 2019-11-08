@@ -80,9 +80,8 @@ function gameloop:run()
 		if(score:isHighscore(score:get())) then
 			score:setHighscore(score:get())
 		end
-		--display.remove(actualScore)
-		--finalScore = display.newText(score:get(), 1500, 600, "Arial", 72);
-		transition.to(actualScore, {time = 100, x = 1500, y = 600});
+		display.remove(actualScore);
+		gui.class:showHighscore();
 		isFirstRun = true;
 		audio.stop({channel = 2})
 		local overBackgroundMusic = audio.loadSound( "audio/music/gameover.mp3" )
@@ -93,15 +92,13 @@ function gameloop:run()
 		powerups:clear();
 		player:reset();
 		hud:setState(2);
-		score:set(0);
-		display.remove(actualScore)
+		--score:set(0);
 	elseif(hud:getState() == 6) then --PREPARING FOR MENU
 		enemy:clear(hud:get(3, 1));
 		powerups:clear();
 		player:reset();
 		hud:setState(1);
 		audio.stop({channel = 3})
-		display.remove(actualScore)
 	end
   
 	if(player:getIsDead() and hud:getState() == 2) then

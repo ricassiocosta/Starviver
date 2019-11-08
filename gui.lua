@@ -9,9 +9,14 @@ local class = require("classy");
 local radar = require("radar");
 local stick = require("joystick");
 local button = require("button");
+local score = require("score");
+local player = require("spaceship")
 
 local gui = {};
 gui.class = class("GUI");
+local gameOverText;
+local gameOverScore;
+local gameOverHighscoreText;
 
 function gui.class:__init(params)
   --[[  Stores the gameState
@@ -66,8 +71,10 @@ function gui.class:__init(params)
   self.gameOverBackground = display.newRect(self.gameOverGUI, display.contentWidth/2, display.contentHeight/2, display.contentWidth, display.contentHeight);
   self.gameOverBackground:setFillColor(0.8, 0.2, 0.1);
   self.gameOverBackground.super = self;
-  self.gameOverText = display.newText(self.gameOverGUI, "gg", display.contentWidth/2, display.contentHeight/2, "font/LeagueSpartan-Bold.ttf", 212);
-
+  gameOverText = display.newText(self.gameOverGUI, "A Starviver foi destruída!", display.contentWidth/2, display.contentHeight/3, "font/LeagueSpartan-Bold.ttf", 150);
+  gameOverHighscoreText = display.newText(self.gameOverGUI, "Parabéns! Você alcançou um novo recorde!", display.contentWidth/3 + display.contentWidth/6, display.contentHeight/2, "font/LeagueSpartan-Bold.ttf", 150);
+  gameOverScore = display.newText(self.gameOverGUI, "", display.contentWidth/2, display.contentWidth/3 + display.contentWidth/5, "font/LeagueSpartan-Bold.ttf", 180);
+  
   self.menuButtonGroup = display.newGroup();
   self.menuButtonGroup.alpha = 0;
 
@@ -198,60 +205,6 @@ function gui.class:__init(params)
                   "font/league-spartan-bold.otf",
                   80);
 
-  --[[
-  display.newRect(self.menuOptionsButtonGroup,
-                  display.contentWidth - 305,
-                  display.contentHeight - 155,
-                  300,
-                  150);
-  self.menuOptionsButtonGroup[1].anchorX = 0;
-  self.menuOptionsButtonGroup[1].anchorY = 0;
-  self.menuOptionsButtonGroup[1].fill = {
-    type = "gradient",
-    color1 = { 30/255, (173/255)-0.2, 0.7, 1},
-    color2 = { 56/255, 173/255, 1, 1},
-    direction = "down"
-  }
-  display.newText(self.menuOptionsButtonGroup,
-                  "Options",
-                  self.menuOptionsButtonGroup[1].x + self.menuOptionsButtonGroup[1].width/2,
-                  self.menuOptionsButtonGroup[1].y + self.menuOptionsButtonGroup[1].height/2,
-                  "font/league-spartan-bold.otf",
-                  60);
-
-  display.newRect(self.menuMultiplayerButtonGroup,
-                  display.contentWidth - (display.contentWidth - 5),
-                  display.contentHeight - 155,
-                  300,
-                  150);
-  self.menuMultiplayerButtonGroup[1].anchorX = 0;
-  self.menuMultiplayerButtonGroup[1].anchorY = 0;
-  --self.menuMultiplayerButtonGroup[1].fill = {type = "image", filename = "img/menu/twin1.jpg"}
-  display.newRect(self.menuMultiplayerButtonGroup,
-                  display.contentWidth - (display.contentWidth - 5),
-                  display.contentHeight - 155,
-                  300,
-                  150)
-  self.menuMultiplayerButtonGroup[2].fill = {
-    type = "gradient",
-    color1 = { 1, 0.5, 0.1},
-    color2 = { 1, 0.7, 0.3},
-    direction = "down"
-  }
-  display.newText(self.menuMultiplayerButtonGroup,
-                  "Highscore",
-                  self.menuMultiplayerButtonGroup[1].x + self.menuMultiplayerButtonGroup[1].width/2,
-                  self.menuMultiplayerButtonGroup[1].y + self.menuMultiplayerButtonGroup[1].height/2,
-                  "font/league-spartan-bold.otf",
-                  50);
-  self.menuMultiplayerButtonGroup[2].anchorX = 0;
-  self.menuMultiplayerButtonGroup[2].anchorY = 0;
-
-  self.mainMenuButtonGroup.alpha = 0.9
-
-  self.menuGroup.isVisible = false;
-  ]]
-
   ------------------------------------------------------------------------------
 
 end
@@ -313,6 +266,14 @@ function gui.class:returnToMenu(event)
     self.super.controlGroup[5].alpha = 0;
     self.super.menuButtonGroup.alpha = 0;
     self.super.restartButtonGroup.alpha = 0;
+  end
+end
+
+function gui.class:showHighscore() 
+  if(true) then
+    gameOverScore.text = -1;
+  elseif(player.isDead == true) then
+    self.gameOverText = display.newText(self.gameOverGUI, score:get(), display.contentWidth/2, display.contentHeight/2, "font/LeagueSpartan-Bold.ttf", 212);
   end
 end
 
