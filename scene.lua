@@ -34,7 +34,7 @@ function scene:init(_sceneNum)
     -- Adds in Scenery
     ----------------------------------------------------------------------------
     --local sceneStars = {};
-    for i = 1, 2000 do
+    for i = 1, 1400 do
       if (math.random(1, 4) == 1) then
         sceneStars[i] = display.newRect(0, 0, 10, 10);
         sceneStars[i].rotation = 45;
@@ -82,25 +82,19 @@ function scene:run(_focalX, _focalY)
     local star = sceneStars[i]
     local layer = math.random(2, camera:layerCount());
 
-    --print (_focalX .. "|||" .. wBound)
-
-    if math.abs(star.x - _focalX) > 2.5 * star.layer * wBound
-    or math.abs(star.y - _focalY) > 2.5 * star.layer * hBound then
-      if (star.x - _focalX < -2.5 * star.layer * wBound) then
-        star.x = star.x + 3 * star.layer * wBound
-      elseif (star.x - _focalX > 2.5 * star.layer * wBound) then
-        star.x = star.x - 3 * star.layer * wBound
+    if math.abs(star.x - _focalX) > 2.5 * (star.layer - 1) * wBound
+    or math.abs(star.y - _focalY) > 2.5 * (star.layer - 1) * hBound then
+      if (star.x - _focalX < -2.5 * (star.layer - 1) * wBound) then
+        star.x = star.x + 3 * (star.layer - 1) * wBound
+      elseif (star.x - _focalX > 2.5 * (star.layer - 1) * wBound) then
+        star.x = star.x - 3 * (star.layer - 1) * wBound
       end
 
-      if (star.y - _focalY < -2.5 * star.layer * hBound) then
-        star.y = star.y + 3 * star.layer * hBound
-      elseif (star.y - _focalY > 2.5 * star.layer * hBound) then
-        star.y = star.y - 3 * star.layer * hBound
+      if (star.y - _focalY < -2.5 * (star.layer - 1) * hBound) then
+        star.y = star.y + 3 * (star.layer - 1) * hBound
+      elseif (star.y - _focalY > 2.5 * (star.layer - 1) * hBound) then
+        star.y = star.y - 3 * (star.layer - 1) * hBound
       end
-      -- star.x = math.random(_focalX - 2 * wBound, _focalX + 2 * wBound);
-      -- star.y = math.random(_focalY - 2 * hBound, _focalY + 2 * hBound);
-
-    --camera:add(star, layer)
     end
 
   end
