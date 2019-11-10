@@ -65,6 +65,7 @@ function radar.class:draw(_x, _y, _enemyType, _index, _colour)
     table.insert(self.dotTable[_enemyType], _index, dot);
     self.dots:insert(dot);
     self.dotNum = self.dotNum + 1;
+    dot = nil;
   else
     self.dotTable[_enemyType][_index].isVisible = true;
     self.dotTable[_enemyType][_index].x = 275+_x;
@@ -82,6 +83,9 @@ function radar.class:kill(_enemyType, _index)
 end
 
 function radar.class:clear()
+  for i = 1, self.dots.numChildren do
+    self.dots[i] = nil
+  end
   for i = 1, table.getn(self.dotTable) do
     for j = 1, table.getn(self.dotTable[i]) do
       self:kill(i, j);

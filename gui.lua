@@ -107,7 +107,7 @@ function gui.class:__init(params)
   self.restartButton = display.newRect(self.restartButtonGroup, 2*display.contentWidth/3, display.contentHeight-250, 590, 115);
   self.restartButton.path.x1 = 30;
   self.restartButton.path.x4 = 30;
-  self.restartButton:setFillColor(.83, .83, .36)
+  self.restartButton:setFillColor(0.9, 0.6, 0.2)
   self.restartButton.super = self;
   self.restartButton.touch = self.restartGame;
   self.restartButton:addEventListener("touch", self.restartButton);
@@ -271,30 +271,35 @@ function gui.class:run(_enemyNum)
 end
 
 function gui.class:showEndscreen()
-  -- if (self.controlGroup[5].alpha < 1) then
+  
+    gameOverText.isVisible = true;
+    gameOverText.text = "A Starviver foi destruída!"
+    gameOverScoreText.isVisible = true;
+    gameOverScoreText.text = "SCORE:"
+    gameOverScoreText.x = display.contentWidth/2.4
+    gameOverScore.isVisible = true;
+    gameOverScore.text = score:get();
+  
     self.controlGroup[5].alpha = self.controlGroup[5].alpha + 0.02;
     self.gameOverBackground:setFillColor(0.8, 0.2, 0.1);
     if(self.controlGroup[5].alpha >= 0.87) then
       self.menuButtonGroup.alpha = self.menuButtonGroup.alpha + 0.05
       self.restartButtonGroup.alpha = self.restartButtonGroup.alpha + 0.05
     end
-  -- end
 end
 
 function gui.class:showFailedMissionScreen()
-  -- if (self.controlGroup[5].alpha < 1) then
     self.controlGroup[5].alpha = self.controlGroup[5].alpha + 0.02;
     self.gameOverBackground:setFillColor(0.8, 0.2, 0.1);
     gameOverText.text = "A Starviver foi destruída!";
     gameOverScoreText.text = "Derrota!";
     gameOverScoreText.x = display.contentWidth/2
-    display.remove(gameOverScore);
-    display.remove(gameOverHighscoreText);
+    gameOverScore.isVisible = false;
+    gameOverHighscoreText.isVisible = false;
     if(self.controlGroup[5].alpha >= 0.87) then
       self.menuButtonGroup.alpha = self.menuButtonGroup.alpha + 0.05
       self.restartButtonGroup.alpha = self.restartButtonGroup.alpha + 0.05
     end
-  -- end
 end
 
 function gui.class:insert(_displayObj, _index)
@@ -324,18 +329,17 @@ function gui.class:restartKamikaze(event)
 end
 
 function gui.class:showVictoryScreen()
-  -- if (self.controlGroup[5].alpha < 1) then
     self.gameOverBackground:setFillColor(0.1, 0.8, 0.15);
     gameOverScoreText.text = "VITÓRIA!";
-    display.remove(gameOverText);
-    display.remove(gameOverScore);
-    display.remove(gameOverHighscoreText);
+    gameOverScoreText.x = display.contentWidth/2;
+    gameOverText.isVisible = false;
+    gameOverScore.isVisible = false;
+    gameOverHighscoreText.isVisible = false;
     self.controlGroup[5].alpha = self.controlGroup[5].alpha + 0.02;
     if(self.controlGroup[5].alpha >= 0.87) then
       self.menuButtonGroup.alpha = self.menuButtonGroup.alpha + 0.05
       self.restartButtonGroup.alpha = self.restartButtonGroup.alpha + 0.05
     end
-  -- end
 end
 
 function gui.class:restartScout(event)
@@ -358,10 +362,11 @@ end
 
 function gui.class:showHighscore() 
   if(score:isHighscore(score:get())) then
+    gameOverHighscoreText.isVisible = true;
     gameOverScore.text = score:get();
   else
     gameOverScore.text = score:get();
-    display.remove(gameOverHighscoreText);
+    gameOverHighscoreText.isVisible = false;
   end
 end
 

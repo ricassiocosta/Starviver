@@ -159,7 +159,7 @@ function gameloop:run()
 		powerups:clear();
 		player:reset();
 		enemy:batchSpawn(20, {radar = hud:get(3, 1)});
-		scoutEnemyCount = 100;
+		scoutEnemyCount = 1;
 		if scoutEnemyCount > 20 then
 			enemy:batchSpawn(20, {radar = hud:get(3, 1)});
 		else
