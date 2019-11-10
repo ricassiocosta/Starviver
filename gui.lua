@@ -70,9 +70,9 @@ function gui.class:__init(params)
   --101 Man Brawl Enemy Countdown
   self.scoutCounterGroup = display.newGroup();
 
-  self.scoutEnemyCounterHeading = display.newText(self.scoutCounterGroup, "Alvos Restantes:", display.contentWidth/1.7, display.contentHeight - 60, "font/league-spartan-bold.otf", 56)
+  self.scoutEnemyCounterHeading = display.newText(self.scoutCounterGroup, "Alvos Restantes:", display.contentWidth - ((display.contentWidth) * 0.097), display.contentHeight/2 - display.contentHeight/3.6, "font/league-spartan-bold.otf", 56)
   self.scoutEnemyCounterHeading.anchorX = 1;
-  self.scoutEnemyCounter = display.newText(self.scoutCounterGroup, "101", self.scoutEnemyCounterHeading.x + 20, self.scoutEnemyCounterHeading.y, "font/league-spartan-bold.otf", 81)
+  self.scoutEnemyCounter = display.newText(self.scoutCounterGroup, "100", self.scoutEnemyCounterHeading.x + 20, self.scoutEnemyCounterHeading.y, "font/league-spartan-bold.otf", 81)
   self.scoutEnemyCounter.anchorX = 0;
   self.scoutEnemyCounter:setFillColor(0.8, 0.2, 0.1);
   self.scoutCounterGroup.isVisible = false;
@@ -105,7 +105,7 @@ function gui.class:__init(params)
   self.restartButton = display.newRect(self.restartButtonGroup, 2*display.contentWidth/3, display.contentHeight-250, 590, 115);
   self.restartButton.path.x1 = 30;
   self.restartButton.path.x4 = 30;
-  self.restartButton:setFillColor(0.15, .83, .36)
+  self.restartButton:setFillColor(.83, .83, .36)
   self.restartButton.super = self;
   self.restartButton.touch = self.restartGame;
   self.restartButton:addEventListener("touch", self.restartButton);
@@ -193,7 +193,7 @@ function gui.class:__init(params)
                   "font/league-spartan-bold.otf",
                   80);
   self.menuKamikazeGroup.super = self;
-  self.menuKamikazeGroup.touch = self.restartGame;
+  self.menuKamikazeGroup.touch = self.restartKamikaze;
   self.menuKamikazeGroup:addEventListener("touch", self.menuKamikazeGroup);
 
   display.newRect(self.menuScoutGroup,
@@ -269,6 +269,23 @@ end
 function gui.class:showEndscreen()
   -- if (self.controlGroup[5].alpha < 1) then
     self.controlGroup[5].alpha = self.controlGroup[5].alpha + 0.02;
+    self.gameOverBackground:setFillColor(0.8, 0.2, 0.1);
+    if(self.controlGroup[5].alpha >= 0.87) then
+      self.menuButtonGroup.alpha = self.menuButtonGroup.alpha + 0.05
+      self.restartButtonGroup.alpha = self.restartButtonGroup.alpha + 0.05
+    end
+  -- end
+end
+
+function gui.class:showFailedMissionScreen()
+  -- if (self.controlGroup[5].alpha < 1) then
+    self.controlGroup[5].alpha = self.controlGroup[5].alpha + 0.02;
+    self.gameOverBackground:setFillColor(0.8, 0.2, 0.1);
+    gameOverText.text = "A Starviver foi destruída!";
+    gameOverScoreText.text = "Derrota!";
+    gameOverScoreText.x = display.contentWidth/2
+    display.remove(gameOverScore);
+    display.remove(gameOverHighscoreText);
     if(self.controlGroup[5].alpha >= 0.87) then
       self.menuButtonGroup.alpha = self.menuButtonGroup.alpha + 0.05
       self.restartButtonGroup.alpha = self.restartButtonGroup.alpha + 0.05
@@ -282,11 +299,39 @@ end
 
 function gui.class:restartGame(event)
   if(event.phase == "began") then
+    if(self.super.gameState == 4) then
+      self.super.gameState = 5;
+    elseif(self.super.gameState == 8 or self.super.gameState == 9) then
+      self.super.gameState = 7;
+    end
+    self.super.controlGroup[5].alpha = 0;
+    self.super.menuButtonGroup.alpha = 0;
+    self.super.restartButtonGroup.alpha = 0;
+  end
+end
+
+function gui.class:restartKamikaze(event)
+  if(event.phase == "began") then
     self.super.gameState = 5;
     self.super.controlGroup[5].alpha = 0;
     self.super.menuButtonGroup.alpha = 0;
     self.super.restartButtonGroup.alpha = 0;
   end
+end
+
+function gui.class:showVictoryScreen()
+  -- if (self.controlGroup[5].alpha < 1) then
+    self.gameOverBackground:setFillColor(0.1, 0.8, 0.15);
+    gameOverScoreText.text = "VITÓRIA!";
+    display.remove(gameOverText);
+    display.remove(gameOverScore);
+    display.remove(gameOverHighscoreText);
+    self.controlGroup[5].alpha = self.controlGroup[5].alpha + 0.02;
+    if(self.controlGroup[5].alpha >= 0.87) then
+      self.menuButtonGroup.alpha = self.menuButtonGroup.alpha + 0.05
+      self.restartButtonGroup.alpha = self.restartButtonGroup.alpha + 0.05
+    end
+  -- end
 end
 
 function gui.class:restartScout(event)

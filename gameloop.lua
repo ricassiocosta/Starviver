@@ -115,15 +115,15 @@ function gameloop:run()
 	
 		if (enemySpawned - enemy:getAmount() >= 1) then
 		  local enemyDiff = (enemySpawned - enemy:getAmount())
-		  if (enemy:getAmount() > 25) then
+		  if (scoutEnemyCount > 20) then
 			enemy:batchSpawn((enemySpawned - enemy:getAmount()), {radar = hud:get(3, 1)});
 		  end
 		  scoutEnemyCount = scoutEnemyCount - enemyDiff;
 		end
 		hud:setEnemyCounter(scoutEnemyCount);
 	
-		if(enemy:getAmount() <= 0) then
-		  hud:setState(4);
+		if(scoutEnemyCount <= 0) then
+		  hud:setState(9);
 		end
 	elseif(hud:getState() == 4) then --GAME OVER--
 		if(score:isHighscore(score:get())) then
@@ -155,14 +155,30 @@ function gameloop:run()
 		enemy:clear(hud:get(3, 1));
 		powerups:clear();
 		player:reset();
-		enemy:batchSpawn(25, {radar = hud:get(3, 1)});
-		scoutEnemyCount = 101;
+		enemy:batchSpawn(20, {radar = hud:get(3, 1)});
+		scoutEnemyCount = 100;
 		hud:getEnemyCounterGroup().isVisible = true;
 		hud:setState(3);
+	elseif(hud:getState() == 8) then --GAME OVER AFTER BRAWL--
+		hud:showFailedMissionScreen();
+		audio.stop({channel = 2})
+		hud:getEnemyCounterGroup().isVisible = false;
+		local overBackgroundMusic = audio.loadSound( "audio/music/gameover.mp3" )
+		audio.play( overBackgroundMusic, { channel=3, loops=-1} )
+	elseif(hud:getState() == 9) then --Victory AFTER BRAWL--
+		hud:showVictoryScreen();
+		audio.stop({channel = 2})
+		hud:getEnemyCounterGroup().isVisible = false;
+		local overBackgroundMusic = audio.loadSound( "audio/music/gameover.mp3" )
+		audio.play( overBackgroundMusic, { channel=3, loops=-1} )
 	end
   
-	if(player:getIsDead() and (hud:getState() == 2 or hud:getState() == 3)) then
-	  	hud:setState(4);
+	if(player:getIsDead()) then
+		if(hud:getState() == 2) then 
+			hud:setState(4);
+		elseif(hud:getState() == 3) then 
+			hud:setState(8); 
+		end
 	end
 end
 
