@@ -54,6 +54,7 @@ end
 
 --Runs continously. Different code for each different game state
 function gameloop:run()
+	scene:run(player:getX(), player:getY());
 	if(hud:getState() == 1) then  --MAIN MENU--
 		hud:getSelf().menuGroup.isVisible = true;
 		hud:getSelf().controlGroup.isVisible = false;

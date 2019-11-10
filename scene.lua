@@ -12,6 +12,7 @@ local scene_mt = {__index = scene}; --metatable
 
 local camera;
 local sceneNum;
+local sceneStars = {};
 
 ------------------------------ Public Functions --------------------------------
 function scene:addObjectToScene(_obj, _layer)
@@ -32,7 +33,7 @@ function scene:init(_sceneNum)
     ----------------------------------------------------------------------------
     -- Adds in Scenery
     ----------------------------------------------------------------------------
-    local sceneStars = {};
+    --local sceneStars = {};
     for i = 1, 2000 do
       if (math.random(1, 4) == 1) then
         sceneStars[i] = display.newRect(0, 0, 10, 10);
@@ -40,13 +41,13 @@ function scene:init(_sceneNum)
       else
         sceneStars[i] = display.newCircle(0, 0, 10);
       end
-      sceneStars[i].x = math.random(-display.contentWidth * 3, display.contentWidth * 3);
-      sceneStars[i].y = math.random(-display.contentHeight * 3, display.contentHeight * 3);
+      sceneStars[i].x = math.random(-display.contentWidth * 10, display.contentWidth * 10);
+      sceneStars[i].y = math.random(-display.contentHeight * 10, display.contentHeight) * 10;
       sceneStars[i]:setFillColor(math.random(100) * 0.01, math.random(100) * 0.01, math.random(100) * 0.01);
-      local layer = math.random(2, camera:layerCount());
-      camera:add(sceneStars[i], layer);
-      sceneStars[i].width = (11 - layer) * 3;
-      sceneStars[i].height = (11 - layer) * 3;
+      sceneStars[i].layer = math.random(2, camera:layerCount());
+      camera:add(sceneStars[i], sceneStars[i].layer);
+      sceneStars[i].width = (11 - sceneStars[i].layer) * 3;
+      sceneStars[i].height = (11 - sceneStars[i].layer) * 3;
     end
 
     --adds paralax to the layers
@@ -70,6 +71,39 @@ end
 
 function scene:setCameraDamping(_damping)
   camera.damping = _damping;
+end
+
+function scene:run(_focalX, _focalY)
+  _focalX = _focalX or 0;
+  _focalY = _focalY or 0;
+  wBound = display.contentWidth;
+  hBound = display.contentHeight;
+  for i = 1, #sceneStars do
+    local star = sceneStars[i]
+    local layer = math.random(2, camera:layerCount());
+
+    --print (_focalX .. "|||" .. wBound)
+
+    if math.abs(star.x - _focalX) > 2.5 * star.layer * wBound
+    or math.abs(star.y - _focalY) > 2.5 * star.layer * hBound then
+      if (star.x - _focalX < -2.5 * star.layer * wBound) then
+        star.x = star.x + 3 * star.layer * wBound
+      elseif (star.x - _focalX > 2.5 * star.layer * wBound) then
+        star.x = star.x - 3 * star.layer * wBound
+      end
+
+      if (star.y - _focalY < -2.5 * star.layer * hBound) then
+        star.y = star.y + 3 * star.layer * hBound
+      elseif (star.y - _focalY > 2.5 * star.layer * hBound) then
+        star.y = star.y - 3 * star.layer * hBound
+      end
+      -- star.x = math.random(_focalX - 2 * wBound, _focalX + 2 * wBound);
+      -- star.y = math.random(_focalY - 2 * hBound, _focalY + 2 * hBound);
+
+    --camera:add(star, layer)
+    end
+
+  end
 end
 
 return scene;
