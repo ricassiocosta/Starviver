@@ -164,11 +164,16 @@ end
 
 function enemies:run(params)
   enemyCount = 0;
+  params.x = params.x or 0
+  params.y = params.y or 0
   --runs logic behind enemies
   for i = 1, table.getn(enemyList) do
     for j = 1, table.getn(enemyList[i]) do
       if (enemyList[i][j] == nil) then break
-      elseif (enemyList[i][j].sprite.isDead == true) then
+      elseif (enemyList[i][j].sprite.isDead) then
+        enemyList[i][j]:kill(params.radar);
+        table.remove(enemyList[i], j);
+      elseif (enemyList[i][j]:getDistanceTo(params.x, params.y) > 12500) then
         enemyList[i][j]:kill(params.radar);
         table.remove(enemyList[i], j);
       else
