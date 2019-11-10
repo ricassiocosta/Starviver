@@ -32,6 +32,7 @@ function radar.class:__init(_rootObj)
     self.aquaeDot,
     self.fireDot
   }
+  self.dotNum = 0;
   self.dots = display.newGroup();
 end
 
@@ -63,6 +64,7 @@ function radar.class:draw(_x, _y, _enemyType, _index, _colour)
     local dot = display.newCircle(275+_x, 275+_y, 10);
     table.insert(self.dotTable[_enemyType], _index, dot);
     self.dots:insert(dot);
+    self.dotNum = self.dotNum + 1;
   else
     self.dotTable[_enemyType][_index].isVisible = true;
     self.dotTable[_enemyType][_index].x = 275+_x;
@@ -75,22 +77,28 @@ function radar.class:kill(_enemyType, _index)
   if(self.dotTable[_enemyType][_index] ~= nil) then
     self.dotTable[_enemyType][_index]:removeSelf();
     self.dotTable[_enemyType][_index] = nil;
+    self.dotNum = self.dotNum - 1;
   end
 end
 
 function radar.class:clear()
   for i = 1, table.getn(self.dotTable) do
     for j = 1, table.getn(self.dotTable[i]) do
-      if(self.dotTable[i][j] ~= nil) then
-        self.dotTable[i][j]:removeSelf();
-        self.dotTable[i][j] = nil;
-      end
+      self:kill(i, j);
     end
   end
 end
 
-function radar.class:run()
+function radar.class:run(_enemyNum)
   self.radarTri.rotation = self.rootObject.rotation;
+  if (self:getDotNum() - _enemyNum > 10) then --if more dots (plus a buffer) than enemies . . .
+    self:clear() --clear and reset radar
+  end
+  -- print(_enemyNum .. " || " .. self:getDotNum())
+end
+
+function radar.class:getDotNum()
+  return self.dotNum;
 end
 
 return radar;

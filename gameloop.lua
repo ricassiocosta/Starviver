@@ -87,7 +87,7 @@ function gameloop:run()
 		player:run(hud:get(4, 1), hud:get(2, 1)); --runs player controls, passes in joystick and fire button
 		enemy:run({radar = hud:get(3, 1)}); --runs enemy logic
 		powerups:run(); --runs misc. powerup animations and event listeners
-		hud:run(); --runs HUD and GUI elements
+		hud:run(enemy:getAmount()); --runs HUD and GUI elements
 		isFirstRun = false;
 		--print(score:getHighscore());
 
@@ -111,12 +111,12 @@ function gameloop:run()
 		player:run(hud:get(4, 1), hud:get(2, 1)); --runs player controls, passes in joystick and fire button
 		enemy:run({radar = hud:get(3, 1)}); --runs enemy logic
 		powerups:run(); --runs misc. powerup animations and event listeners
-		hud:run(); --runs HUD and GUI elements
+		hud:run(enemy:getAmount()); --runs HUD and GUI elements
 	
 		if (enemySpawned - enemy:getAmount() >= 1) then
 		  local enemyDiff = (enemySpawned - enemy:getAmount())
 		  if (scoutEnemyCount > 20) then
-			enemy:batchSpawn((enemySpawned - enemy:getAmount()), {radar = hud:get(3, 1)});
+			enemy:batchSpawn((enemySpawned - enemy:getAmount()), {radar = hud:get(3, 1), x = player.getX(), y = player.getY()});
 		  end
 		  scoutEnemyCount = scoutEnemyCount - enemyDiff;
 		end
@@ -157,6 +157,11 @@ function gameloop:run()
 		player:reset();
 		enemy:batchSpawn(20, {radar = hud:get(3, 1)});
 		scoutEnemyCount = 100;
+		if scoutEnemyCount > 20 then
+			enemy:batchSpawn(20, {radar = hud:get(3, 1)});
+		else
+			enemy:batchSpawn(5, {radar = hud:get(3, 1)});
+		  end
 		hud:getEnemyCounterGroup().isVisible = true;
 		hud:setState(3);
 	elseif(hud:getState() == 8) then --GAME OVER AFTER BRAWL--

@@ -266,8 +266,8 @@ function gui.class:setState(_state)
   return self.gameState;
 end
 
-function gui.class:run()
-  self.radar:run();
+function gui.class:run(_enemyNum)
+  self.radar:run(_enemyNum);
 end
 
 function gui.class:showEndscreen()
