@@ -114,7 +114,7 @@ function enemies:spawn(_index, _x, _y, params)
   end
 end
 
-function enemies:batchSpawn(_amount, params, _index)
+function enemies:batchSpawn(_amount, params)
   params = params or {};
   for i = 1, _amount do
     _index = math.random(1, table.getn(enemyListScoutMode))
@@ -171,10 +171,10 @@ function enemies:run(params)
     for j = 1, table.getn(enemyList[i]) do
       if (enemyList[i][j] == nil) then break
       elseif (enemyList[i][j].sprite.isDead) then
-        enemyList[i][j]:kill(params.radar);
+        enemyList[i][j]:kill(params.radar, "isDead");
         table.remove(enemyList[i], j);
-      elseif (enemyList[i][j]:getDistanceTo(params.x, params.y) > 12500) then
-        enemyList[i][j]:kill(params.radar);
+      elseif (enemyList[i][j]:getDistanceTo(params.x, params.y) > 12500 and enemyList[i][j]:getAutoKill()) then
+        enemyList[i][j]:kill(params.radar, "Distance");
         table.remove(enemyList[i], j);
       else
         enemyList[i][j]:run(params.radar);

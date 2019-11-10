@@ -16,6 +16,7 @@ M.description = "Rápidos e leves, os Perseguidores são caçadores perigosos qu
 function M.class:__init( _x, _y, newIndex, params )
   self.x = _x;
   self.y = _y;
+  self.autokill = params.autokill or true
   enemyBase.BaseEnemy.__init( self,
                               1,
                               self.x,

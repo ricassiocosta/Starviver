@@ -17,6 +17,7 @@ M.description = "Cuidado! Você não vai querer ser atingido por eles!"
 function M.class:__init(_x, _y, newIndex, params)
   self.x = _x;
   self.y = _y;
+  self.autokill = params.autokill or true
   enemyBase.BaseEnemy.__init( self, 
                               2, 
                               self.x, 

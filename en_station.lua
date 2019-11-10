@@ -20,6 +20,7 @@ M.description = "Impenetrável. Imbatível. Inevitável"
 function M.class:__init(_x, _y, newIndex)
   self.x = _x;
   self.y = _y;
+  self.autokill = params.autokill or true
   enemyBase.BaseEnemy.__init( self, 
                               3, 
                               self.x, 

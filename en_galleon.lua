@@ -20,6 +20,7 @@ M.description = "Não há barganhas com os Galeões de Ataque, eles só tem uma 
 function M.class:__init(_x, _y, newIndex, params)
   self.x = _x;
   self.y = _y;
+  self.autokill = params.autokill or true
   enemyBase.BaseEnemy.__init( self, 
                               3, 
                               self.x, 

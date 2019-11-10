@@ -52,7 +52,7 @@ function M.BaseEnemy:__init(_enemyType,
   self.sprite.isShaking = false;
   self.sprite.wayPointX = 0;
   self.sprite.wayPointY = 0;
-  self.autokill = true; --when true, will despawn enemies that are too far from player
+  --self.autokill = true; --when true, will despawn enemies that are too far from player
   self.sprite.damage = 2;
   self.sprite.index = newIndex;
   self.sprite.radarColour = {1, 1, 1}
@@ -124,7 +124,8 @@ function M.BaseEnemy:removeHealthBar()
 end
 
 --Kills the enemy (does NOT remove from list of enemies)
-function M.BaseEnemy:kill(radar)
+function M.BaseEnemy:kill(radar, reason)
+  reason = reason or ""
   score:increase(self, self.sprite.pointsPerKill);
   if(radar) then 
     radar:kill(self.sprite.enemyType, self.sprite.index) 
@@ -132,8 +133,10 @@ function M.BaseEnemy:kill(radar)
   self.sprite.healthBar:removeSelf();
   self.sprite.healthMissing:removeSelf();
   transition.to(self.sprite, {time = 400, transition = easing.inCirc, alpha = 0, rotation = 720, width = 1, height = 1, onComplete = function() self.sprite:removeSelf(); end})  
-  local soundEffect = audio.loadSound( "audio/sfx/success.wav" )
-	audio.play( soundEffect )
+  if (reason == "isDead") then
+    local soundEffect = audio.loadSound( "audio/sfx/success.wav" )
+    audio.play( soundEffect )
+  end
 end
 
 --Returns whether the enemy is dead or not
@@ -279,6 +282,10 @@ function M.BaseEnemy:run(radar)
       self:turnAround();
     end
   end
+end
+
+function M.BaseEnemy:getAutoKill()
+  return M.BaseEnemy.autokill
 end
 
 return M;
