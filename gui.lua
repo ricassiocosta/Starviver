@@ -97,6 +97,8 @@ function gui.class:__init(params)
   self.menuButton.touch = self.returnToMenu;
   self.menuButton:addEventListener("touch", self.menuButton);
 
+  self.menuButtonText = display.newText(self.menuButtonGroup, "Menu", self.menuButton.x, self.menuButton.y + (self.menuButton.y * 0.01), "font/league-spartan-bold.otf", 72);
+
 
 
   self.restartButtonGroup = display.newGroup();
@@ -109,6 +111,8 @@ function gui.class:__init(params)
   self.restartButton.super = self;
   self.restartButton.touch = self.restartGame;
   self.restartButton:addEventListener("touch", self.restartButton);
+
+  self.restartButtonText = display.newText(self.restartButtonGroup, "Reiniciar", self.restartButton.x, self.restartButton.y + (self.restartButton.y * 0.01), "font/league-spartan-bold.otf", 72);
 
   ------------------------------------------------------------------------------
 
