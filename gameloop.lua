@@ -17,6 +17,8 @@ local testEn;
 local enemy;
 local powerups;
 local hud;
+local radarClearTimer;
+local scoutEnemyCount; 
 
 ------------------------------ Public Functions --------------------------------
 
@@ -46,6 +48,8 @@ function gameloop:init()
 	for i = 1, table.getn(powerups:getTimerObject()) do
 	  	hud:insert(powerups:getTimerObject(i), 1) --all powerup timers
 	end
+	radarClearTimer = 0;
+	scoutEnemyCount = 101;
 end
 
 --Runs continously. Different code for each different game state
@@ -57,19 +61,24 @@ function gameloop:run()
 		local menuBackgroundMusic = audio.loadSound( "audio/music/mainmenu.mp3" )
 		audio.play( menuBackgroundMusic, { channel=1, loops=-1} )
 		--score:clearHighscore();
-	elseif(hud:getState() == 2) then  --GAMEPLAY--
+	elseif(hud:getState() == 2) then  --GAMEPLAY--(KAMIKAZE)
 		scene:setCameraDamping(5)
 		if(isFirstRun == true) then
+			scoreBoxGroup = display.newGroup();
 			scoreBox = display.newRect(display.contentWidth - ((display.contentWidth) * 0.06), display.contentHeight/2 - display.contentHeight/3.5, display.contentWidth/6, display.contentHeight/12)
 			scoreBox:setFillColor(0.2, 0.4, 0.85)
-			scoreBoxText = display.newText("SCORE", display.contentWidth - ((display.contentWidth) * 0.1), display.contentHeight/2 - display.contentHeight/3.6, "font/league-spartan-bold.otf", 45);
+			scoreBoxGroup:insert(scoreBox);
+			scoreBoxText = display.newText("SCORE", display.contentWidth - ((display.contentWidth) * 0.097), display.contentHeight/2 - display.contentHeight/3.6, "font/league-spartan-bold.otf", 45);
+			scoreBoxGroup:insert(scoreBoxText);
 			actualScore = display.newText("0", display.contentWidth - ((display.contentWidth) * 0.03), display.contentHeight/2 - display.contentHeight/3.6, "font/league-spartan-bold.otf", 45);
+			scoreBoxGroup:insert(actualScore);
 		end
 		actualScore.text = score:get();
+
 		audio.stop({channel = 1})
 		audio.stop({channel = 3})
-		local gameplayBackgroundMusic = audio.loadSound( "audio/music/gameplay.mp3" )
-		audio.play( gameplayBackgroundMusic, { channel=2, loops=-1} )
+		local kamikazeBackgroundMusic = audio.loadSound( "audio/music/gameplay.mp3" )
+		audio.play( kamikazeBackgroundMusic, { channel=2, loops=-1} )
 		hud:getSelf().menuGroup.isVisible = false;
 		hud:getSelf().controlGroup.isVisible = true;
 
@@ -81,32 +90,78 @@ function gameloop:run()
 		hud:run(); --runs HUD and GUI elements
 		isFirstRun = false;
 		--print(score:getHighscore());
+
+	elseif(hud:getState() == 3) then--GAMEPLAY--(BATEDOR)
+		audio.stop({channel = 1})
+		audio.stop({channel = 3})
+		local batedorBackgroundMusic = audio.loadSound( "audio/music/gameplay.mp3" )
+		audio.play( batedorBackgroundMusic, { channel=2, loops=-1} )
+		radarClearTimer = radarClearTimer + 1;
+		if(radarClearTimer == 240) then
+		  hud:get(3, 1):clear();
+		  radarClearTimer = 0;
+		end
+		--player:debug();
+		hud:getSelf().menuGroup.isVisible = false;
+		hud:getSelf().controlGroup.isVisible = true;
+		hud:getEnemyCounterGroup().isVisible = true;
+	
+		local enemySpawned = enemy:getAmount();
+		powerups:randomSpawn(player:getX(), player:getY()) --spawns powerups randomly
+		player:run(hud:get(4, 1), hud:get(2, 1)); --runs player controls, passes in joystick and fire button
+		enemy:run({radar = hud:get(3, 1)}); --runs enemy logic
+		powerups:run(); --runs misc. powerup animations and event listeners
+		hud:run(); --runs HUD and GUI elements
+	
+		if (enemySpawned - enemy:getAmount() >= 1) then
+		  local enemyDiff = (enemySpawned - enemy:getAmount())
+		  if (enemy:getAmount() > 25) then
+			enemy:batchSpawn((enemySpawned - enemy:getAmount()), {radar = hud:get(3, 1)});
+		  end
+		  scoutEnemyCount = scoutEnemyCount - enemyDiff;
+		end
+		hud:setEnemyCounter(scoutEnemyCount);
+	
+		if(enemy:getAmount() <= 0) then
+		  hud:setState(4);
+		end
 	elseif(hud:getState() == 4) then --GAME OVER--
 		if(score:isHighscore(score:get())) then
 			score:setHighscore(score:get())
 		end
-		display.remove(actualScore);
+		display.remove(scoreBoxGroup);
 		gui.class:showHighscore();
 		isFirstRun = true;
 		audio.stop({channel = 2})
 		local overBackgroundMusic = audio.loadSound( "audio/music/gameover.mp3" )
 		audio.play( overBackgroundMusic, { channel=3, loops=-1} )
 		hud:showEndscreen();
-	elseif(hud:getState() == 5) then --RESETTING
+		hud:getEnemyCounterGroup().isVisible = false;
+	elseif(hud:getState() == 5) then --RESETTING FOR KAMIKAZE
 		enemy:clear(hud:get(3, 1));
 		powerups:clear();
 		player:reset();
 		hud:setState(2);
+		hud:getEnemyCounterGroup().isVisible = false;
 		score:set(0);
 	elseif(hud:getState() == 6) then --PREPARING FOR MENU
 		enemy:clear(hud:get(3, 1));
 		powerups:clear();
 		player:reset();
 		hud:setState(1);
+		hud:getEnemyCounterGroup().isVisible = false;
 		audio.stop({channel = 3})
+	elseif(hud:getState() == 7) then --RESETTING FOR BATEDOR
+		enemy:clear(hud:get(3, 1));
+		powerups:clear();
+		player:reset();
+		enemy:batchSpawn(25, {radar = hud:get(3, 1)});
+		scoutEnemyCount = 101;
+		hud:getEnemyCounterGroup().isVisible = true;
+		hud:setState(3);
 	end
   
-	if(player:getIsDead() and hud:getState() == 2) then
+	if(player:getIsDead() and (hud:getState() == 2 or hud:getState() == 3)) then
 	  	hud:setState(4);
 	end
 end

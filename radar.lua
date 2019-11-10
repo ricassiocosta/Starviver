@@ -6,7 +6,6 @@
 -- radar.lua
 --
 --------------------------------------------------------------------------------
-
 local class = require ("classy");
 
 local radar = {};
@@ -24,14 +23,14 @@ function radar.class:__init(_rootObj)
   self.radarTri.x = 275; self.radarTri.y = 275;
   self.radarTri.rotation = self.rootObject.rotation;
 
-  self.stalkerDot = {};
-  self.asteroidDot = {};
-  self.stationDot = {};
+  self.skeletonDot = {};
+  self.aquaeDot = {};
+  self.fireDot = {};
 
   self.dotTable = {
-    self.stalkerDot,
-    self.asteroidDot,
-    self.stationDot
+    self.skeletonDot,
+    self.aquaeDot,
+    self.fireDot
   }
   self.dots = display.newGroup();
 end
@@ -74,19 +73,20 @@ end
 
 function radar.class:kill(_enemyType, _index)
   if(self.dotTable[_enemyType][_index] ~= nil) then
-    self.dotTable[_enemyType][_index].isVisible = false;
+    self.dotTable[_enemyType][_index]:removeSelf();
+    self.dotTable[_enemyType][_index] = nil;
   end
 end
 
 function radar.class:clear()
-  self.dots.isVisible = false;
-  --[[
   for i = 1, table.getn(self.dotTable) do
-    for i = 1, table.getn(self.dotTable[i]) do
-      self.dotTable[i][j].isVisible = false;
+    for j = 1, table.getn(self.dotTable[i]) do
+      if(self.dotTable[i][j] ~= nil) then
+        self.dotTable[i][j]:removeSelf();
+        self.dotTable[i][j] = nil;
+      end
     end
   end
-  ]]
 end
 
 function radar.class:run()

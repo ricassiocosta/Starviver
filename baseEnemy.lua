@@ -117,6 +117,12 @@ function M.BaseEnemy:updateHealthBar()
   self.sprite.healthMissing.x = self.sprite.x;
 end
 
+function M.BaseEnemy:removeHealthBar()
+  --sets healthbar size, and makes sure it follows the enemy's movement
+  self.sprite.healthBar.width = 0;
+  self.sprite.healthMissing.width = 0;
+end
+
 --Kills the enemy (does NOT remove from list of enemies)
 function M.BaseEnemy:kill(radar)
   score:increase(self, self.sprite.pointsPerKill);
@@ -125,7 +131,7 @@ function M.BaseEnemy:kill(radar)
   end
   self.sprite.healthBar:removeSelf();
   self.sprite.healthMissing:removeSelf();
-  self.sprite:removeSelf();
+  transition.to(self.sprite, {time = 400, transition = easing.inCirc, alpha = 0, rotation = 720, width = 1, height = 1, onComplete = function() self.sprite:removeSelf(); end})  
   local soundEffect = audio.loadSound( "audio/sfx/success.wav" )
 	audio.play( soundEffect )
 end
@@ -253,6 +259,8 @@ function M.BaseEnemy:run(radar)
   --Checks if enemy is dead
   if (self.sprite.healthBar.health <= 0 or self:getDistanceTo(player:getX(), player:getY()) > 100000) then
     self.sprite.isDead = true;
+    self.sprite.bodyType = "kinematic";
+    self:removeHealthBar();
   else
     self:updateHealthBar();
     self:drawOnRadar(radar);

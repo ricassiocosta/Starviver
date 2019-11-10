@@ -22,8 +22,8 @@ function gui.class:__init(params)
   --[[  Stores the gameState
     0 = not initialized
     1 = main menu
-    2 = gameplay
-    3 = pause menu
+    2 = gameplay(Kamizake)
+    3 = gameplay(Batedor)
     4 = game over
     5 = resetting process
     6 = resetting process in preparation of the main menu
@@ -67,8 +67,18 @@ function gui.class:__init(params)
                                     a        = 1,
                                     tag      = "fire"});
 
+  --101 Man Brawl Enemy Countdown
+  self.scoutCounterGroup = display.newGroup();
+
+  self.scoutEnemyCounterHeading = display.newText(self.scoutCounterGroup, "Alvos Restantes:", display.contentWidth/1.7, display.contentHeight - 60, "font/league-spartan-bold.otf", 56)
+  self.scoutEnemyCounterHeading.anchorX = 1;
+  self.scoutEnemyCounter = display.newText(self.scoutCounterGroup, "101", self.scoutEnemyCounterHeading.x + 20, self.scoutEnemyCounterHeading.y, "font/league-spartan-bold.otf", 81)
+  self.scoutEnemyCounter.anchorX = 0;
+  self.scoutEnemyCounter:setFillColor(0.8, 0.2, 0.1);
+  self.scoutCounterGroup.isVisible = false;
+
   --Gameover Background
-  self.gameOverBackground = display.newRect(self.gameOverGUI, display.contentWidth/2, display.contentHeight/2, display.contentWidth, display.contentHeight);
+  self.gameOverBackground = display.newRect(self.gameOverGUI, display.contentWidth/2, display.contentHeight/2, display.contentWidth * 2, display.contentHeight * 2);
   self.gameOverBackground:setFillColor(0.8, 0.2, 0.1);
   self.gameOverBackground.super = self;
   gameOverText = display.newText(self.gameOverGUI, "A Starviver foi destruída!", display.contentWidth/2, display.contentHeight/7, "font/league-spartan-bold.otf", 80);
@@ -141,14 +151,14 @@ function gui.class:__init(params)
 
   self.menuGroup = display.newGroup();
   self.menuKamikazeGroup = display.newGroup();
-  self.menuTimeAttackGroup = display.newGroup();
+  self.menuScoutGroup = display.newGroup();
   self.menuOptionsButtonGroup = display.newGroup();
   self.menuMultiplayerButtonGroup = display.newGroup();
   self.mainMenuButtonGroup = display.newGroup();
   self.menuTitleGroup = display.newGroup();
 
   self.mainMenuButtonGroup:insert(self.menuKamikazeGroup);
-  self.mainMenuButtonGroup:insert(self.menuTimeAttackGroup);
+  self.mainMenuButtonGroup:insert(self.menuScoutGroup);
   self.mainMenuButtonGroup:insert(self.menuOptionsButtonGroup);
   self.mainMenuButtonGroup:insert(self.menuMultiplayerButtonGroup);
 
@@ -186,25 +196,30 @@ function gui.class:__init(params)
   self.menuKamikazeGroup.touch = self.restartGame;
   self.menuKamikazeGroup:addEventListener("touch", self.menuKamikazeGroup);
 
-  display.newRect(self.menuTimeAttackGroup,
+  display.newRect(self.menuScoutGroup,
                   display.contentWidth - (display.contentWidth/2) / 1.2,
                   display.contentHeight/3 + (display.contentHeight/3) * 1.3,
                   display.contentWidth/4,
                   display.contentHeight/8);
-  self.menuTimeAttackGroup[1].anchorX = 0;
-  self.menuTimeAttackGroup[1].anchorY = 0;
-  self.menuTimeAttackGroup[1].fill = {
+  self.menuScoutGroup[1].anchorX = 0;
+  self.menuScoutGroup[1].anchorY = 0;
+  self.menuScoutGroup[1].fill = {
     type = "gradient",
     color1 = { 0.26, 0.209, 1},
     color2 = { 0.26, 0.209, 1},
     direction = "down"
   }
-  display.newText(self.menuTimeAttackGroup,
+  display.newText(self.menuScoutGroup,
                   "Batedor",
-                  self.menuTimeAttackGroup[1].x + self.menuTimeAttackGroup[1].width/2,
-                  (self.menuTimeAttackGroup[1].y + self.menuTimeAttackGroup[1].height/2) * 1.01,
+                  self.menuScoutGroup[1].x + self.menuScoutGroup[1].width/2,
+                  (self.menuScoutGroup[1].y + self.menuScoutGroup[1].height/2) * 1.01,
                   "font/league-spartan-bold.otf",
                   80);
+  
+  self.menuScoutGroup.super = self;
+  self.menuScoutGroup.touch = self.restartScout;
+  self.menuScoutGroup:addEventListener("touch", self.menuScoutGroup);
+                
 
   ------------------------------------------------------------------------------
 
@@ -219,6 +234,19 @@ function gui.class:get(index1, index2)
   else
     return self.gameplayHUDTable[index1][index2];
   end
+end
+
+function gui.class:getEnemyCounter()
+  return self.scoutEnemyCounter;
+end
+
+function gui.class:setEnemyCounter(_count)
+  self.scoutEnemyCounter.text = _count;
+  return self.scoutEnemyCounter;
+end
+
+function gui.class:getEnemyCounterGroup()
+  return self.scoutCounterGroup;
 end
 
 function gui.class:getState()
@@ -255,6 +283,15 @@ end
 function gui.class:restartGame(event)
   if(event.phase == "began") then
     self.super.gameState = 5;
+    self.super.controlGroup[5].alpha = 0;
+    self.super.menuButtonGroup.alpha = 0;
+    self.super.restartButtonGroup.alpha = 0;
+  end
+end
+
+function gui.class:restartScout(event)
+  if(event.phase == "began") then
+    self.super.gameState = 7;
     self.super.controlGroup[5].alpha = 0;
     self.super.menuButtonGroup.alpha = 0;
     self.super.restartButtonGroup.alpha = 0;
