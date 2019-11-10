@@ -159,12 +159,7 @@ function gameloop:run()
 		powerups:clear();
 		player:reset();
 		enemy:batchSpawn(20, {radar = hud:get(3, 1)});
-		scoutEnemyCount = 1;
-		if scoutEnemyCount > 20 then
-			enemy:batchSpawn(20, {radar = hud:get(3, 1)});
-		else
-			enemy:batchSpawn(5, {radar = hud:get(3, 1)});
-		  end
+		scoutEnemyCount = 100;
 		hud:getEnemyCounterGroup().isVisible = true;
 		hud:setState(3);
 	elseif(hud:getState() == 8) then --GAME OVER AFTER BRAWL--

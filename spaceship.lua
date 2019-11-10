@@ -68,7 +68,7 @@ function spaceship.new(_x, _y, _acceleration)
 
 	player.fill = spaceshipSprite;
 	player.name = "Player";
-	player.healthBar.health = 100;
+	player.healthBar.health = 1000;
 	player.healthBar.armour = 0;
 	player.healthBar.maxHealth = 1000;
 	player.damage = nil;
@@ -136,7 +136,7 @@ function spaceship.damage( _damage )
 		system.vibrate();
 	
 			local soundEffect = audio.loadSound( "audio/sfx/hurt1.wav" )
-			audio.play( soundEffect )
+			audio.play( soundEffect, {channel = 25} )
 	  end
 end
 
@@ -249,7 +249,7 @@ function spaceship:run(joystick, fireButton) --Runs every frame
 		bullets:shoot(4, -2 + (currentSpeed/36.5));
 		shootCooldown = 0;
 		soundEffect = audio.loadSound( "audio/sfx/shoot_single2.wav" )
-		audio.play(soundEffect)
+		audio.play(soundEffect, { channel=22})
 	  end
   
 	  player.damageTimeout = player.damageTimeout - 1;

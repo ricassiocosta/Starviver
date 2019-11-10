@@ -54,7 +54,7 @@ function M.class:runCoroutine()
     self.bulletCooldown = 10;
     self.bullets:shoot(1);
     local soundEffect = audio.loadSound( "audio/sfx/shoot_single.mp3" )
-		audio.play( soundEffect )
+		audio.play( soundEffect, {channel=math.random(20, 50), duration = 200})
   end
   self.bullets:removeBullets(player:getDisplayObject());
   self.bulletCooldown = self.bulletCooldown - 1;
