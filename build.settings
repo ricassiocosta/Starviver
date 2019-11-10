@@ -77,5 +77,11 @@ settings =
 		{
 			"font/league-spartan-bold.otf",
 		},
+
+		usesPermissions =
+    {
+        "android.permission.INTERNET",
+				"android.permission.VIBRATE",
+    },
 	},
 }
