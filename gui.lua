@@ -170,9 +170,9 @@ function gui.class:__init(params)
   self.menuGroup:insert(self.menuTitleGroup);
 
 
-  display.newText(self.menuTitleGroup, "STARVIVER", display.contentWidth/2+5, display.contentHeight/5, "font/font-logo.ttf", 200);
+  display.newText(self.menuTitleGroup, "STARVIVER", display.contentWidth/2 + 5, display.contentHeight/5, "font/font-logo.ttf", 165);
   self.menuTitleGroup[1]:setFillColor(1, 1, 1);
-  display.newText(self.menuTitleGroup, "STARVIVER", display.contentWidth/2, display.contentHeight/5 + 5, "font/font-logo.ttf", 200);
+  display.newText(self.menuTitleGroup, "STARVIVER", display.contentWidth/2, display.contentHeight/5 - 5, "font/font-logo.ttf", 165);
   self.menuTitleGroup[2]:setFillColor(0.673, 0.134, 0.564);
   display.newText(self.menuTitleGroup, "Selecione o modo de jogo:", display.contentWidth/2, (display.contentHeight/2) * 1.3, "font/league-spartan-bold.otf", 50);
   self.menuTitleGroup[3]:setFillColor(1, 1, 1);
