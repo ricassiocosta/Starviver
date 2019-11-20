@@ -81,6 +81,8 @@ function enemies.new()
     galleon
   }
 
+  BatedorModeEnemies = 100
+
   return newEnemies;
 end
 
@@ -135,7 +137,7 @@ end
 function enemies:kill(_index1, _index2)
   table.remove(enemyList[_index1], _index2);
   local soundEffect = audio.loadSound( "audio/sfx/success2.wav" )
-	audio.play( soundEffect )
+  audio.play( soundEffect )
 end
 
 function enemies:randomSpawn(_x, _y, params)
@@ -144,7 +146,7 @@ function enemies:randomSpawn(_x, _y, params)
     enemyTimer = enemyTimer + 1;
   else
     enemyTimer = 0;
-    if (enemyCount < 25) then
+    if (enemyCount < 100) then
       enemies:spawn(math.random(1, table.getn(enemyList)), math.random(_x - 3000, _x + 3000), math.random(_y - 3000, _y + 3000), params);
     end
   end
@@ -156,7 +158,7 @@ function enemies:clear(radar)
       if (enemyList[i][j] == nil) then break
       else
         enemyList[i][j]:kill(radar);
-        self:kill(i, j);
+        enemies:kill(i, j)
       end
     end
   end
@@ -170,12 +172,15 @@ function enemies:run(params)
   for i = 1, table.getn(enemyList) do
     for j = 1, table.getn(enemyList[i]) do
       if (enemyList[i][j] == nil) then break
-      elseif (enemyList[i][j].sprite.isDead) then
+      elseif ((enemyList[i][j].sprite.isDead) and ((enemyList[i][j]:getDistanceTo(params.x, params.y) < 5000))) then
         enemyList[i][j]:kill(params.radar, "isDead");
+        enemies:updateBatedorMode()
         table.remove(enemyList[i], j);
-      elseif (enemyList[i][j]:getDistanceTo(params.x, params.y) > 12500 and enemyList[i][j]:getAutoKill()) then
+        enemyCount = enemyCount - 1;
+      elseif (enemyList[i][j]:getDistanceTo(params.x, params.y) > 5000 and enemyList[i][j]:getAutoKill()) then
         enemyList[i][j]:kill(params.radar, "Distance");
         table.remove(enemyList[i], j);
+        enemyCount = enemyCount - 1;
       else
         enemyList[i][j]:run(params.radar);
         enemyList[i][j]:runCoroutine();
@@ -197,6 +202,18 @@ function enemies:getAmount()
     end
   end
   return enemyAmount;
+end
+
+function enemies:resetBatedorMode()
+  BatedorModeEnemies = 100
+end
+
+function enemies:updateBatedorMode()
+  BatedorModeEnemies = BatedorModeEnemies - 1
+end
+
+function enemies:getBatedorMode()
+  return BatedorModeEnemies
 end
 
 return enemies;

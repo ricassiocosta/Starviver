@@ -64,10 +64,10 @@ function gui.class:__init(params)
                                     r        = 255,
                                     g        = 45,
                                     b        = 65,
-                                    a        = 1,
+                                    a        = 0.4,
                                     tag      = "fire"});
 
-  --101 Man Brawl Enemy Countdown
+  --Batedor Enemy Countdown
   self.scoutCounterGroup = display.newGroup();
 
   self.scoutEnemyCounterHeading = display.newText(self.scoutCounterGroup, "Alvos Restantes:", display.contentWidth - ((display.contentWidth) * 0.097), display.contentHeight/2 - display.contentHeight/3.6, "font/league-spartan-bold.otf", 56)
@@ -89,7 +89,7 @@ function gui.class:__init(params)
   self.menuButtonGroup = display.newGroup();
   self.menuButtonGroup.alpha = 0;
 
-  self.menuButton = display.newRect(self.menuButtonGroup, display.contentWidth/3, display.contentHeight-250, 590, 115);
+  self.menuButton = display.newRoundedRect(self.menuButtonGroup, display.contentWidth/3, display.contentHeight-250, 590, 115, 20);
   self.menuButton.path.x1 = 30;
   self.menuButton.path.x4 = 30;
   self.menuButton:setFillColor(0.15, .55, .83)
@@ -97,14 +97,14 @@ function gui.class:__init(params)
   self.menuButton.touch = self.returnToMenu;
   self.menuButton:addEventListener("touch", self.menuButton);
 
-  self.menuButtonText = display.newText(self.menuButtonGroup, "Menu", self.menuButton.x, self.menuButton.y + (self.menuButton.y * 0.01), "font/league-spartan-bold.otf", 72);
+  self.menuButtonText = display.newText(self.menuButtonGroup, "Menu", self.menuButton.x, self.menuButton.y, "font/league-spartan-bold.otf", 72);
 
 
 
   self.restartButtonGroup = display.newGroup();
   self.restartButtonGroup.alpha = 0;
 
-  self.restartButton = display.newRect(self.restartButtonGroup, 2*display.contentWidth/3, display.contentHeight-250, 590, 115);
+  self.restartButton = display.newRoundedRect(self.restartButtonGroup, 2*display.contentWidth/3, display.contentHeight-250, 590, 115, 20);
   self.restartButton.path.x1 = 30;
   self.restartButton.path.x4 = 30;
   self.restartButton:setFillColor(0.9, 0.6, 0.2)
@@ -112,7 +112,7 @@ function gui.class:__init(params)
   self.restartButton.touch = self.restartGame;
   self.restartButton:addEventListener("touch", self.restartButton);
 
-  self.restartButtonText = display.newText(self.restartButtonGroup, "Reiniciar", self.restartButton.x, self.restartButton.y + (self.restartButton.y * 0.01), "font/league-spartan-bold.otf", 72);
+  self.restartButtonText = display.newText(self.restartButtonGroup, "Reiniciar", self.restartButton.x, self.restartButton.y, "font/league-spartan-bold.otf", 72);
 
   ------------------------------------------------------------------------------
 
@@ -170,18 +170,18 @@ function gui.class:__init(params)
   self.menuGroup:insert(self.menuTitleGroup);
 
 
-  display.newText(self.menuTitleGroup, "STARVIVER", display.contentWidth/2 + 5, display.contentHeight/5, "font/font-logo.ttf", 165);
+  display.newText(self.menuTitleGroup, "STARVIVER", display.contentWidth/2 + 5, display.contentHeight/5, "font/font-logo.ttf", 189);
   self.menuTitleGroup[1]:setFillColor(1, 1, 1);
-  display.newText(self.menuTitleGroup, "STARVIVER", display.contentWidth/2, display.contentHeight/5 - 5, "font/font-logo.ttf", 165);
+  display.newText(self.menuTitleGroup, "STARVIVER", display.contentWidth/2, display.contentHeight/5 - 5, "font/font-logo.ttf", 189);
   self.menuTitleGroup[2]:setFillColor(0.673, 0.134, 0.564);
   display.newText(self.menuTitleGroup, "Selecione o modo de jogo:", display.contentWidth/2, (display.contentHeight/2) * 1.3, "font/league-spartan-bold.otf", 50);
   self.menuTitleGroup[3]:setFillColor(1, 1, 1);
 
-  display.newRect(self.menuKamikazeGroup,
+  display.newRoundedRect(self.menuKamikazeGroup,
                   display.contentWidth/6,
                   display.contentHeight/3 + (display.contentHeight/3) * 1.3,
                   display.contentWidth/4,
-                  display.contentHeight/8);
+                  display.contentHeight/8, 20);
   self.menuKamikazeGroup[1].anchorX = 0;
   self.menuKamikazeGroup[1].anchorY = 0;
   self.menuKamikazeGroup[1].fill = {
@@ -193,18 +193,18 @@ function gui.class:__init(params)
   display.newText(self.menuKamikazeGroup,
                   "Kamikaze",
                   self.menuKamikazeGroup[1].x + self.menuKamikazeGroup[1].width/2,
-                  (self.menuKamikazeGroup[1].y + self.menuKamikazeGroup[1].height/2) * 1.01,
+                  (self.menuKamikazeGroup[1].y + self.menuKamikazeGroup[1].height/2),
                   "font/league-spartan-bold.otf",
                   80);
   self.menuKamikazeGroup.super = self;
   self.menuKamikazeGroup.touch = self.restartKamikaze;
   self.menuKamikazeGroup:addEventListener("touch", self.menuKamikazeGroup);
 
-  display.newRect(self.menuScoutGroup,
+  display.newRoundedRect(self.menuScoutGroup,
                   display.contentWidth - (display.contentWidth/2) / 1.2,
                   display.contentHeight/3 + (display.contentHeight/3) * 1.3,
                   display.contentWidth/4,
-                  display.contentHeight/8);
+                  display.contentHeight/8, 20);
   self.menuScoutGroup[1].anchorX = 0;
   self.menuScoutGroup[1].anchorY = 0;
   self.menuScoutGroup[1].fill = {
@@ -216,7 +216,7 @@ function gui.class:__init(params)
   display.newText(self.menuScoutGroup,
                   "Batedor",
                   self.menuScoutGroup[1].x + self.menuScoutGroup[1].width/2,
-                  (self.menuScoutGroup[1].y + self.menuScoutGroup[1].height/2) * 1.01,
+                  (self.menuScoutGroup[1].y + self.menuScoutGroup[1].height/2),
                   "font/league-spartan-bold.otf",
                   80);
   

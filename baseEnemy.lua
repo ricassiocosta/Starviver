@@ -260,7 +260,7 @@ end
 
 function M.BaseEnemy:run(radar)
   --Checks if enemy is dead
-  if (self.sprite.healthBar.health <= 0 or self:getDistanceTo(player:getX(), player:getY()) > 100000) then
+  if (self.sprite.healthBar.health <= 0 or self:getDistanceTo(player:getX(), player:getY()) > 8000) then
     self.sprite.isDead = true;
     self.sprite.bodyType = "kinematic";
     self:removeHealthBar();

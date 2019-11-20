@@ -8,6 +8,7 @@ local radarClass = require("radar")
 local score = require("score")
 local gui = require("gui");
 local progressRing = require("progressRing")
+local baseEnemy = require("baseEnemy")
 
 ------------------------------- Private Fields ---------------------------------
 
@@ -66,7 +67,7 @@ function gameloop:run()
 		scene:setCameraDamping(5)
 		if(isFirstRun == true) then
 			scoreBoxGroup = display.newGroup();
-			scoreBox = display.newRect(display.contentWidth - ((display.contentWidth) * 0.06), display.contentHeight/2 - display.contentHeight/3.5, display.contentWidth/6, display.contentHeight/12)
+			scoreBox = display.newRoundedRect(display.contentWidth - ((display.contentWidth) * 0.06), display.contentHeight/2 - display.contentHeight/3.5, display.contentWidth/6, display.contentHeight/12, 20)
 			scoreBox:setFillColor(0.2, 0.4, 0.85)
 			scoreBoxGroup:insert(scoreBox);
 			scoreBoxText = display.newText("SCORE", display.contentWidth - ((display.contentWidth) * 0.097), display.contentHeight/2 - display.contentHeight/3.6, "font/league-spartan-bold.otf", 45);
@@ -98,22 +99,26 @@ function gameloop:run()
 		local batedorBackgroundMusic = audio.loadSound( "audio/music/gameplay.mp3" )
 		audio.play( batedorBackgroundMusic, { channel=2, loops=-1} )
 		radarClearTimer = radarClearTimer + 1;
-		if(radarClearTimer == 240) then
+		if(radarClearTimer == 120) then
 		  hud:get(3, 1):clear();
 		  radarClearTimer = 0;
 		end
+		--if(math.random( 0, 100) < 5) then
+		enemy:randomSpawn(player:getX(), player:getY(), {radar = hud:get(4, 1)}) --spawns enemies randomly
+		--end
 		--player:debug();
 		hud:getSelf().menuGroup.isVisible = false;
 		hud:getSelf().controlGroup.isVisible = true;
 		hud:getEnemyCounterGroup().isVisible = true;
 	
-		local enemySpawned = enemy:getAmount();
+		--local enemySpawned = enemy:getAmount();
 		powerups:randomSpawn(player:getX(), player:getY()) --spawns powerups randomly
 		player:run(hud:get(4, 1), hud:get(2, 1)); --runs player controls, passes in joystick and fire button
 		enemy:run({radar = hud:get(3, 1), x = player:getX(), y = player:getY()}); --runs enemy logic
 		powerups:run(); --runs misc. powerup animations and event listeners
 		hud:run(enemy:getAmount()); --runs HUD and GUI elements
-	
+
+		--[[
 		if (enemySpawned - enemy:getAmount() >= 1) then
 		  local enemyDiff = (enemySpawned - enemy:getAmount())
 		  if (scoutEnemyCount > 20) then
@@ -122,10 +127,10 @@ function gameloop:run()
                            x = player.getX(), y = player.getY()});
 		  end
 		  scoutEnemyCount = scoutEnemyCount - enemyDiff;
-		end
-		hud:setEnemyCounter(scoutEnemyCount);
+		end]]
+		hud:setEnemyCounter(enemy:getBatedorMode());
 	
-		if(scoutEnemyCount <= 0) then
+		if(enemy:getBatedorMode() <= 0) then
 		  hud:setState(9);
 		end
 	elseif(hud:getState() == 4) then --GAME OVER--
@@ -158,8 +163,8 @@ function gameloop:run()
 		enemy:clear(hud:get(3, 1));
 		powerups:clear();
 		player:reset();
-		enemy:batchSpawn(20, {radar = hud:get(3, 1)});
-		scoutEnemyCount = 100;
+		enemy:resetBatedorMode();
+		enemy:batchSpawn(10, {radar = hud:get(3, 1)});
 		hud:getEnemyCounterGroup().isVisible = true;
 		hud:setState(3);
 	elseif(hud:getState() == 8) then --GAME OVER AFTER BRAWL--
