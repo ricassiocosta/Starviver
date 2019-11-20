@@ -5,7 +5,7 @@ Projeto acadêmico de desenvolvimento de jogos para cadeira de Estágio Supervis
 ## Nome do Jogo:
 * Starviver.
 ## Gênero: 
-* <i>Shoot 'em up</i> espacial.
+* <i>Spacial Shoot 'em Up</i>.
 ## Público Alvo: 
 * Jovens e Adultos que gostem do gênero.
 ## Objetivo Geral: 
@@ -24,30 +24,30 @@ Projeto acadêmico de desenvolvimento de jogos para cadeira de Estágio Supervis
 ## Personagem Principal:
 ### A Starviver.
 * Pontos de Vida: 1000
-* Dano: 7
-* Velocidade máxima: 35
+* Dano: 4
+* Velocidade máxima: 2000
 ## Inimigos:
 * Naves da tropa inimiga e asteroides que serviram como obstáculos.
 ### Asteroide:
 * Pontos de Vida: 55
 * Dano: 5-12
-* Velocidade máxima: 10
-* Ponto por destruição: 150
+* Velocidade máxima: 200
+* Ponto por destruição: 5
 ### Galeão de Ataque:
 * Pontos de Vida: 25
 * Dano: 75
-* Velocidade máxima: 25
-* Ponto por destruição: 15
+* Velocidade máxima: 800
+* Ponto por destruição: 20
 ### Stalkers:
 * Pontos de Vida: 30
-* Dano: 15
-* Velocidade: 32
-* Ponto por destruição: 80
+* Dano: 18
+* Velocidade: 1800
+* Ponto por destruição: 10
 ### Estação de Combate
 * Pontos de Vida: 100
-* Dano: 50
+* Dano: 150
 * Velocidade: 0
-* Ponto por destruição: 420
+* Ponto por destruição: 50
 ## Interação do jogador: 
 * O jogador irá interagir com os controladores exibidos em tela, além de um radar da Starviver que mostra a localização de naves inimigas e <i>powerups</i> próximos.
 ## Powerups:
