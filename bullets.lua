@@ -66,12 +66,12 @@ function onBulletCollision( self, event )
     if (event.other.name == "Player") then
       event.other.damage(self.baseObject.damage);
     else
-      print(event.other.name .. " | " .. event.other.healthBar.armour);
       event.other.healthBar.health = event.other.healthBar.health - (self.baseObject.bulletDamage * (1 - event.other.healthBar.armour));
       if(event.other.healthBar.health > event.other.healthBar.maxHealth) then event.other.healthBar.health = event.other.healthBar.maxHealth end
       event.other.isShaking = true;
       event.other.shakeMax = 24;
       event.other.healthBar.isVisible = true; event.other.healthMissing.isVisible = true;
+      event.other.damaged = true;
       local soundEffect = audio.loadSound( "audio/sfx/hit1.wav" )
 			audio.play( soundEffect )
     end

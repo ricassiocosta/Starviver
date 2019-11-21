@@ -172,15 +172,14 @@ function enemies:run(params)
   for i = 1, table.getn(enemyList) do
     for j = 1, table.getn(enemyList[i]) do
       if (enemyList[i][j] == nil) then break
-      elseif ((enemyList[i][j].sprite.isDead) and ((enemyList[i][j]:getDistanceTo(params.x, params.y) < 5000))) then
+      elseif ((enemyList[i][j].sprite.isDead) and (enemyList[i][j]:isDamaged() == true) and ((enemyList[i][j]:getDistanceTo(params.x, params.y) < display.contentWidth))) then
         enemyList[i][j]:kill(params.radar, "isDead");
         enemies:updateBatedorMode()
         table.remove(enemyList[i], j);
         enemyCount = enemyCount - 1;
-      elseif (enemyList[i][j]:getDistanceTo(params.x, params.y) > 5000 and enemyList[i][j]:getAutoKill()) then
+      elseif (enemyList[i][j]:getDistanceTo(params.x, params.y) > display.contentWidth and enemyList[i][j]:getAutoKill()) then
         enemyList[i][j]:kill(params.radar, "Distance");
         table.remove(enemyList[i], j);
-        enemyCount = enemyCount - 1;
       else
         enemyList[i][j]:run(params.radar);
         enemyList[i][j]:runCoroutine();

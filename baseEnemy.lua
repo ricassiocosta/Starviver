@@ -52,7 +52,7 @@ function M.BaseEnemy:__init(_enemyType,
   self.sprite.isShaking = false;
   self.sprite.wayPointX = 0;
   self.sprite.wayPointY = 0;
-  --self.autokill = true; --when true, will despawn enemies that are too far from player
+  self.autokill = true; --when true, will despawn enemies that are too far from player
   self.sprite.damage = 2;
   self.sprite.index = newIndex;
   self.sprite.radarColour = {1, 1, 1}
@@ -65,6 +65,7 @@ function M.BaseEnemy:__init(_enemyType,
   self.maskBits = _maskBits or 7;
   self.sprite.isChasingPlayer = false;
   self.sprite.isStuck = false;
+  self.sprite.damaged = false;
   self.sprite.pointsPerKill = _pointsPerKill;
 
   self.sprite.healthBar = display.newRect(self.x, self.y - (self.sprite.height/2) - 50, 150, 20);
@@ -90,6 +91,10 @@ function M.BaseEnemy:__init(_enemyType,
   self.sprite.collision = self.onCollision;
   self.sprite:addEventListener("collision", self.sprite);
 
+end
+
+function M.BaseEnemy:isDamaged(  )
+  return self.sprite.damaged;
 end
 
 function M.BaseEnemy:shake()
